@@ -1,0 +1,40 @@
+{
+  "name": "cosmetics-calendar",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Kalinss/cosmetics-calendar.git",
+  "author": "Kalinss <Kalinss16@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.10.3",
+    "@babel/preset-react": "^7.10.1",
+    "@types/react": "^16.9.41",
+    "@types/react-dom": "^16.9.8",
+    "@typescript-eslint/eslint-plugin": "^3.4.0",
+    "@typescript-eslint/parser": "^3.4.0",
+    "autoprefixer": "^9.8.4",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "eslint": "^7.3.1",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.0",
+    "husk": "^0.5.3",
+    "lint-staged": "^10.2.11",
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-typescript": "^1.0.0",
+    "postcss-modules": "^3.1.0",
+    "prettier": "^2.0.5",
+    "typescript": "^3.9.5",
+    "typescript-plugin-css-modules": "^2.3.0"
+  },
+  "scripts": {
+    "start": "tsc --noEmit && parcel index.html --open",
+    "dev": "parcel index.html ",
+    "build": "parcel build index.html"
+  },
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  }
+}
