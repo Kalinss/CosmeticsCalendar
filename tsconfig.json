@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "esnext",
+    "module": "commonjs",
     "lib": ["ESNext", "DOM"],
     "jsx": "react",
     "sourceMap": true,
@@ -31,7 +31,7 @@
       }
     ]
   },
-  "include": ["src/**/*", "global.d.ts"],
+  "include": ["src/**/*","src/utils/database/*", "global.d.ts"],
   "parcel-plugin-typescript": {
     "transpileOnly": true
   }
