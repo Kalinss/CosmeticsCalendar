@@ -8,6 +8,7 @@
     "strict": true,
     "moduleResolution": "node",
     "baseUrl": "./src",
+    "experimentalDecorators": true,
     "paths": {
       "~/*": ["./*"]
     },
@@ -15,6 +16,7 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "alwaysStrict": true,
+    "resolveJsonModule": true,
     "noEmitOnError": true,
     "noImplicitThis": true,
     "strictBindCallApply": true,
