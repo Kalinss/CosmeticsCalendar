@@ -7,6 +7,7 @@ interface CosmeticItemConstructor {
   instruction?: string;
   timingDelay: number;
   morning: boolean;
+  timeCreate:Date,
 }
 
 export class CosmeticItemsModel {
@@ -15,6 +16,7 @@ export class CosmeticItemsModel {
   instruction: string;
   timingDelay: number;
   morning: boolean;
+  timeCreate:Date;
   // todo any db
   static _dbPromise: any;
 
@@ -30,6 +32,7 @@ export class CosmeticItemsModel {
     this.instruction = instruction;
     this.timingDelay = timingDelay;
     this.morning = morning;
+    this.timeCreate = new Date();
   }
 
   static open() {

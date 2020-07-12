@@ -1,0 +1,66 @@
+.calendar{
+    width: 320px;
+    height: 500px;
+    //border: 1px solid red;
+}
+.calendar th{
+    width: 45px;
+    border:1px solid transparent;
+    height: 35px;
+    position: relative;
+    font-weight: 500;
+    font-size: 13px;
+    & span{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+}
+.heading{
+    width: 100%;
+    padding: 0 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    & p {
+        font-size: 16px;
+        font-weight: 400;
+    }
+}
+.left{
+
+}
+.right{
+    display: flex;
+}
+.right .button{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    width: 45px;
+    height: 45px;
+    position:relative;
+
+
+}
+.right .svgWrapper{
+    position:absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width: 20px;
+    height: 20px;
+}
+.right .bottom{
+    width: 45px;
+    height: 45px;
+    position:relative;
+    transform: rotate(180deg);
+}
+.wrapperTable{
+    overflow-y: hidden;
+    position: relative;
+}
+.styleSlider{
+}
