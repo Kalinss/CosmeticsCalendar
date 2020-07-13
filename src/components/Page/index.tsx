@@ -1,13 +1,20 @@
-import React, { FunctionComponent, ReactElement } from "react";
+import React, {
+  FunctionComponent,
+  ReactElement,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 import style from "./style.scss";
+import { inject, observer } from "mobx-react";
+import { IMainStore } from "../../stores/MainStore";
 
-type props = {
-  //todo any
-  children: any;
+export const Page: FunctionComponent<IMainStore> = ({ children }) => {
+  return (
+    <>
+      <div className={style.page}>
+        <div className={style.wrapper}>{children}</div>
+      </div>
+    </>
+  );
 };
-
-export const Page: FunctionComponent<props> = (props) => (
-  <div className={style.page}>
-    <div className={style.wrapper}>{props.children}</div>
-  </div>
-);
