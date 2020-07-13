@@ -1,13 +1,20 @@
-import React, { FunctionComponent, useState, useRef } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { Page } from "../../components/Page/index";
 import { Header } from "../../components/Header/index";
 import { Content } from "../../components/Content";
-import { Input, Form, TextArea, Select, Button } from "semantic-ui-react";
+import {
+  Input,
+  Form,
+  TextArea,
+  Select,
+  Button,
+  DropdownProps,
+} from "semantic-ui-react";
 import { inject, observer } from "mobx-react";
-import classNames from "classnames";
 import style from "./style.scss";
-import data from "./data";
 import { IMainStore } from "../../stores/MainStore";
+import { dataFields } from "./dataFields";
+import { CosmeticItemsModel } from "./../../utils/database/cosmeticItemsModel";
 import {
   isNotEmpty,
   getErrorValidation,
@@ -16,33 +23,38 @@ import {
 
 export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
   observer(({ stores }) => {
-    const createCosmetic = stores!.CreateCosmetic;
-    const nameField = createCosmetic.fields.name;
-    const descriptionField = createCosmetic.fields.description;
-    const timingDelay = createCosmetic.fields.timingDelay;
-    const dayOrEvening = createCosmetic.fields.dayOrEvening;
-    const type =
-
+    const itemsCosmetic = stores!.ItemsCosmetic;
+    const stateItemCreate = stores!.ItemsCosmetic.itemCreate;
     const [disabledButton, setDisabled] = useState(true);
-    const handlerClick = ()=>{
 
-    };
     const handlerName = (e: React.SyntheticEvent) => {
       const value = (e.target as HTMLInputElement).value.trim();
       const empty = isNotEmpty(value);
-      nameField.error = "";
+      itemsCosmetic.setCreateItem({ field: "name", error: "" });
+
       if (empty) {
-        nameField.error = getErrorValidation(empty);
+        itemsCosmetic.setCreateItem({
+          field: "name",
+          error: getErrorValidation(empty),
+        });
         setDisabled(true);
         return;
       }
+
       alreadyIdExistsInDB(value).then((result) => {
         if (result) {
-          nameField.error = "Такое имя уже существует";
+          itemsCosmetic.setCreateItem({
+            field: "name",
+            error: "Такое имя уже существует",
+          });
           setDisabled(true);
           return;
         } else {
-          nameField.value = value;
+          itemsCosmetic.setCreateItem({
+            field: "name",
+            value: value,
+            error: "",
+          });
           setDisabled(false);
         }
       });
@@ -57,34 +69,99 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
             <div className={style.inputWrapper}>
               <label className={style.label}>Название</label>
               <Input
+                placeholder={dataFields.name}
+                className={stateItemCreate.name.error && style.error}
                 onBlur={handlerName}
-                placeholder={data.name}
-                className={nameField.error && style.error}
               />
-              <span className={style.errorText}>{nameField.error}</span>
+              <span className={style.errorText}>
+                {stateItemCreate.name.error}
+              </span>
             </div>
 
             <div className={style.inputWrapper}>
               <label className={style.label}>Описание</label>
-              <TextArea placeholder={data.description} />
+              <TextArea
+                placeholder={dataFields.description}
+                onBlur={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                  itemsCosmetic.setCreateItem({
+                    field: "description",
+                    value: e.target.value,
+                  });
+                }}
+              />
             </div>
 
             <div className={style.inputWrapper}>
-              <label className={style.label}>Напоминать каждые</label>
-              <Select placeholder="2 дня" options={data.days} />
+              <label className={style.label}>{`Напоминать каждые`}</label>
+              <Select
+                placeholder="2 дня"
+                options={dataFields.days}
+                onChange={(e, data: DropdownProps) => {
+                  itemsCosmetic.setCreateItem({
+                    field: "timingDelay",
+                    value: data.value as number,
+                    text: (e.target as HTMLDivElement).innerText,
+                  });
+                }}
+              />
             </div>
 
             <div className={style.inputWrapper}>
-              <label className={style.label}>Время дня</label>
-              <Select placeholder="День и вечер" options={data.dayTime} />
+              <label className={style.label}>{`Время дня:`}</label>
+              <Select
+                placeholder="День и вечер"
+                options={dataFields.dayTime}
+                onChange={(e, data: DropdownProps) => {
+                  itemsCosmetic.setCreateItem({
+                    field: "dayOrEvening",
+                    value: data.value as number,
+                    text: (e.target as HTMLDivElement).innerText,
+                  });
+                }}
+              />
             </div>
 
             <div className={style.inputWrapper}>
               <label className={style.label}>Тип косметики</label>
-              <Select placeholder="0" options={data.priority} />
+              <Select
+                placeholder={dataFields.priority[0].text}
+                options={dataFields.priority}
+                onChange={(e, data: DropdownProps) => {
+                  itemsCosmetic.setCreateItem({
+                    field: "type",
+                    value: data.value as number,
+                    text: (e.target as HTMLDivElement).innerText,
+                  });
+                }}
+              />
             </div>
 
-            <Button secondary disabled={disabledButton}>
+            <Button
+              secondary
+              disabled={disabledButton}
+              onClick={() => {
+                itemsCosmetic.saveItem();
+
+                const { name, ...data }: any = {
+                  ...itemsCosmetic.getLastItem(),
+                };
+                CosmeticItemsModel.set(
+                  // save in DB
+                  name.trim(),
+                  {
+                    name: name.trim(),
+                    description: data.description,
+                    timingDelay: { ...data.timingDelay },
+                    dayOrEvening: { ...data.dayOrEvening },
+                    type: { ...data.type },
+                  }
+                ).then(() => {
+                  itemsCosmetic.clearCreateItem();
+                  alert("Успешно добавленно");
+                  window.location.href = window.location.href;
+                });
+              }}
+            >
               Добавить
             </Button>
           </Form>

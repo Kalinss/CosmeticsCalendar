@@ -1,37 +1,48 @@
 import { openDB } from "idb";
 import { VERSION, COSMETIC_ITEMS, DBNAME } from "./config";
 
-interface CosmeticItemConstructor {
-  name: string;
+export interface CosmeticItemConstructor {
+  name:string;
   description?: string;
-  instruction?: string;
   timingDelay: number;
-  morning: boolean;
-  timeCreate:Date,
+  dayOrEvening: {
+    value: number;
+    text: string;
+  };
+  type: {
+    value: number;
+    text: string;
+  };
 }
 
 export class CosmeticItemsModel {
-  name: string;
-  description: string;
-  instruction: string;
+  description?: string;
   timingDelay: number;
-  morning: boolean;
-  timeCreate:Date;
+  name:string;
+  dayOrEvening: {
+    value: number;
+    text: string;
+  };
+  type: {
+    value: number;
+    text: string;
+  };
+  timeCreate: Date;
   // todo any db
   static _dbPromise: any;
 
   constructor({
     name,
     description = "",
-    instruction = "",
     timingDelay,
-    morning,
+    dayOrEvening,
+    type,
   }: CosmeticItemConstructor) {
     this.name = name;
     this.description = description;
-    this.instruction = instruction;
     this.timingDelay = timingDelay;
-    this.morning = morning;
+    this.dayOrEvening = dayOrEvening;
+    this.type = type;
     this.timeCreate = new Date();
   }
 
