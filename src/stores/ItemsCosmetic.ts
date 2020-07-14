@@ -1,13 +1,21 @@
 import { observable, action, computed } from "mobx";
 type field = { value: string | number; error: string; text?: string };
+type editField = { value: string | number; text?: string };
 import {
   CosmeticItemConstructor,
   CosmeticItemsModel,
 } from "./../utils/database/cosmeticItemsModel";
+import { string } from "mobx-state-tree/dist/types/primitives";
+
 type setStateCreateItemType = {
   field: string;
   value?: string | number;
   error?: string;
+  text?: string;
+};
+type setStateEditItemType = {
+  field: string;
+  value?: string | number;
   text?: string;
 };
 
@@ -91,10 +99,32 @@ export class ItemsCosmetic {
       text: props.text || itemsCosmeticInitialState[props.field].text,
     };
   };
+  @action setEditDescription = (str: string) => {
+    this.itemEdit!.description = str;
+  };
+  @action setEditTimingDelay = (props: { value: number; text: string }) => {
+    this.itemEdit!.timingDelay = { ...props };
+  };
+  @action setEditDayOrEvening = (props: { value: number; text: string }) => {
+    this.itemEdit!.dayOrEvening = { ...props };
+  };
+  @action setEditType = (props: { value: number; text: string }) => {
+    this.itemEdit!.type = { ...props };
+  };
   @action findItemEdit(key: string) {
-    const find = this.items.find((item) => item.name === key) as itemCosmeticType;
-    console.log(find);
-    this.itemEdit = find ? {...find} : undefined;
+    return new Promise((resolve, reject) => {
+      const find = this.items.find(
+        (item) => item.name === key
+      ) as itemCosmeticType;
+      this.itemEdit = find ? { ...find } : undefined;
+      resolve(true);
+    });
+  }
+  @action saveEditItem = () => {
+    const findIndexObject = this.items.findIndex((item,i)=>item.name === this.itemEdit!.name);
+    const itemsSave = this.items;
+    itemsSave.splice(findIndexObject,1,this.itemEdit!)
+    this.items = itemsSave;
   };
 
   @action getLastItem() {

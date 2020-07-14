@@ -17,8 +17,8 @@ export const ItemsCosmeticList: FunctionComponent<IMainStore> = inject(
   observer(({ stores }) => {
     const itemsCosmetic = stores!.ItemsCosmetic;
     const items = toJS(stores!.ItemsCosmetic.items);
-
-    return (
+      console.log(toJS(itemsCosmetic.items));
+      return (
       <Page>
         <Header />
         <Content>
