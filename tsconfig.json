@@ -10,7 +10,8 @@
     "baseUrl": "./src",
     "experimentalDecorators": true,
     "paths": {
-      "~/*": ["./*"]
+      "~/*": ["./*"],
+      "types": ["./src/types.ts"]
     },
     "typeRoots": ["node_modules/@types"],
     "allowSyntheticDefaultImports": true,

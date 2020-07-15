@@ -1,43 +1,14 @@
 import { observable, action, computed } from "mobx";
-type field ={ value: string | number | Date; error: string; text?: string };
-type editField = { value: string | number; text?: string };
 import {
-  CosmeticItemConstructor,
-  CosmeticItemsModel,
-} from "./../utils/database/cosmeticItemsModel";
-import { string } from "mobx-state-tree/dist/types/primitives";
+  expandedItemCosmeticField,
+  expandedItemCosmeticFieldProps,
+  itemCosmeticPrimaryType,
+  expendedItemType,
+} from "~/types";
 
-type setStateCreateItemType = {
-  field: string;
-  value?: string | number | Date;
-  error?: string;
-  text?: string;
-};
-type setStateEditItemType = {
-  field: string;
-  value?: string | number;
-  text?: string;
-};
+import { CosmeticItemsModel } from "./../utils/database/cosmeticItemsModel";
 
-export type itemCosmeticType = {
-  name: string;
-  description?: string;
-  timingDelay: {
-    value: number;
-    text: string;
-  }; // 0 to N day
-  dayOrEvening: {
-    value: number;
-    text: string;
-  }; // 0 - all, 1 - day 2 - evening
-  type?: {
-    value: number;
-    text: string;
-  }; // priority item for filter
-  date:Date,
-};
-
-export const itemsCosmeticInitialState = {
+export const expendedItemCosmeticInitialState = {
   name: {
     value: "",
     error: "",
@@ -63,81 +34,80 @@ export const itemsCosmeticInitialState = {
     error: "",
     text: "Средство для снятия макияжа",
   },
-  date:{
-    value:new Date(),
-    error:"",
-    text:""
-  }
-} as { [key: string]: field };
+  date: {
+    value: new Date(),
+    error: "",
+    text: "",
+  },
+} as { [key: string]: expandedItemCosmeticField };
 
 export class ItemsCosmetic {
-  @observable items: itemCosmeticType[] = [];
+  @observable items: itemCosmeticPrimaryType[] = []; // all itemsCosmetics
 
-  @observable itemCreate = {
-    ...itemsCosmeticInitialState,
-  } as { [key: string]: field };
-
-  @observable itemEdit: itemCosmeticType | undefined = {
-    name: "",
-    description: "",
-    timingDelay: {
-      value: 0,
-      text: "",
-    },
-    dayOrEvening: {
-      value: 0,
-      text: "",
-    },
-    type: {
-      value: 0,
-      text: "",
-    },
-    date:new Date()
+  @observable currentItem = { ...expendedItemCosmeticInitialState } as {
+    [key: string]: expandedItemCosmeticField;
   };
 
-  @action getAll(): itemCosmeticType[] {
+  toPrimitiveType(item: expendedItemType): itemCosmeticPrimaryType {
+    return {
+      name: ("" + item.name.value).trim(),
+      description: "" + item.description!.value,
+      timingDelay: {
+        value: +item.timingDelay.value!,
+        text: "" + item.timingDelay.text,
+      },
+      dayOrEvening: {
+        value: +item.dayOrEvening.value!,
+        text: "" + item.dayOrEvening.text,
+      },
+      type: {
+        value: +item.type!.value! || 0,
+        text: "" + item.type!.text || "",
+      },
+      date: item.date.value as Date,
+    };
+  }
+
+  @action getAll(): itemCosmeticPrimaryType[] {
     return [...this.items];
   }
 
-  @action setCreateItem = (props: setStateCreateItemType) => {
-    this.itemCreate[props.field] = {
-      error: props.error || itemsCosmeticInitialState[props.field].error,
-      value: props.value || itemsCosmeticInitialState[props.field].value,
-      text: props.text || itemsCosmeticInitialState[props.field].text,
+  @action setCurrentField = (
+    props: expandedItemCosmeticField & expandedItemCosmeticFieldProps
+  ) => {
+    this.currentItem[props.field] = {
+      error: props.error || expendedItemCosmeticInitialState[props.field].error,
+      value: props.value || expendedItemCosmeticInitialState[props.field].value,
+      text: props.text || expendedItemCosmeticInitialState[props.field].text,
     };
   };
-  @action setEditDescription = (str: string) => {
-    this.itemEdit!.description = str;
-  };
-  @action setEditTimingDelay = (props: { value: number; text: string }) => {
-    this.itemEdit!.timingDelay = { ...props };
-  };
-  @action setEditDayOrEvening = (props: { value: number; text: string }) => {
-    this.itemEdit!.dayOrEvening = { ...props };
-  };
-  @action setEditType = (props: { value: number; text: string }) => {
-    this.itemEdit!.type = { ...props };
-  };
-  @action findItemEdit(key: string) {
+
+  @action findItemEdit(
+    key: string
+  ): Promise<itemCosmeticPrimaryType | undefined> {
     return new Promise((resolve, reject) => {
-      const find = this.items.find(
+      const find: itemCosmeticPrimaryType | undefined = this.items.find(
         (item) => item.name === key
-      ) as itemCosmeticType;
-      this.itemEdit = find ? { ...find } : undefined;
-      resolve(true);
+      );
+      resolve(find as itemCosmeticPrimaryType);
     });
   }
-  @action saveEditItem = () => {
-    const findIndexObject = this.items.findIndex((item,i)=>item.name === this.itemEdit!.name);
+
+  @action saveEditItem = (currentItem: itemCosmeticPrimaryType) => {
+    const findIndexObject = this.items.findIndex(
+      (item, i) => item.name === this.currentItem!.name
+    );
     const itemsSave = this.items;
-    itemsSave.splice(findIndexObject,1,this.itemEdit!)
+    itemsSave.splice(findIndexObject, 1, currentItem);
     this.items = itemsSave;
   };
 
   @action getLastItem() {
     return this.items[this.items.length - 1];
   }
-  @action loadAllItems = () => {
+
+  @action loadAllItemsFromDB = () => {
+    // get all item
     return new Promise((resolve, reject) => {
       CosmeticItemsModel.getAll()
         .then((data) => {
@@ -147,29 +117,52 @@ export class ItemsCosmetic {
         .catch((err) => reject(err));
     });
   };
+
   @action deleteItem = (key: string) => {
     this.items = this.items.filter((item) => item.name !== key);
   };
-  @action saveItem = () => {
-    this.items.push({
-      name: ("" + this.itemCreate.name.value).trim(),
-      description: "" + this.itemCreate.description.value,
+
+  @action toCurrentItem = (item: itemCosmeticPrimaryType) => {
+    // save standart Type object in currentItem
+    this.currentItem = {
+      name: {
+        value: item.name,
+        error: "",
+        text: "",
+      },
+      description: {
+        value: item.description,
+        error: "",
+        text: "",
+      },
       timingDelay: {
-        value: +this.itemCreate.timingDelay.value,
-        text: "" + this.itemCreate.timingDelay.text,
+        value: item.timingDelay.value,
+        error: "",
+        text: item.timingDelay.text,
       },
       dayOrEvening: {
-        value: +this.itemCreate.dayOrEvening.value,
-        text: "" + this.itemCreate.dayOrEvening.text,
+        value: item.dayOrEvening.value,
+        error: "",
+        text: item.dayOrEvening.text,
       },
       type: {
-        value: +this.itemCreate.type.value,
-        text: "" + this.itemCreate.type.text,
+        value: item.type!.value,
+        error: "",
+        text: item.type!.text,
       },
-      date:this.itemCreate.date.value as Date
-    });
+      date: {
+        value: item.date,
+        error: "",
+        text: "",
+      },
+    };
   };
-  @action clearCreateItem = () => {
-    this.itemCreate = { ...itemsCosmeticInitialState };
+
+  @action saveItem = () => {
+    // transform expanded itemCreate to the standart type, and save in item collection
+    this.items.push(this.toPrimitiveType(this.currentItem as expendedItemType));
+  };
+  @action clearCurrentItem = () => {
+    this.currentItem = { ...expendedItemCosmeticInitialState };
   };
 }

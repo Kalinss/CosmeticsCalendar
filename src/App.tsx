@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useEffect } from "react";
 import { Main } from "./pages/Main/index";
+import {toJS} from 'mobx';
 import { CreateCosmetic } from "./pages/CreateCosmetic/index";
 import { ItemsCosmeticList } from "./pages/ItemsCosmeticList/index";
 import { EditCosmetic } from "./pages/EditCosmetic/index";
@@ -18,6 +19,13 @@ const stores = new MainStore();
 export const App: React.FunctionComponent = () => {
   return (
     <Provider stores={stores}>
+      <button
+      onClick ={()=>{
+        console.log(toJS(stores.ItemsCosmetic.items))
+      }}
+      >
+        123123
+      </button>
       <Router>
         <Switch>
           <Upload>

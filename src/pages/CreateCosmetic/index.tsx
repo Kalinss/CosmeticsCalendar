@@ -21,20 +21,21 @@ import {
   getErrorValidation,
   alreadyIdExistsInDB,
 } from "../../utils/validation";
+import { expendedItemType } from "~/types";
 
 export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
   observer(({ stores }) => {
     const itemsCosmetic = stores!.ItemsCosmetic;
-    const stateItemCreate = stores!.ItemsCosmetic.itemCreate;
+    const stateItem = stores!.ItemsCosmetic.currentItem;
     const [disabledButton, setDisabled] = useState(true);
 
     const handlerName = (e: React.SyntheticEvent) => {
       const value = (e.target as HTMLInputElement).value.trim();
       const empty = isNotEmpty(value);
-      itemsCosmetic.setCreateItem({ field: "name", error: "" });
+      itemsCosmetic.setCurrentField({ field: "name", error: "" });
 
       if (empty) {
-        itemsCosmetic.setCreateItem({
+        itemsCosmetic.setCurrentField({
           field: "name",
           error: getErrorValidation(empty),
         });
@@ -44,14 +45,14 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
 
       alreadyIdExistsInDB(value).then((result) => {
         if (result) {
-          itemsCosmetic.setCreateItem({
+          itemsCosmetic.setCurrentField({
             field: "name",
             error: "Такое имя уже существует",
           });
           setDisabled(true);
           return;
         } else {
-          itemsCosmetic.setCreateItem({
+          itemsCosmetic.setCurrentField({
             field: "name",
             value: value,
             error: "",
@@ -71,12 +72,10 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
               <label className={style.label}>Название</label>
               <Input
                 placeholder={dataFields.name}
-                className={stateItemCreate.name.error && style.error}
+                className={stateItem.name.error && style.error}
                 onBlur={handlerName}
               />
-              <span className={style.errorText}>
-                {stateItemCreate.name.error}
-              </span>
+              <span className={style.errorText}>{stateItem.name.error}</span>
             </div>
 
             <div className={style.inputWrapper}>
@@ -84,7 +83,7 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
               <TextArea
                 placeholder={dataFields.description}
                 onBlur={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-                  itemsCosmetic.setCreateItem({
+                  itemsCosmetic.setCurrentField({
                     field: "description",
                     value: e.target.value,
                   });
@@ -98,7 +97,7 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
                 placeholder="2 дня"
                 options={dataFields.days}
                 onChange={(e, data: DropdownProps) => {
-                  itemsCosmetic.setCreateItem({
+                  itemsCosmetic.setCurrentField({
                     field: "timingDelay",
                     value: data.value as number,
                     text: (e.target as HTMLDivElement).innerText,
@@ -113,7 +112,7 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
                 placeholder="День и вечер"
                 options={dataFields.dayTime}
                 onChange={(e, data: DropdownProps) => {
-                  itemsCosmetic.setCreateItem({
+                  itemsCosmetic.setCurrentField({
                     field: "dayOrEvening",
                     value: data.value as number,
                     text: (e.target as HTMLDivElement).innerText,
@@ -128,7 +127,7 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
                 placeholder={dataFields.priority[0].text}
                 options={dataFields.priority}
                 onChange={(e, data: DropdownProps) => {
-                  itemsCosmetic.setCreateItem({
+                  itemsCosmetic.setCurrentField({
                     field: "type",
                     value: data.value as number,
                     text: (e.target as HTMLDivElement).innerText,
@@ -140,9 +139,11 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
               <input
                 type="date"
                 onChange={(event: any) => {
-                  itemsCosmetic.setCreateItem({
+                  itemsCosmetic.setCurrentField({
                     field: "date",
-                    value: moment(event.target.value).set({hour:15}).toDate(),
+                    value: moment(event.target.value)
+                      .set({ hour: 15 })
+                      .toDate(),
                   });
                 }}
               />
@@ -151,24 +152,23 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
               secondary
               disabled={disabledButton}
               onClick={() => {
-                itemsCosmetic.saveItem();
+                const current = itemsCosmetic.toPrimitiveType(
+                  itemsCosmetic.currentItem as expendedItemType
+                );
 
-                const { name, ...data }: any = {
-                  ...itemsCosmetic.getLastItem(),
-                };
                 CosmeticItemsModel.set(
                   // save in DB
-                  name.trim(),
+                  current.name.trim(),
                   {
-                    name: name.trim(),
-                    description: data.description,
-                    timingDelay: { ...data.timingDelay },
-                    dayOrEvening: { ...data.dayOrEvening },
-                    type: { ...data.type },
-                    date: data.date,
+                    name: current.name.trim(),
+                    description: current.description,
+                    timingDelay: { ...current.timingDelay },
+                    dayOrEvening: { ...current.dayOrEvening },
+                    type: { ...current.type },
+                    date: current.date,
                   }
                 ).then(() => {
-                  itemsCosmetic.clearCreateItem();
+                  itemsCosmetic.clearCurrentItem();
                   alert("Успешно добавленно");
                   window.location.href = window.location.href;
                 });

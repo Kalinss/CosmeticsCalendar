@@ -2,16 +2,17 @@ import React from "react";
 import { objectDateCalendar } from "./../../types";
 import { isActuallyMonth } from "../../utils/dates/dates";
 import classNames from "classnames";
-import { itemCosmeticType } from "../../stores/ItemsCosmetic";
+import {itemCosmeticPrimaryType} from "~/types";
 import { isIdenticalDays, dateСomparison } from "../../utils/dates/dates";
 import moment from "moment";
 
 import style from "./style.scss";
+
 type GenerateTableCalendarType = {
   array: objectDateCalendar[][];
   actuallyDate: Date;
   allDisabled: boolean;
-  itemsCosmetic: itemCosmeticType[];
+  itemsCosmetic: itemCosmeticPrimaryType[];
 };
 
 export const GenerateTableCalendar: React.FunctionComponent<GenerateTableCalendarType> = (

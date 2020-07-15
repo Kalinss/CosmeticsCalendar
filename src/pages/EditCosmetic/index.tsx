@@ -18,7 +18,8 @@ import {
 } from "semantic-ui-react";
 import { CosmeticItemsModel } from "../../utils/database/cosmeticItemsModel";
 import { IMainStore } from "../../stores/MainStore";
-import { itemCosmeticType } from "../../stores/ItemsCosmetic";
+
+import { expendedItemType, itemCosmeticPrimaryType } from "~/types";
 import { Header } from "../../components/Header/index";
 import { Content } from "../../components/Content/index";
 import { Page } from "../../components/Page/index";
@@ -27,26 +28,32 @@ import { dataFields } from "../CreateCosmetic/dataFields";
 export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
   observer(({ stores }) => {
     const [defaultValues, setDefaultValues] = useState<
-      itemCosmeticType | undefined
+      itemCosmeticPrimaryType | undefined
     >(undefined);
+
     const [disabled, setDisabled] = useState(true);
     const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
+
     const itemCosmetic = stores!.ItemsCosmetic;
+
     const location = window.location.pathname.split("/");
     const findItemName = decodeURIComponent(location[location.length - 1]);
 
     useEffect(() => {
       // load finded object
-      itemCosmetic.findItemEdit(findItemName).then(() => {
-        console.log(toJS(itemCosmetic.itemEdit));
-        setDefaultValues(toJS(itemCosmetic.itemEdit) as itemCosmeticType);
+      itemCosmetic.findItemEdit(findItemName).then((item) => {
+        if (item) {
+          itemCosmetic.toCurrentItem(item);
+          setDefaultValues(item);
+        }
       });
     }, []);
 
     useEffect(() => {
       //deep equal prev state and now state
       if (
-        JSON.stringify(defaultValues) !== JSON.stringify(itemCosmetic.itemEdit)
+        JSON.stringify(defaultValues) !==
+        JSON.stringify(itemCosmetic.currentItem)
       ) {
         setDisabled(false);
       } else {
@@ -58,7 +65,7 @@ export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
       <Page>
         <Header />
         <Content>
-          {!(defaultValues as itemCosmeticType) && (
+          {!(defaultValues as itemCosmeticPrimaryType) && (
             <h1>Такой предмет не найден</h1>
           )}
           {defaultValues && (
@@ -67,7 +74,7 @@ export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
               <Form className={style.form}>
                 <button
                   onClick={() => {
-                    console.log(toJS(itemCosmetic.itemEdit));
+                    console.log(toJS(itemCosmetic.currentItem));
                   }}
                 >
                   get state
@@ -77,7 +84,10 @@ export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
                   <TextArea
                     defaultValue={defaultValues!.description}
                     onBlur={(e: ChangeEvent<HTMLTextAreaElement>) => {
-                      itemCosmetic.setEditDescription(e.target.value);
+                      itemCosmetic.setCurrentField({
+                        field: "description",
+                        value: e.target.value,
+                      });
                       forceUpdate();
                     }}
                   />
@@ -92,7 +102,8 @@ export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
                     selection
                     defaultValue={defaultValues!.timingDelay.value}
                     onChange={(e, data) => {
-                      itemCosmetic.setEditTimingDelay({
+                      itemCosmetic.setCurrentField({
+                        field: "timingDelay",
                         value: data.value as number,
                         text: (e.target as HTMLDivElement).innerText,
                       });
@@ -108,7 +119,8 @@ export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
                     options={dataFields.dayTime}
                     defaultValue={defaultValues!.dayOrEvening.value}
                     onChange={(e, data) => {
-                      itemCosmetic.setEditDayOrEvening({
+                      itemCosmetic.setCurrentField({
+                        field: "dayOrEvening",
                         value: data.value as number,
                         text: (e.target as HTMLDivElement).innerText,
                       });
@@ -124,7 +136,8 @@ export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
                     options={dataFields.priority}
                     defaultValue={defaultValues!.type!.value}
                     onChange={(e, data) => {
-                      itemCosmetic.setEditType({
+                      itemCosmetic.setCurrentField({
+                        field: "type",
                         value: data.value as number,
                         text: (e.target as HTMLDivElement).innerText,
                       });
@@ -136,16 +149,19 @@ export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
                   secondary
                   disabled={disabled}
                   onClick={() => {
-                    itemCosmetic.saveEditItem();
+                    const current = itemCosmetic.toPrimitiveType(
+                      itemCosmetic.currentItem as expendedItemType
+                    );
                     CosmeticItemsModel.delete(defaultValues.name).then(() => {
                       CosmeticItemsModel.set(defaultValues.name, {
-                        name: itemCosmetic.itemEdit!.name,
-                        description: itemCosmetic.itemEdit!.description,
-                        timingDelay: { ...itemCosmetic.itemEdit!.timingDelay },
+                        name: current.name,
+                        description: current.description,
+                        timingDelay: { ...current.timingDelay },
                         dayOrEvening: {
-                          ...itemCosmetic.itemEdit!.dayOrEvening,
+                          ...current.dayOrEvening,
                         },
-                        type: { ...itemCosmetic.itemEdit!.type },
+                        type: { ...current.type },
+                        date: current.date,
                       }).then(() => {
                         alert("Обьект успешно сохранен");
                         window.location = window.location;

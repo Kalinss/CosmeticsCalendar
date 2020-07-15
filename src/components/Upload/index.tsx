@@ -9,7 +9,7 @@ export const Upload: React.FunctionComponent<IMainStore> = inject("stores")(
     const itemsCosmetic = stores!.ItemsCosmetic;
 
     useEffect(() => {
-      itemsCosmetic.loadAllItems().then(() => setLoading(false));
+      itemsCosmetic.loadAllItemsFromDB().then(() => setLoading(false));
     }, []);
 
     return <>{loading ? <p></p> : children}</>;
