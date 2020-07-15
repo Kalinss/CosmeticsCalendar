@@ -154,6 +154,7 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
                     timingDelay: { ...data.timingDelay },
                     dayOrEvening: { ...data.dayOrEvening },
                     type: { ...data.type },
+                    date: new Date(),
                   }
                 ).then(() => {
                   itemsCosmetic.clearCreateItem();

@@ -12,10 +12,12 @@
     height: 100%;
     transition: border 0.3s ease;
     border:1px solid transparent;
+    border-radius:50%;
     cursor: inherit;
   }
   & div:hover{
     border:1px solid $first-color;
+    border-radius:50%;
 
   }
   & span{
@@ -27,6 +29,10 @@
     cursor: inherit;
   }
 
+}
+.active{
+  border: 1px solid #ccc !important;
+  border-radius:50%;
 }
 .disabled {
   opacity: 0.5;

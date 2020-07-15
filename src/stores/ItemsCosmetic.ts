@@ -34,6 +34,7 @@ export type itemCosmeticType = {
     value: number;
     text: string;
   }; // priority item for filter
+  date:Date,
 };
 
 export const itemsCosmeticInitialState = {
@@ -86,6 +87,7 @@ export class ItemsCosmetic {
       value: 0,
       text: "",
     },
+    date:new Date()
   };
 
   @action getAll(): itemCosmeticType[] {
@@ -159,6 +161,7 @@ export class ItemsCosmetic {
         value: +this.itemCreate.type.value,
         text: "" + this.itemCreate.type.text,
       },
+      date:new Date()
     });
   };
   @action clearCreateItem = () => {
