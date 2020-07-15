@@ -11,6 +11,7 @@ import {
   DropdownProps,
 } from "semantic-ui-react";
 import { inject, observer } from "mobx-react";
+import moment from "moment";
 import style from "./style.scss";
 import { IMainStore } from "../../stores/MainStore";
 import { dataFields } from "./dataFields";
@@ -135,7 +136,17 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
                 }}
               />
             </div>
-
+            <div>
+              <input
+                type="date"
+                onChange={(event: any) => {
+                  itemsCosmetic.setCreateItem({
+                    field: "date",
+                    value: moment(event.target.value).set({hour:15}).toDate(),
+                  });
+                }}
+              />
+            </div>
             <Button
               secondary
               disabled={disabledButton}
@@ -154,7 +165,7 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
                     timingDelay: { ...data.timingDelay },
                     dayOrEvening: { ...data.dayOrEvening },
                     type: { ...data.type },
-                    date: new Date(),
+                    date: data.date,
                   }
                 ).then(() => {
                   itemsCosmetic.clearCreateItem();

@@ -1,5 +1,5 @@
 import { observable, action, computed } from "mobx";
-type field = { value: string | number; error: string; text?: string };
+type field ={ value: string | number | Date; error: string; text?: string };
 type editField = { value: string | number; text?: string };
 import {
   CosmeticItemConstructor,
@@ -9,7 +9,7 @@ import { string } from "mobx-state-tree/dist/types/primitives";
 
 type setStateCreateItemType = {
   field: string;
-  value?: string | number;
+  value?: string | number | Date;
   error?: string;
   text?: string;
 };
@@ -63,6 +63,11 @@ export const itemsCosmeticInitialState = {
     error: "",
     text: "Средство для снятия макияжа",
   },
+  date:{
+    value:new Date(),
+    error:"",
+    text:""
+  }
 } as { [key: string]: field };
 
 export class ItemsCosmetic {
@@ -161,7 +166,7 @@ export class ItemsCosmetic {
         value: +this.itemCreate.type.value,
         text: "" + this.itemCreate.type.text,
       },
-      date:new Date()
+      date:this.itemCreate.date.value as Date
     });
   };
   @action clearCreateItem = () => {
