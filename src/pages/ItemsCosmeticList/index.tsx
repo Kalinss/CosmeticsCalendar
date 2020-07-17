@@ -8,7 +8,7 @@ import { Page } from "../../components/Page";
 import styles from "./style.scss";
 import { EditButton } from "../../components/@decoration/EditButton/index";
 import { RemoveButton } from "../../components/@decoration/RemoveButton/index";
-import { CosmeticItemsModel } from "../../utils/database/cosmeticItemsModel";
+import { CosmeticItemsModelDB } from "../../utils/database/cosmeticItemsModelDB";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 export const ItemsCosmeticList: FunctionComponent<IMainStore> = inject(
@@ -56,7 +56,7 @@ export const ItemsCosmeticList: FunctionComponent<IMainStore> = inject(
                         "Вы уверены, что хотите удалить этот элемент?"
                       );
                       if (confirm) {
-                        CosmeticItemsModel.delete(item.name.trim());
+                        CosmeticItemsModelDB.delete(item.name.trim());
                         itemsCosmetic.deleteItem(item.name);
                       }
                       return;

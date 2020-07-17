@@ -9,10 +9,10 @@ import "semantic-ui-css/semantic.min.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Provider } from "mobx-react";
 import { MainStore } from "./stores/MainStore";
-import { CosmeticItemsModel } from "./utils/database/cosmeticItemsModel";
+import { CosmeticItemsModelDB } from "./utils/database/cosmeticItemsModelDB";
 import { Upload } from "./components/Upload/index";
 
-CosmeticItemsModel.open();
+CosmeticItemsModelDB.open();
 
 const stores = new MainStore();
 

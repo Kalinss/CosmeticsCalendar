@@ -6,7 +6,7 @@ import {
   expendedItemType,
 } from "~/types";
 
-import { CosmeticItemsModel } from "./../utils/database/cosmeticItemsModel";
+import { CosmeticItemsModelDB } from "../utils/database/cosmeticItemsModelDB";
 
 export const expendedItemCosmeticInitialState = {
   name: {
@@ -68,6 +68,41 @@ export class ItemsCosmetic {
     };
   }
 
+  toExpandedType(item:itemCosmeticPrimaryType):expendedItemType{
+    return {
+      name: {
+        value: item.name,
+        error: "",
+        text: "",
+      },
+      description: {
+        value: item.description,
+        error: "",
+        text: "",
+      },
+      timingDelay: {
+        value: item.timingDelay.value,
+        error: "",
+        text: item.timingDelay.text,
+      },
+      dayOrEvening: {
+        value: item.dayOrEvening.value,
+        error: "",
+        text: item.dayOrEvening.text,
+      },
+      type: {
+        value: item.type!.value,
+        error: "",
+        text: item.type!.text,
+      },
+      date: {
+        value: item.date,
+        error: "",
+        text: "",
+      },
+    };
+  }
+
   @action getAll(): itemCosmeticPrimaryType[] {
     return [...this.items];
   }
@@ -109,7 +144,7 @@ export class ItemsCosmetic {
   @action loadAllItemsFromDB = () => {
     // get all item
     return new Promise((resolve, reject) => {
-      CosmeticItemsModel.getAll()
+      CosmeticItemsModelDB.getAll()
         .then((data) => {
           this.items = [...data];
           resolve(true);
@@ -124,38 +159,7 @@ export class ItemsCosmetic {
 
   @action toCurrentItem = (item: itemCosmeticPrimaryType) => {
     // save standart Type object in currentItem
-    this.currentItem = {
-      name: {
-        value: item.name,
-        error: "",
-        text: "",
-      },
-      description: {
-        value: item.description,
-        error: "",
-        text: "",
-      },
-      timingDelay: {
-        value: item.timingDelay.value,
-        error: "",
-        text: item.timingDelay.text,
-      },
-      dayOrEvening: {
-        value: item.dayOrEvening.value,
-        error: "",
-        text: item.dayOrEvening.text,
-      },
-      type: {
-        value: item.type!.value,
-        error: "",
-        text: item.type!.text,
-      },
-      date: {
-        value: item.date,
-        error: "",
-        text: "",
-      },
-    };
+    this.currentItem = {...this.toExpandedType(item)} as {[key: string]: expandedItemCosmeticField} ;
   };
 
   @action saveItem = () => {

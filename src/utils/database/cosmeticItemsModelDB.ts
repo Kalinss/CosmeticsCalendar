@@ -1,33 +1,24 @@
 import { openDB } from "idb";
 import { VERSION, COSMETIC_ITEMS, DBNAME } from "./config";
+import {itemCosmeticPrimaryType} from "~/types";
+import {string} from "mobx-state-tree/dist/types/primitives";
 
-export interface CosmeticItemConstructor {
-  name:string;
+export class CosmeticItemsModelDB {
+  name: string;
   description?: string;
-  timingDelay: number;
+  timingDelay: {
+    value: number;
+    text: string;
+  };
   dayOrEvening: {
     value: number;
     text: string;
   };
-  type: {
+  type?: {
     value: number;
     text: string;
   };
-}
-
-export class CosmeticItemsModel {
-  description?: string;
-  timingDelay: number;
-  name:string;
-  dayOrEvening: {
-    value: number;
-    text: string;
-  };
-  type: {
-    value: number;
-    text: string;
-  };
-  timeCreate: Date;
+  date:Date;
   // todo any db
   static _dbPromise: any;
 
@@ -37,13 +28,13 @@ export class CosmeticItemsModel {
     timingDelay,
     dayOrEvening,
     type,
-  }: CosmeticItemConstructor) {
+  }: itemCosmeticPrimaryType) {
     this.name = name;
     this.description = description;
     this.timingDelay = timingDelay;
     this.dayOrEvening = dayOrEvening;
     this.type = type;
-    this.timeCreate = new Date();
+    this.date = new Date();
   }
 
   static open() {
@@ -58,7 +49,7 @@ export class CosmeticItemsModel {
     return (await this._dbPromise).get(COSMETIC_ITEMS, key);
   }
 
-  static async set(key: string, val: any) {
+  static async set(key: string, val: itemCosmeticPrimaryType) {
     return (await this._dbPromise).put(COSMETIC_ITEMS, val, key);
   }
 

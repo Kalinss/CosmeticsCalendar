@@ -1,4 +1,4 @@
-import {CosmeticItemsModel} from './database/cosmeticItemsModel';
+import {CosmeticItemsModelDB} from './database/cosmeticItemsModelDB';
 export const getErrorValidation = (code:number) => {
     switch (code) {
         case 0:
@@ -14,5 +14,5 @@ export const getErrorValidation = (code:number) => {
 
 export const isNotEmpty = (x: string) => (!!x ? 0 : 1);
 export const alreadyIdExistsInDB =(id:string)=>{
-    return CosmeticItemsModel.get(id)
+    return CosmeticItemsModelDB.get(id)
 }

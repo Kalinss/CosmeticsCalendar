@@ -15,7 +15,7 @@ import moment from "moment";
 import style from "./style.scss";
 import { IMainStore } from "../../stores/MainStore";
 import { dataFields } from "./dataFields";
-import { CosmeticItemsModel } from "./../../utils/database/cosmeticItemsModel";
+import { CosmeticItemsModelDB } from "../../utils/database/cosmeticItemsModelDB";
 import {
   isNotEmpty,
   getErrorValidation,
@@ -156,7 +156,7 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
                   itemsCosmetic.currentItem as expendedItemType
                 );
 
-                CosmeticItemsModel.set(
+                CosmeticItemsModelDB.set(
                   // save in DB
                   current.name.trim(),
                   {
@@ -164,7 +164,7 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
                     description: current.description,
                     timingDelay: { ...current.timingDelay },
                     dayOrEvening: { ...current.dayOrEvening },
-                    type: { ...current.type },
+                    type: { ...current.type! },
                     date: current.date,
                   }
                 ).then(() => {

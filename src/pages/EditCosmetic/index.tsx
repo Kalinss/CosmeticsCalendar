@@ -16,7 +16,7 @@ import {
   Button,
   DropdownProps,
 } from "semantic-ui-react";
-import { CosmeticItemsModel } from "../../utils/database/cosmeticItemsModel";
+import { CosmeticItemsModelDB } from "../../utils/database/cosmeticItemsModelDB";
 import { IMainStore } from "../../stores/MainStore";
 
 import { expendedItemType, itemCosmeticPrimaryType } from "~/types";
@@ -152,15 +152,15 @@ export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
                     const current = itemCosmetic.toPrimitiveType(
                       itemCosmetic.currentItem as expendedItemType
                     );
-                    CosmeticItemsModel.delete(defaultValues.name).then(() => {
-                      CosmeticItemsModel.set(defaultValues.name, {
+                    CosmeticItemsModelDB.delete(defaultValues.name).then(() => {
+                      CosmeticItemsModelDB.set(defaultValues.name, {
                         name: current.name,
                         description: current.description,
                         timingDelay: { ...current.timingDelay },
                         dayOrEvening: {
                           ...current.dayOrEvening,
                         },
-                        type: { ...current.type },
+                        type: { ...current.type! },
                         date: current.date,
                       }).then(() => {
                         alert("Обьект успешно сохранен");
