@@ -1,6 +1,6 @@
 import { openDB } from "idb";
 import { VERSION, COSMETIC_ITEMS, DBNAME } from "./config";
-import {itemCosmeticPrimaryType} from "~/types";
+import {itemCosmeticPrimaryType} from "types";
 import {string} from "mobx-state-tree/dist/types/primitives";
 
 export class CosmeticItemsModelDB {

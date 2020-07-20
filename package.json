@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.6",
+    "components": "^0.1.0",
     "idb": "^5.0.4",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
@@ -54,6 +55,7 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.88.2"
+    "semantic-ui-react": "^0.88.2",
+    "utils": "^0.3.1"
   }
 }

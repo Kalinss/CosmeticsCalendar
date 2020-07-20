@@ -19,7 +19,7 @@ import {
 import { CosmeticItemsModelDB } from "../../utils/database/cosmeticItemsModelDB";
 import { IMainStore } from "../../stores/MainStore";
 
-import { expendedItemType, itemCosmeticPrimaryType } from "~/types";
+import { expendedItemType, itemCosmeticPrimaryType } from "types";
 import { Header } from "../../components/Header/index";
 import { Content } from "../../components/Content/index";
 import { Page } from "../../components/Page/index";

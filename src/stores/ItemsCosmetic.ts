@@ -4,7 +4,7 @@ import {
   expandedItemCosmeticFieldProps,
   itemCosmeticPrimaryType,
   expendedItemType,
-} from "~/types";
+} from "types";
 
 import { CosmeticItemsModelDB } from "../utils/database/cosmeticItemsModelDB";
 

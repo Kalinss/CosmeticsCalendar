@@ -7,11 +7,12 @@
     "sourceMap": true,
     "strict": true,
     "moduleResolution": "node",
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "experimentalDecorators": true,
     "paths": {
-      "~/*": ["./*"],
-      "types": ["./src/types.ts"]
+      "~/*": ["./src/*"],
+      "types": ["src/types.ts"],
+      "@components": ["src/components/index.ts"]
     },
     "typeRoots": ["node_modules/@types"],
     "allowSyntheticDefaultImports": true,

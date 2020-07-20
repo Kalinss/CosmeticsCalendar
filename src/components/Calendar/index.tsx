@@ -1,15 +1,16 @@
 import React, { FunctionComponent, useState } from "react";
 import style from "./style.scss";
-import {toJS} from 'mobx';
+import { toJS } from "mobx";
 import {
   createArrayObjectDays,
   getTwoDimensionalArray,
 } from "../../utils/dates/dates";
-import { GenerateTableCalendar } from "../GenerateTableCalendar";
-import { ArrowCalendar } from "../@decoration/ArrowCalendar";
-import { CalendarTableHead } from "../CalendarTableHead/index";
-import { getUpperFirstCharString } from "./../../utils/string/string";
-
+import {
+  GenerateTableCalendar,
+  ArrowCalendar,
+  CalendarTableHead,
+} from "../index";
+import { getUpperFirstCharString } from "../../utils/string/string";
 import moment from "moment";
 import "moment/locale/ru";
 import classNames from "classnames";
@@ -114,7 +115,6 @@ export const Calendar: FunctionComponent<IMainStore> = inject("stores")(
               actuallyDate={prevMonth}
               allDisabled={true}
               itemsCosmetic={itemsCosmetic}
-
             />
             <GenerateTableCalendar // for actually month
               array={dimensionalDateArray}
