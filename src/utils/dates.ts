@@ -3,7 +3,7 @@ import {
   objectDateCalendar,
   getTwoDimensionalArrayType,
   createArrayObjectDaysType,
-} from "../../types";
+} from "types";
 
 
 export const getTwoDimensionalArray = (
@@ -62,6 +62,7 @@ export const dateСomparison = (a:Date, b:Date,timeDelay:number)=>{
   firstDate.set({hour:0,minute:0,second:0,millisecond:0});
   secondDate.set({hour:0,minute:0,second:0,millisecond:0});
   const diff = secondDate.diff(firstDate,'d');
+  
   if (diff > 0){
     return false;
   }

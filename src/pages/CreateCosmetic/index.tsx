@@ -1,7 +1,5 @@
 import React, { FunctionComponent, useState } from "react";
-import { Page } from "../../components/Page/index";
-import { Header } from "../../components/Header/index";
-import { Content } from "../../components/Content";
+import { Content, Header, Page } from "../../components/index";
 import {
   Input,
   Form,
@@ -13,7 +11,7 @@ import {
 import { inject, observer } from "mobx-react";
 import moment from "moment";
 import style from "./style.scss";
-import { IMainStore } from "../../stores/MainStore";
+import { IMainStore, MainStore } from "../../stores/MainStore";
 import { dataFields } from "./dataFields";
 import { CosmeticItemsModelDB } from "../../utils/database/cosmeticItemsModelDB";
 import {
@@ -21,7 +19,11 @@ import {
   getErrorValidation,
   alreadyIdExistsInDB,
 } from "../../utils/validation";
-import { expendedItemType } from "~/types";
+import {
+  saveInDBNewItemCosmetic,
+  updateTaskAfterNewItem,
+} from "../../utils/controlData";
+import { expendedItemType } from "types";
 
 export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
   observer(({ stores }) => {
@@ -152,26 +154,15 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
               secondary
               disabled={disabledButton}
               onClick={() => {
-                const current = itemsCosmetic.toPrimitiveType(
-                  itemsCosmetic.currentItem as expendedItemType
-                );
-
-                CosmeticItemsModelDB.set(
-                  // save in DB
-                  current.name.trim(),
-                  {
-                    name: current.name.trim(),
-                    description: current.description,
-                    timingDelay: { ...current.timingDelay },
-                    dayOrEvening: { ...current.dayOrEvening },
-                    type: { ...current.type! },
-                    date: current.date,
-                  }
-                ).then(() => {
-                  itemsCosmetic.clearCurrentItem();
-                  alert("Успешно добавленно");
-                  window.location.href = window.location.href;
-                });
+                saveInDBNewItemCosmetic(
+                  itemsCosmetic!.currentItem as expendedItemType
+                )
+                  .then(() => updateTaskAfterNewItem())
+                  .then(() => {
+                    itemsCosmetic.clearCurrentItem();
+                    alert("Успешно добавленно");
+                    window.location.href = window.location.href;
+                  });
               }}
             >
               Добавить

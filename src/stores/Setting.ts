@@ -3,7 +3,7 @@ import {action, observable} from "mobx";
 
 export class Setting {
   @observable config: settingType = {
-    selectedDate: new Date(),
+    selectedDate: new Date(1982,5,11),
   };
 
   @action getConfig(){

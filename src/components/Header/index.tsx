@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import style from "./style.scss";
-import { Settings } from "../@decoration/Settings";
 import { HamburgerButton } from "../HamburgerButton/index";
 import { Menu } from "../Menu/index";
 
@@ -16,7 +15,9 @@ export const Header = () => {
   }, []);
 
   const open = () => setOpen(true);
+
   const close = () => setOpen(false);
+
   const toggleMenu = () => {
     if (isOpen) {
       close();

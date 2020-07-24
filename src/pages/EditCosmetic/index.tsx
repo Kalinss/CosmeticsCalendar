@@ -8,22 +8,16 @@ import React, {
 import { inject, observer } from "mobx-react";
 import style from "./../CreateCosmetic/style.scss";
 import { toJS } from "mobx";
-import {
-  Input,
-  Form,
-  TextArea,
-  Select,
-  Button,
-  DropdownProps,
-} from "semantic-ui-react";
+import { Form, TextArea, Select, Button } from "semantic-ui-react";
 import { CosmeticItemsModelDB } from "../../utils/database/cosmeticItemsModelDB";
 import { IMainStore } from "../../stores/MainStore";
-
+import { deepClone } from "../../utils/other";
 import { expendedItemType, itemCosmeticPrimaryType } from "types";
 import { Header } from "../../components/Header/index";
 import { Content } from "../../components/Content/index";
 import { Page } from "../../components/Page/index";
 import { dataFields } from "../CreateCosmetic/dataFields";
+import { updateTaskAfterUpdateItem } from "../../utils/controlData";
 
 export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
   observer(({ stores }) => {
@@ -152,21 +146,20 @@ export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
                     const current = itemCosmetic.toPrimitiveType(
                       itemCosmetic.currentItem as expendedItemType
                     );
-                    CosmeticItemsModelDB.delete(defaultValues.name).then(() => {
-                      CosmeticItemsModelDB.set(defaultValues.name, {
-                        name: current.name,
-                        description: current.description,
-                        timingDelay: { ...current.timingDelay },
-                        dayOrEvening: {
-                          ...current.dayOrEvening,
-                        },
-                        type: { ...current.type! },
-                        date: current.date,
-                      }).then(() => {
+                    updateTaskAfterUpdateItem(current)
+                      .then(() => {
+                        return CosmeticItemsModelDB.delete(defaultValues.name);
+                      })
+                      .then(() => {
+                        return CosmeticItemsModelDB.set(
+                          defaultValues.name,
+                          deepClone(current)
+                        );
+                      })
+                      .then(() => {
                         alert("Обьект успешно сохранен");
                         window.location = window.location;
                       });
-                    });
                   }}
                 >
                   Редактировать

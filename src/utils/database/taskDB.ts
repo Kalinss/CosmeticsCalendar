@@ -27,7 +27,7 @@ export class TaskDB {
   }
 
   // key - moment.format('YYYYMMDD')
-  static async set(key: string, val: {task:taskObjectDB[],date:Date}) {
+  static async set(key: string, val: { task: taskObjectDB[]; date: Date }) {
     return (await this._dbPromise).put(TASK, val, key);
   }
 
@@ -41,6 +41,15 @@ export class TaskDB {
 
   static async getAll() {
     return (await this._dbPromise).getAll(TASK);
+  }
+
+  static async update(key: string, val: { task: taskObjectDB[]; date: Date }) {
+    const result = await this.delete(key)
+      .then((x) => {
+        return this.set(key, { ...val });
+      })
+      .then((x) => x);
+    return result;
   }
 
   static async db() {

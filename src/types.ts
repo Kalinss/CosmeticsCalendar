@@ -1,6 +1,8 @@
 import { string } from "mobx-state-tree/dist/types/primitives";
 import {MainStore} from "~/stores/MainStore";
 import React from "react";
+import {IMainStore} from "~/stores/MainStore";
+import exp = require("constants");
 
 export type objectDateCalendar = {
   date: Date;
@@ -57,14 +59,20 @@ export type GenerateTableCalendarType = {
 };
 
 export interface taskObjectDB extends itemCosmeticPrimaryType {
-  closed: boolean;
+  closed:  {
+    day:boolean,
+    evening:boolean
+  };
 }
 
 export type taskDB = {
-
   task: taskObjectDB[];
   date: Date;
 };
+export type taskDBType = {
+  task: taskObjectDB[];
+  date: Date;
+}
 export type stateTask = {
   task: taskObjectDB;
 };
@@ -74,4 +82,17 @@ export type uploadDailyTaskProps = {
 }
 export type settingType = {
   selectedDate:Date
+}
+export type controlDataProps = {
+  stores?:MainStore;
+  props:any
+}
+export type controlDataFunctions = {
+  saveInDBNewItemCosmetic?:(object:expendedItemType)=>void
+}
+export type controlDataObject = {
+  controlFunction:controlDataFunctions
+}
+export interface createCosmeticComponentProps extends controlDataObject {
+  stores:MainStore,
 }

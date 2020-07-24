@@ -1,12 +1,32 @@
 import React from "react";
-import { Content, Header, Page, UploadDailyTask,TodoListContent } from "../../components/index";
+import {
+  Content,
+  Header,
+  Page,
+  UploadDailyTask,
+  TodoListContent,
+} from "../../components/index";
 import style from "./style.scss";
-
+import { toJS } from "mobx";
 import { inject, observer } from "mobx-react";
 import { IMainStore } from "../../stores/MainStore";
+import { TaskDB } from "../../utils/database/taskDB";
+import { deepClone } from "../../utils/other";
+import moment from "moment";
+import { TASKKEY } from "../../utils/database/config";
 
 export const TodoList: React.FunctionComponent<IMainStore> = inject("stores")(
   observer(({ stores }) => {
+    const handleClose = (e: any, day: boolean) => {
+      const task = stores!.Task;
+      const name =
+        e.target.dataset.name ||
+        e.target.closest("div[data-name]").dataset.name;
+      const key = moment(stores!.Task.taskState!.date).format(TASKKEY);
+      task.toogleCloseTask(name, day);
+      TaskDB.update(key, deepClone(task.taskState));
+    };
+
     return (
       <UploadDailyTask>
         <Page>
@@ -14,72 +34,12 @@ export const TodoList: React.FunctionComponent<IMainStore> = inject("stores")(
           <Content>
             <h1>Список дел на сегодня / "дата"</h1>
             <div className={style.todoWrapper}>
-              <TodoListContent/>
-              {/*<div className={style.top}>*/}
-              {/*  /!*презентационный компонент создания*!/*/}
-              {/*  /!*При нажатии закрывается*!/*/}
-              {/*  <h2 className={style.h2}>День</h2>*/}
-              {/*  <ul className={style.list}>*/}
-              {/*    <li className={style.item}>*/}
-              {/*      <p className={style.closed}></p>*/}
-              {/*      <div className={style.closeWrapper}>*/}
-              {/*        <div className={style.close}></div>*/}
-              {/*      </div>*/}
-              {/*    </li>*/}
-              {/*    <li className={style.item}>*/}
-              {/*      <p>123444</p>*/}
-              {/*      <div className={style.closeWrapper}>*/}
-              {/*        <div className={style.close}></div>*/}
-              {/*      </div>*/}
-              {/*    </li>*/}
-              {/*    <li className={style.item}>*/}
-              {/*      <p>123444</p>*/}
-              {/*      <div className={style.closeWrapper}>*/}
-              {/*        <div className={style.close}></div>*/}
-              {/*      </div>*/}
-              {/*    </li>*/}
-              {/*    <li className={style.item}>*/}
-              {/*      <p>123444</p>*/}
-              {/*      <div className={style.closeWrapper}>*/}
-              {/*        <div className={style.close}></div>*/}
-              {/*      </div>*/}
-              {/*    </li>*/}
-              {/*  </ul>*/}
-              {/*</div>*/}
-              {/*<div className={style.bottom}>*/}
-              {/*  <h2 className={style.h2}>Вечер</h2>*/}
-              {/*  <ul className={style.list}>*/}
-              {/*    <li className={style.item}>*/}
-              {/*      <p className={style.closed}>*/}
-              {/*        123444 k jaslkdj akls djlkasjldk jask djajs dkjk 123444 k*/}
-              {/*        jaslkdj akls djlkasjldk jask djajs dkjk 123444 k jaslkdj*/}
-              {/*        akls djlkasjldk jask djajs dkjk 123444 k jaslkdj akls*/}
-              {/*        djlkasjldk jask djajs dkjk*/}
-              {/*      </p>*/}
-              {/*      <div className={style.closeWrapper}>*/}
-              {/*        <div className={style.close}></div>*/}
-              {/*      </div>*/}
-              {/*    </li>*/}
-              {/*    <li className={style.item}>*/}
-              {/*      <p>123444</p>*/}
-              {/*      <div className={style.closeWrapper}>*/}
-              {/*        <div className={style.close}></div>*/}
-              {/*      </div>*/}
-              {/*    </li>*/}
-              {/*    <li className={style.item}>*/}
-              {/*      <p>123444</p>*/}
-              {/*      <div className={style.closeWrapper}>*/}
-              {/*        <div className={style.close}></div>*/}
-              {/*      </div>*/}
-              {/*    </li>*/}
-              {/*    <li className={style.item}>*/}
-              {/*      <p>123444</p>*/}
-              {/*      <div className={style.closeWrapper}>*/}
-              {/*        <div className={style.close}></div>*/}
-              {/*      </div>*/}
-              {/*    </li>*/}
-              {/*  </ul>*/}
-              {/*</div>*/}
+              {stores!.Task.taskState && (
+                <TodoListContent
+                  closeTask={handleClose}
+                  items={stores!.Task.taskState}
+                />
+              )}
             </div>
           </Content>
         </Page>

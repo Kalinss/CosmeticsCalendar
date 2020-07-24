@@ -1,7 +1,7 @@
 {
   "name": "cosmetics-calendar",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.jsx",
   "repository": "https://github.com/Kalinss/cosmetics-calendar.git",
   "author": "Kalinss <Kalinss16@gmail.com>",
   "license": "MIT",

@@ -7,17 +7,16 @@ import { EditCosmetic } from "./pages/EditCosmetic/index";
 import "./styles/reset.scss";
 import "semantic-ui-css/semantic.min.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+
 import { Provider } from "mobx-react";
 import { MainStore } from "./stores/MainStore";
 import { CosmeticItemsModelDB } from "./utils/database/cosmeticItemsModelDB";
 import { Upload } from "./components/UploadItemsCosmetic/index";
 import { TodoList } from "./pages/TodoList";
-import {TaskDB} from "./utils/database/taskDB";
-
+import { TaskDB } from "./utils/database/taskDB";
+import stores from "./stores/store";
 CosmeticItemsModelDB.open();
 TaskDB.open();
-
-const stores = new MainStore();
 
 export const App: React.FunctionComponent = () => {
   return (
@@ -29,10 +28,11 @@ export const App: React.FunctionComponent = () => {
       >
         123123
       </button>
-      <Router>
-        <Switch>
-          {/*Перебрать маршруты*/}
-          <Upload>
+      <Upload>
+        <Router>
+          <Switch>
+            {/*Перебрать маршруты*/}
+
             <Route path="/items">
               <ItemsCosmeticList />
             </Route>
@@ -40,17 +40,18 @@ export const App: React.FunctionComponent = () => {
               <EditCosmetic />
             </Route>
             <Route path="/create">
+              {/*@ts-ignore*/}
               <CreateCosmetic />
+            </Route>
+            <Route exact path="/main">
+              <Main />
             </Route>
             <Route path="/todolist">
               <TodoList />
             </Route>
-            <Route path="/main">
-              <Main />
-            </Route>
-          </Upload>
-        </Switch>
-      </Router>
+          </Switch>
+        </Router>
+      </Upload>
     </Provider>
   );
 };

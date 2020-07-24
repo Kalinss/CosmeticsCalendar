@@ -30,7 +30,7 @@ export const expendedItemCosmeticInitialState = {
     text: "День и вечер",
   },
   type: {
-    value: 1,
+    value: 10,
     error: "",
     text: "Средство для снятия макияжа",
   },
@@ -47,7 +47,7 @@ export class ItemsCosmetic {
   @observable currentItem = { ...expendedItemCosmeticInitialState } as {
     [key: string]: expandedItemCosmeticField;
   };
-
+  //todo-delete -> move other utils
   toPrimitiveType(item: expendedItemType): itemCosmeticPrimaryType {
     return {
       name: ("" + item.name.value).trim(),
@@ -67,7 +67,7 @@ export class ItemsCosmetic {
       date: item.date.value as Date,
     };
   }
-
+  //todo-delete -> move other utils
   toExpandedType(item:itemCosmeticPrimaryType):expendedItemType{
     return {
       name: {

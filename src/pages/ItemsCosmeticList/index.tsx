@@ -6,6 +6,7 @@ import { Header } from "../../components/Header";
 import { Content } from "../../components/Content";
 import { Page } from "../../components/Page";
 import styles from "./style.scss";
+import { updateTaskAfterDeleteItem } from "../../utils/controlData";
 import { EditButton } from "../../components/@decoration/EditButton/index";
 import { RemoveButton } from "../../components/@decoration/RemoveButton/index";
 import { CosmeticItemsModelDB } from "../../utils/database/cosmeticItemsModelDB";
@@ -17,8 +18,8 @@ export const ItemsCosmeticList: FunctionComponent<IMainStore> = inject(
   observer(({ stores }) => {
     const itemsCosmetic = stores!.ItemsCosmetic;
     const items = toJS(stores!.ItemsCosmetic.items);
-      console.log(toJS(itemsCosmetic.items));
-      return (
+
+    return (
       <Page>
         <Header />
         <Content>
@@ -56,8 +57,10 @@ export const ItemsCosmeticList: FunctionComponent<IMainStore> = inject(
                         "Вы уверены, что хотите удалить этот элемент?"
                       );
                       if (confirm) {
-                        CosmeticItemsModelDB.delete(item.name.trim());
-                        itemsCosmetic.deleteItem(item.name);
+                        CosmeticItemsModelDB.delete(item.name.trim())
+                          .then(() => updateTaskAfterDeleteItem(item))
+                          .then(() => itemsCosmetic.deleteItem(item.name));
+                        alert('Успешно удалено')
                       }
                       return;
                     }}

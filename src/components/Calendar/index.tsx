@@ -4,13 +4,13 @@ import { toJS } from "mobx";
 import {
   createArrayObjectDays,
   getTwoDimensionalArray,
-} from "../../utils/dates/dates";
+} from "../../utils/dates";
 import {
   GenerateTableCalendar,
   ArrowCalendar,
   CalendarTableHead,
 } from "../index";
-import { getUpperFirstCharString } from "../../utils/string/string";
+import { getUpperFirstCharString } from "../../utils/string";
 import moment from "moment";
 import "moment/locale/ru";
 import classNames from "classnames";

@@ -8,6 +8,7 @@ export interface IMainStore {
         Task:Task;
         Setting:Setting;
     }
+    props?:any
 }
 
 export class MainStore{
