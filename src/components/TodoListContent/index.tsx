@@ -29,11 +29,13 @@ export const TodoListContent: React.FunctionComponent<todoListContentProps> = ({
 
   const classText = (item: taskObjectDB) =>
     classNames(style.text, item.closed.day ? style.closed : "");
-  const classCloseLine = (item: taskObjectDB) =>
+  const classCloseLineDay = (item: taskObjectDB) =>
     classNames(style.closeLine, item.closed.day ? style.active : "");
+  const classCloseLineEvening = (item: taskObjectDB) =>
+      classNames(style.closeLine, item.closed.evening ? style.active : "");
 
   const handlerCloseDay = (e: React.SyntheticEvent) => closeTask(e, true);
-  const hadlerCloseEvening = (e: React.SyntheticEvent) => closeTask(e, false);
+  const handlerCloseEvening = (e: React.SyntheticEvent) => closeTask(e, false);
 
   return (
     <>
@@ -48,7 +50,7 @@ export const TodoListContent: React.FunctionComponent<todoListContentProps> = ({
                     return (
                       <li key = {i} className={style.item} data-type={item.type!.value}>
                         <p className={classText(item)}>
-                          <span className={classCloseLine(item)}></span>
+                          <span className={classCloseLineDay(item)}></span>
                           {item.name}
                         </p>
 
@@ -82,7 +84,7 @@ export const TodoListContent: React.FunctionComponent<todoListContentProps> = ({
                     return (
                         <li key = {i+'1'} className={style.item} data-type={item.type!.value}>
                           <p className={classText(item)}>
-                            <span className={classCloseLine(item)}></span>
+                            <span className={classCloseLineEvening(item)}></span>
                             {item.name}
                           </p>
 
@@ -90,7 +92,7 @@ export const TodoListContent: React.FunctionComponent<todoListContentProps> = ({
                               className={style.closeWrapper}
                               data-name={item.name}
                               data-key={moment(item.date).format(TASKKEY)}
-                              onClick={handlerCloseDay}
+                              onClick={handlerCloseEvening}
                           >
                             <div className={style.close}>
                               <ArrowCheck

@@ -14,6 +14,7 @@ import { TaskDB } from "../../utils/database/taskDB";
 import { deepClone } from "../../utils/other";
 import moment from "moment";
 import { TASKKEY } from "../../utils/database/config";
+import { getLastStringLocationPath } from "../../utils/string";
 
 export const TodoList: React.FunctionComponent<IMainStore> = inject("stores")(
   observer(({ stores }) => {
@@ -27,12 +28,20 @@ export const TodoList: React.FunctionComponent<IMainStore> = inject("stores")(
       TaskDB.update(key, deepClone(task.taskState));
     };
 
+    const getDayList = () => {
+      const chosenDate = getLastStringLocationPath(location.pathname);
+      const nowDate = new Date();
+      return (moment(nowDate).format("L") === chosenDate)
+        ? "сегодня"
+        : chosenDate;
+    };
+
     return (
       <UploadDailyTask>
         <Page>
           <Header />
           <Content>
-            <h1>Список дел на сегодня / "дата"</h1>
+            <h1>Список дел на {getDayList()}</h1>
             <div className={style.todoWrapper}>
               {stores!.Task.taskState && (
                 <TodoListContent
