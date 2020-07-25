@@ -18,7 +18,9 @@ export const UploadDailyTask: React.FunctionComponent<uploadDailyTaskProps> = in
     const load = () => {
       const path = window.location.pathname.trim();
       const date = getLastStringLocationPath(path);
-      const key = moment(date, "L");
+      const checkDate = (date:string) => ((/\d{2}\.\d{2}\.\d{4}/g).test(date.trim()));
+      const key = checkDate(date) ? moment(date, "L"): moment(new Date());
+
 
       TaskDB.get(key.format("YYYYMMDD")).then((item) => {
         if (!item) {
