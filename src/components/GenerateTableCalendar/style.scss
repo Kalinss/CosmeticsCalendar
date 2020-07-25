@@ -50,3 +50,16 @@
   width: 100%;
   height: 100%;
 }
+.dot{
+  width: 4px;
+  height: 4px;
+  background-color: #272727;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 11px;
+  right: 7px;
+}
+.wrap{
+  position: relative;
+
+}

@@ -50,8 +50,8 @@ export const GenerateTableCalendar: React.FunctionComponent<GenerateTableCalenda
                     <div
                       className={
                         isIdenticalDays(item.date, props.actuallyDate)
-                          ? style.active
-                          : ""
+                          ? classNames(style.active,style.wrap)
+                          : style.wrap
                       }
                     >
                       {props.itemsCosmetic.some((cosmetic) =>
@@ -60,7 +60,7 @@ export const GenerateTableCalendar: React.FunctionComponent<GenerateTableCalenda
                           cosmetic.date,
                           cosmetic.timingDelay.value
                         )
-                      ) && <span>Ю</span>}
+                      ) && <b className={style.dot}></b>}
 
                       <span className={style.link}>{item.number}</span>
                     </div>

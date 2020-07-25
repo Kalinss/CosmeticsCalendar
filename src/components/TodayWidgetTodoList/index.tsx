@@ -10,7 +10,7 @@ import { TaskDB } from "~/utils/database/taskDB";
 import moment from "moment";
 
 type todayWidgetTodoList = {
-  stores: MainStore;
+  stores?: MainStore;
 };
 
 const getItemsTask = (stateTask: TaskDB) => {
@@ -26,7 +26,7 @@ export const TodayWidgetTodoList: React.FunctionComponent<todayWidgetTodoList> =
   "stores"
 )(
   observer(({ stores }) => {
-    const todayTask = stores.Task.taskState!;
+    const todayTask = stores!.Task.taskState!;
     const formatDate = moment(todayTask.date).format("L");
     const taskItems = getItemsTask(todayTask);
 
