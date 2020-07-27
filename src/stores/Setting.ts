@@ -11,13 +11,18 @@ export class Setting {
     {
       name: "Календарь на главной странице",
       key: "calendar",
-      value:true
+      value: true,
     },
     {
-      name:'Точки задач на календаре',
+      name: "Точки задач на календаре",
       key: "dotsCalendar",
-      value:true
-    }
+      value: true,
+    },
+    {
+      name: "Полный лист задач на главной странице",
+      key: "todoListFull",
+      value: false,
+    },
   ];
 
   @action getConfig() {
@@ -35,13 +40,15 @@ export class Setting {
   }
 
   @action toggleValueItem(key: string) {
-    this.config = [...this.config.map((item) =>
-      item.key === key
-        ? {
-            ...item,
-            value: !item.value,
-          }
-        : item
-    )];
+    this.config = [
+      ...this.config.map((item) =>
+        item.key === key
+          ? {
+              ...item,
+              value: !item.value,
+            }
+          : item
+      ),
+    ];
   }
 }
