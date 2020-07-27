@@ -14,20 +14,21 @@ import { CosmeticItemsModelDB } from "./utils/database/cosmeticItemsModelDB";
 import { Upload } from "./components/UploadItemsCosmetic/index";
 import { TodoList } from "./pages/TodoList";
 import { TaskDB } from "./utils/database/taskDB";
+import { Setting } from "./pages/Setting/index";
+import { settingDB } from "./utils/database/settingDB";
 import stores from "./stores/store";
+import { uploadSetting } from "./utils/controlData";
+
+// todo удобную загрузку
 CosmeticItemsModelDB.open();
 TaskDB.open();
+settingDB.open().catch(console.log).then(console.log);
+
+uploadSetting();
 
 export const App: React.FunctionComponent = () => {
   return (
     <Provider stores={stores}>
-      <button
-        onClick={() => {
-          console.log(toJS(stores.ItemsCosmetic.items));
-        }}
-      >
-        123123
-      </button>
       <Upload>
         <Router>
           <Switch>
@@ -40,14 +41,16 @@ export const App: React.FunctionComponent = () => {
               <EditCosmetic />
             </Route>
             <Route path="/create">
-              {/*@ts-ignore*/}
               <CreateCosmetic />
             </Route>
-            <Route exact path="/main">
+            <Route exact path="/">
               <Main />
             </Route>
             <Route path="/todolist">
               <TodoList />
+            </Route>
+            <Route path="/setting">
+              <Setting />
             </Route>
           </Switch>
         </Router>

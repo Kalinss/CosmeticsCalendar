@@ -81,7 +81,9 @@ export type uploadDailyTaskProps = {
   children:React.ReactNode
 }
 export type settingType = {
-  selectedDate:Date
+  name:string,
+  key:string,
+  value:boolean
 }
 export type controlDataProps = {
   stores?:MainStore;
@@ -94,5 +96,8 @@ export type controlDataObject = {
   controlFunction:controlDataFunctions
 }
 export interface createCosmeticComponentProps extends controlDataObject {
-  stores:MainStore,
+  stores?:MainStore,
+}
+export type settingComponentType = {
+  stores?:MainStore,
 }

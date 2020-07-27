@@ -25,6 +25,7 @@
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
+    "downlevelIteration": true,
     "plugins": [
       {
         "name": "typescript-plugin-css-modules",

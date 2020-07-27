@@ -28,8 +28,17 @@ export const Header = () => {
     }
   };
 
+
+
   return (
     <header className={style.header}>
+      <div
+        className={style.field}
+        style={{ display: isOpen ? "block" : "none" }}
+        onClick={() => {
+          setOpen(false);
+        }}
+      ></div>
       <div className={style.headerWrapper}>
         <div className={style.left}>
           <h1>Лого</h1>

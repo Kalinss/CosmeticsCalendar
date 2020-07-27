@@ -7,9 +7,21 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
 import moment from "moment";
 import style from "./style.scss";
+import stores from "../../stores/store";
+import { UploadDailyTask } from "@components";
+import { TodayWidgetTodoList } from "~/components/TodayWidgetTodoList";
 
 const getFormatDate = (date: Date) => {
   return moment(date).format("L");
+};
+
+const dotsTask = () => {
+  const field = stores.Setting.config.find(
+    (item) => item.key === "dotsCalendar"
+  );
+  if (field && field.value) {
+    return <b className={style.dot}></b>;
+  }
 };
 
 export const GenerateTableCalendar: React.FunctionComponent<GenerateTableCalendarType> = (
@@ -50,7 +62,7 @@ export const GenerateTableCalendar: React.FunctionComponent<GenerateTableCalenda
                     <div
                       className={
                         isIdenticalDays(item.date, props.actuallyDate)
-                          ? classNames(style.active,style.wrap)
+                          ? classNames(style.active, style.wrap)
                           : style.wrap
                       }
                     >
@@ -60,7 +72,7 @@ export const GenerateTableCalendar: React.FunctionComponent<GenerateTableCalenda
                           cosmetic.date,
                           cosmetic.timingDelay.value
                         )
-                      ) && <b className={style.dot}></b>}
+                      ) && dotsTask()}
 
                       <span className={style.link}>{item.number}</span>
                     </div>

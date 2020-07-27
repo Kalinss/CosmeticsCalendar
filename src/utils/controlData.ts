@@ -3,10 +3,12 @@ import { deepClone, toPrimitiveType } from "../utils/other";
 import { CosmeticItemsModelDB } from "../utils/database/cosmeticItemsModelDB";
 import stores from "./../stores/store";
 import { TaskDB } from "../utils/database/taskDB";
+import { toJS } from "mobx";
+import { settingDB } from "../utils/database/settingDB";
 import { taskObjectDB, taskDBType } from "types";
 import { isIdenticalDays, dateСomparison } from "../utils/dates";
 import moment from "moment";
-import { TASKKEY } from "../utils/database/config";
+import { TASKKEY, SETTING } from "../utils/database/config";
 
 export const updateTaskAfterUpdateItem = async (
   object: itemCosmeticPrimaryType
@@ -88,4 +90,28 @@ export const saveInDBNewItemCosmetic = async (object: expendedItemType) => {
     formDBObject.name.trim(),
     deepClone(formDBObject)
   );
+};
+
+export const toggleSettingField = async (key: string) => {
+  stores.Setting.toggleValueItem(key);
+  const item = await settingDB.get(key);
+
+  return settingDB.set(key, { ...item, value: !item.value });
+};
+
+export const uploadSetting = async () => {
+  const storesSetting = stores.Setting.config;
+  const settingDBItems = await settingDB.getAll().then((x) => x);
+  const saveValueInStore = () => {
+    stores.Setting.setConfig([...settingDBItems]);
+  };
+  if (settingDBItems < storesSetting) {
+    // If there are new ones then reset
+    const promise = await Promise.all(
+      storesSetting.map((item) => settingDB.set(item.key, deepClone(item)))
+    );
+    saveValueInStore();
+    return;
+  }
+  return saveValueInStore();
 };

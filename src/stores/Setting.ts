@@ -1,23 +1,47 @@
 import { settingType } from "types";
-import {action, observable} from "mobx";
+import { action, observable } from "mobx";
 
 export class Setting {
-  @observable config: settingType = {
-    selectedDate: new Date(1982,5,11),
-  };
+  @observable config: settingType[] = [
+    {
+      name: "Виджет задач на главной странице",
+      key: "todoListWidget",
+      value: true,
+    },
+    {
+      name: "Календарь на главной странице",
+      key: "calendar",
+      value:true
+    },
+    {
+      name:'Точки задач на календаре',
+      key: "dotsCalendar",
+      value:true
+    }
+  ];
 
-  @action getConfig(){
-      return {...this.config}
+  @action getConfig() {
+    return this.config;
   }
 
-  @action setConfig(object:settingType){
-      this.config = {...object}
+  @action setConfig(data: settingType[]) {
+    this.config = [...data];
   }
 
-  @action setDate(date:Date){
-      this.setConfig({
-          ...this.config,
-          selectedDate:date
-      })
+  @action deleteItem(key: string) {
+    this.config = [
+      ...this.config.filter((item: settingType) => item.name !== key),
+    ];
+  }
+
+  @action toggleValueItem(key: string) {
+    this.config = [...this.config.map((item) =>
+      item.key === key
+        ? {
+            ...item,
+            value: !item.value,
+          }
+        : item
+    )];
   }
 }
