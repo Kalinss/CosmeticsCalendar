@@ -18,6 +18,7 @@ import { Setting } from "./pages/Setting/index";
 import { settingDB } from "./utils/database/settingDB";
 import stores from "./stores/store";
 import { uploadSetting } from "./utils/controlData";
+import {CalendarPage} from "./pages/CalendarPage";
 
 // todo удобную загрузку
 CosmeticItemsModelDB.open();
@@ -51,6 +52,9 @@ export const App: React.FunctionComponent = () => {
             </Route>
             <Route path="/setting">
               <Setting />
+            </Route>
+            <Route path="/calendar">
+              <CalendarPage/>
             </Route>
           </Switch>
         </Router>

@@ -4,20 +4,19 @@ import classNames from "classnames";
 
 type HamburgerButtonType = {
   handlerClick: () => void;
+  active: boolean;
 };
 
 export const HamburgerButton: React.FunctionComponent<HamburgerButtonType> = ({
   handlerClick,
+  active,
 }) => {
-  const [open, setOpen] = useState(false);
-
   return (
     <div
       onClick={() => {
         handlerClick();
-        setOpen(!open);
       }}
-      className={classNames(style.button, open ? style.open : false)}
+      className={classNames(style.button, active ? style.open : false)}
     >
       <span></span>
       <span></span>

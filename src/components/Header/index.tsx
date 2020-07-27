@@ -36,7 +36,7 @@ export const Header = () => {
         className={style.field}
         style={{ display: isOpen ? "block" : "none" }}
         onClick={() => {
-          setOpen(false);
+            toggleMenu()
         }}
       ></div>
       <div className={style.headerWrapper}>
@@ -46,7 +46,7 @@ export const Header = () => {
         <div className={style.right}>
           <button className={style.setting}>
             <div className={style.hamburgerWrapper}>
-              <HamburgerButton handlerClick={toggleMenu} />
+              <HamburgerButton handlerClick={toggleMenu} active={isOpen} />
             </div>
           </button>
         </div>
