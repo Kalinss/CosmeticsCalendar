@@ -10,10 +10,12 @@ import { inject, observer } from "mobx-react";
 import { TaskDB } from "../../utils/database/taskDB";
 import { deepClone } from "../../utils/other";
 import { getLastStringLocationPath } from "../../utils/string";
+import {MainStore} from "../../stores/MainStore";
 
 type todoListContentProps = {
   // items: taskDB;
   // closeTask: (e: any, day: boolean) => void;
+    stores?:MainStore
 };
 
 export const TodoListContent: React.FunctionComponent<todoListContentProps> = inject(
@@ -39,10 +41,10 @@ export const TodoListContent: React.FunctionComponent<todoListContentProps> = in
         : chosenDate;
     };
 
-    const dayTask = items.task.filter(
+    const dayTask = items!.task.filter(
       (item) => item.dayOrEvening.value == 1 || item.dayOrEvening.value == 2
     );
-    const eveningTask = items.task.filter(
+    const eveningTask = items!.task.filter(
       (item) => item.dayOrEvening.value == 1 || item.dayOrEvening.value == 3
     );
 

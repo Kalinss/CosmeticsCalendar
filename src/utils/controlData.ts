@@ -3,12 +3,21 @@ import { deepClone, toPrimitiveType } from "../utils/other";
 import { CosmeticItemsModelDB } from "../utils/database/cosmeticItemsModelDB";
 import stores from "./../stores/store";
 import { TaskDB } from "../utils/database/taskDB";
+import { openDB } from "idb";
 import { toJS } from "mobx";
 import { settingDB } from "../utils/database/settingDB";
 import { taskObjectDB, taskDBType } from "types";
 import { isIdenticalDays, dateСomparison } from "../utils/dates";
 import moment from "moment";
-import { TASKKEY, SETTING } from "../utils/database/config";
+
+import {
+  TASKKEY,
+  SETTING,
+  DBNAME,
+  TASK,
+  COSMETIC_ITEMS,
+  VERSION,
+} from "../utils/database/config";
 
 export const updateTaskAfterUpdateItem = async (
   object: itemCosmeticPrimaryType
@@ -99,13 +108,16 @@ export const toggleSettingField = async (key: string) => {
   return settingDB.set(key, { ...item, value: !item.value });
 };
 
-export const uploadSetting = async () => {
+export const uploadSetting = async () => { // upload new setting in DB
   const storesSetting = stores.Setting.config;
-  const settingDBItems = await settingDB.getAll().then((x) => x);
+  const settingDBItems = await settingDB
+    .getAll()
+    .then((x) => x)
+    .catch(console.log);
   const saveValueInStore = () => {
     stores.Setting.setConfig([...settingDBItems]);
   };
-  if (settingDBItems < storesSetting) {
+  if (settingDBItems < storesSetting || !settingDBItems) {
     // If there are new ones then reset
     const promise = await Promise.all(
       storesSetting.map((item) => settingDB.set(item.key, deepClone(item)))
@@ -114,4 +126,21 @@ export const uploadSetting = async () => {
     return;
   }
   return saveValueInStore();
+};
+
+export const createCollections = async () => { // Create database for the first boot
+  const create = await openDB(DBNAME, VERSION, {
+    upgrade(db) {
+      db.createObjectStore(TASK);
+      db.createObjectStore(COSMETIC_ITEMS);
+      db.createObjectStore(SETTING);
+    },
+  });
+  return create;
+};
+export const openCollections = async () => { // Open databases in a closure DB
+  const create = await TaskDB.open()
+    .then(() => CosmeticItemsModelDB.open())
+    .then(() => settingDB.open());
+  return create;
 };

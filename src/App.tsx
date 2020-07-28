@@ -1,4 +1,9 @@
-import React, { FunctionComponent, useEffect } from "react";
+import React, {
+  FunctionComponent,
+  ReactNode,
+  useEffect,
+  useState,
+} from "react";
 import { Main } from "./pages/Main/index";
 import { toJS } from "mobx";
 import { CreateCosmetic } from "./pages/CreateCosmetic/index";
@@ -18,47 +23,58 @@ import { Setting } from "./pages/Setting/index";
 import { settingDB } from "./utils/database/settingDB";
 import stores from "./stores/store";
 import { uploadSetting } from "./utils/controlData";
-import {CalendarPage} from "./pages/CalendarPage";
-
-// todo удобную загрузку
-CosmeticItemsModelDB.open();
-TaskDB.open();
-settingDB.open().catch(console.log).then(console.log);
-
-uploadSetting();
+import { CalendarPage } from "./pages/CalendarPage";
+import { openCollections, createCollections } from "./utils/controlData";
+import { Task } from "~/stores/Task";
 
 export const App: React.FunctionComponent = () => {
+  const [loader, setLoader] = useState(true);
+
+  type loaderType = {
+    children: ReactNode;
+  };
+  const Loader: React.FC<loaderType> = ({ children }) => {
+    return <div>{loader ? <p>123</p> : children}</div>;
+  };
+
+  createCollections()
+    .then(() => openCollections())
+    .then(() => uploadSetting())
+    .then(() => setLoader(false));
+
   return (
     <Provider stores={stores}>
-      <Upload>
-        <Router>
-          <Switch>
-            {/*Перебрать маршруты*/}
+      <Loader>
+        <Upload>
+          <Router>
+            <Switch>
+              {/*Перебрать маршруты*/}
 
-            <Route path="/items">
-              <ItemsCosmeticList />
-            </Route>
-            <Route path="/edit">
-              <EditCosmetic />
-            </Route>
-            <Route path="/create">
-              <CreateCosmetic />
-            </Route>
-            <Route exact path="/">
-              <Main />
-            </Route>
-            <Route path="/todolist">
-              <TodoList />
-            </Route>
-            <Route path="/setting">
-              <Setting />
-            </Route>
-            <Route path="/calendar">
-              <CalendarPage/>
-            </Route>
-          </Switch>
-        </Router>
-      </Upload>
+              <Route path="/items">
+                <ItemsCosmeticList />
+              </Route>
+              <Route path="/edit">
+                <EditCosmetic />
+              </Route>
+              <Route path="/create">
+                <CreateCosmetic />
+              </Route>
+              <Route exact path="/">
+                <Main />
+              </Route>
+              <Route path="/todolist">
+                <TodoList />
+              </Route>
+              <Route path="/setting">
+                <Setting />
+              </Route>
+              <Route path="/calendar">
+                <CalendarPage />
+              </Route>
+            </Switch>
+          </Router>
+        </Upload>
+      </Loader>
     </Provider>
   );
 };
