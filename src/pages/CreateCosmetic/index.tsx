@@ -11,9 +11,9 @@ import {
 import { inject, observer } from "mobx-react";
 import moment from "moment";
 import style from "./style.scss";
-import { IMainStore, MainStore } from "../../stores/MainStore";
+import { IMainStore } from "../../stores/index";
 import { dataFields } from "./dataFields";
-import { CosmeticItemsModelDB } from "../../utils/database/cosmeticItemsModelDB";
+
 import {
   isNotEmpty,
   getErrorValidation,
@@ -45,7 +45,7 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
         return;
       }
 
-      alreadyIdExistsInDB(value).then((result) => {
+      alreadyIdExistsInDB(value).then((result:any) => {
         if (result) {
           itemsCosmetic.setCurrentField({
             field: "name",

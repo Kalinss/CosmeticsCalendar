@@ -1,12 +1,11 @@
 import React from "react";
 import style from "./style.scss";
 import { inject, observer } from "mobx-react";
-import { MainStore } from "~/stores/MainStore";
-import { toJS } from "mobx";
+import { MainStore } from "../../stores/index";
 import classNames from "classnames";
-import { taskObjectDB } from "types";
+import { taskObjectDB } from "../../types";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { TaskDB } from "~/utils/database/taskDB";
+import { TaskDB } from "../../database";
 import moment from "moment";
 
 type todayWidgetTodoList = {

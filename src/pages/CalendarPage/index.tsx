@@ -1,8 +1,5 @@
 import React from "react";
-import { Calendar } from "./../../components/Calendar/index";
-import { Page } from "../../components/Page/index";
-import { Header } from "../../components/Header/index";
-import { Content } from "../../components/Content";
+import { Calendar,Page,Header,Content } from "../../components/index";
 
 export const CalendarPage = () => {
   return (

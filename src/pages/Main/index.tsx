@@ -1,12 +1,14 @@
 import React, { FunctionComponent } from "react";
-import { Page } from "../../components/Page/index";
-import { Calendar } from "../../components/Calendar/index";
-import { Header } from "../../components/Header/index";
-import { Content } from "../../components/Content";
-import { IMainStore } from "../../stores/MainStore";
-import { TodayWidgetTodoList } from "../../components/TodayWidgetTodoList";
-import { UploadDailyTask } from "../../components/UploadDailyTask";
-import { TodoListContent } from "../../components/TodoListContent";
+import {
+  Page,
+  Calendar,
+  Header,
+  Content,
+  UploadDailyTask,
+  TodoListContent,
+    TodayWidgetTodoList
+} from "../../components";
+import { IMainStore } from "../../stores";
 
 import { toJS } from "mobx";
 import { inject, observer } from "mobx-react";

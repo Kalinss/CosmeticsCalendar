@@ -9,13 +9,11 @@ import { inject, observer } from "mobx-react";
 import style from "./../CreateCosmetic/style.scss";
 import { toJS } from "mobx";
 import { Form, TextArea, Select, Button } from "semantic-ui-react";
-import { CosmeticItemsModelDB } from "../../utils/database/cosmeticItemsModelDB";
-import { IMainStore } from "../../stores/MainStore";
+import { CosmeticItemsModelDB } from "../../database/index";
+import { IMainStore } from "../../stores/index";
 import { deepClone } from "../../utils/other";
-import { expendedItemType, itemCosmeticPrimaryType } from "types";
-import { Header } from "../../components/Header/index";
-import { Content } from "../../components/Content/index";
-import { Page } from "../../components/Page/index";
+import { expendedItemType, itemCosmeticPrimaryType } from "../../types";
+import { Header, Content , Page } from "../../components";
 import { dataFields } from "../CreateCosmetic/dataFields";
 import { updateTaskAfterUpdateItem } from "../../utils/controlData";
 

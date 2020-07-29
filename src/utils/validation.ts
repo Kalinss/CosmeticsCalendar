@@ -1,4 +1,4 @@
-import {CosmeticItemsModelDB} from './database/cosmeticItemsModelDB';
+import {CosmeticItemsModelDB} from '../database';
 export const getErrorValidation = (code:number) => {
     switch (code) {
         case 0:

@@ -1,8 +1,8 @@
-import {settingType} from "types";
+import {settingType} from "../types";
 import {openDB} from "idb";
-import {SETTING, DBNAME, VERSION} from "../../utils/database/config";
+import {SETTING, DBNAME, VERSION} from "./config";
 
-export class settingDB{
+export class SettingDB{
     static _dbPromise:any;
 
     static open() {

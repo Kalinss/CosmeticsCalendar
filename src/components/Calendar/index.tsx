@@ -14,7 +14,7 @@ import { getUpperFirstCharString } from "../../utils/string";
 import moment from "moment";
 import "moment/locale/ru";
 import classNames from "classnames";
-import { IMainStore } from "~/stores/MainStore";
+import { IMainStore } from "../../stores/index";
 import { inject, observer } from "mobx-react";
 
 const HEIGHT_CALENDAR = 271;

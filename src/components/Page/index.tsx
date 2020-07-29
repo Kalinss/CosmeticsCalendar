@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import style from "./style.scss";
-import { IMainStore } from "../../stores/MainStore";
+import { IMainStore } from "../../stores/index";
 
 export const Page: FunctionComponent<IMainStore> = ({ children }) => {
   return (

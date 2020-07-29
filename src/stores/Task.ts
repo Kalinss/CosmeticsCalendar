@@ -1,5 +1,4 @@
-import { stateTask, taskObjectDB, taskDB } from "../types";
-import { string } from "mobx-state-tree/dist/types/primitives";
+import { taskObjectDB, taskDB } from "../types";
 import { action, observable } from "mobx";
 import { ItemsCosmetic } from "./ItemsCosmetic";
 import { toJS } from "mobx";

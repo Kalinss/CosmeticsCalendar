@@ -1,13 +1,10 @@
 import { expendedItemType, itemCosmeticPrimaryType } from "types";
 import { deepClone, toPrimitiveType } from "../utils/other";
-import { CosmeticItemsModelDB } from "../utils/database/cosmeticItemsModelDB";
+import { CosmeticItemsModelDB,TaskDB,SettingDB } from "../database";
 import stores from "./../stores/store";
-import { TaskDB } from "../utils/database/taskDB";
 import { openDB } from "idb";
-import { toJS } from "mobx";
-import { settingDB } from "../utils/database/settingDB";
-import { taskObjectDB, taskDBType } from "types";
-import { isIdenticalDays, dateСomparison } from "../utils/dates";
+import { taskDBType } from "types";
+import {  dateСomparison } from "../utils/dates";
 import moment from "moment";
 
 import {
@@ -17,7 +14,7 @@ import {
   TASK,
   COSMETIC_ITEMS,
   VERSION,
-} from "../utils/database/config";
+} from "../database/config";
 
 export const updateTaskAfterUpdateItem = async (
   object: itemCosmeticPrimaryType
@@ -103,25 +100,25 @@ export const saveInDBNewItemCosmetic = async (object: expendedItemType) => {
 
 export const toggleSettingField = async (key: string) => {
   stores.Setting.toggleValueItem(key);
-  const item = await settingDB.get(key);
+  const item = await SettingDB.get(key);
 
-  return settingDB.set(key, { ...item, value: !item.value });
+  return SettingDB.set(key, { ...item, value: !item.value });
 };
 
 export const uploadSetting = async () => {
   // upload new setting in DB
   const storesSetting = stores.Setting.config;
-  const settingDBItems = await settingDB
+  const SettingDBItems = await SettingDB
     .getAll()
     .then((x) => x)
     .catch(console.log);
   const saveValueInStore = () => {
-    stores.Setting.setConfig([...settingDBItems]);
+    stores.Setting.setConfig([...SettingDBItems]);
   };
-  if (settingDBItems < storesSetting || !settingDBItems) {
+  if (SettingDBItems < storesSetting || !SettingDBItems) {
     // If there are new ones then reset
     const promise = await Promise.all(
-      storesSetting.map((item) => settingDB.set(item.key, deepClone(item)))
+      storesSetting.map((item) => SettingDB.set(item.key, deepClone(item)))
     );
     saveValueInStore();
     return;
@@ -145,12 +142,12 @@ export const openCollections = async () => {
   // Open databases in a closure DB
   const create = await TaskDB.open()
     .then(() => CosmeticItemsModelDB.open())
-    .then(() => settingDB.open());
+    .then(() => SettingDB.open());
   return create;
 };
 
 export const cleaningOldTask = async () => {
-  const setting = await settingDB.get("clearOldTask");
+  const setting = await SettingDB.get("clearOldTask");
   if (!setting.value) return;
   const allTask = await TaskDB.getAll().then((x) => x);
   if (!allTask) return;

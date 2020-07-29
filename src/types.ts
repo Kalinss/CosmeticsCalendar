@@ -1,7 +1,5 @@
-import { string } from "mobx-state-tree/dist/types/primitives";
-import {MainStore} from "~/stores/MainStore";
+import {MainStore,IMainStore} from "./stores";
 import React from "react";
-import {IMainStore} from "~/stores/MainStore";
 import exp = require("constants");
 
 export type objectDateCalendar = {

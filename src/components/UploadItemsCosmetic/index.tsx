@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { inject, observer } from "mobx-react";
-import { IMainStore } from "../../stores/MainStore";
+import { IMainStore } from "../../stores/index";
 
 export const Upload: React.FunctionComponent<IMainStore> = inject("stores")(
   observer(({ children, stores }) => {

@@ -2,19 +2,15 @@ import React, { useState } from "react";
 import style from "./style.scss";
 import { taskDB, taskObjectDB } from "types";
 import moment from "moment";
-import { toJS } from "mobx";
 import { ArrowCheck } from "../@decoration/ArrowCheck";
 import classNames from "classnames";
-import { TASKKEY } from "../../utils/database/config";
+import { TASKKEY,TaskDB } from "../../database/index";
 import { inject, observer } from "mobx-react";
-import { TaskDB } from "../../utils/database/taskDB";
 import { deepClone } from "../../utils/other";
 import { getLastStringLocationPath } from "../../utils/string";
-import {MainStore} from "../../stores/MainStore";
+import {MainStore} from "../../stores/index";
 
 type todoListContentProps = {
-  // items: taskDB;
-  // closeTask: (e: any, day: boolean) => void;
     stores?:MainStore
 };
 

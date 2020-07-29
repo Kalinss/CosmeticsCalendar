@@ -1,35 +1,25 @@
-import React, {
-  FunctionComponent,
-  ReactNode,
-  useEffect,
-  useState,
-} from "react";
-import { Main } from "./pages/Main/index";
-import { toJS } from "mobx";
-import { CreateCosmetic } from "./pages/CreateCosmetic/index";
-import { ItemsCosmeticList } from "./pages/ItemsCosmeticList/index";
-import { EditCosmetic } from "./pages/EditCosmetic/index";
+import React, { ReactNode, useState, useEffect } from "react";
+import {
+  CreateCosmetic,
+  ItemsCosmeticList,
+  EditCosmetic,
+  Main,
+  TodoList,
+  Setting,
+  CalendarPage,
+} from "./pages/index";
 import "./styles/reset.scss";
 import "semantic-ui-css/semantic.min.css";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Provider } from "mobx-react";
-import { MainStore } from "./stores/MainStore";
-import { CosmeticItemsModelDB } from "./utils/database/cosmeticItemsModelDB";
-import { Upload } from "./components/UploadItemsCosmetic/index";
-import { TodoList } from "./pages/TodoList";
-import { TaskDB } from "./utils/database/taskDB";
-import { Setting } from "./pages/Setting/index";
-import { settingDB } from "./utils/database/settingDB";
+import { Upload } from "./components/index";
 import stores from "./stores/store";
-import { uploadSetting } from "./utils/controlData";
-import { CalendarPage } from "./pages/CalendarPage";
 import {
+  uploadSetting,
   openCollections,
   createCollections,
   cleaningOldTask,
 } from "./utils/controlData";
-import { Task } from "~/stores/Task";
 
 export const App: React.FunctionComponent = () => {
   const [loader, setLoader] = useState(true);
@@ -41,11 +31,13 @@ export const App: React.FunctionComponent = () => {
     return <div>{loader ? <p>123</p> : children}</div>;
   };
 
-  createCollections()
-    .then(() => openCollections())
-    .then(() => uploadSetting())
-    .then(() => cleaningOldTask())
-    .then(() => setLoader(false));
+  useEffect(() => {
+    createCollections()
+      .then(() => openCollections())
+      .then(() => uploadSetting())
+      .then(() => cleaningOldTask())
+      .then(() => setLoader(false));
+  }, []);
 
   return (
     <Provider stores={stores}>
@@ -53,7 +45,6 @@ export const App: React.FunctionComponent = () => {
         <Upload>
           <Router>
             <Switch>
-              {/*Перебрать маршруты*/}
               <Route path="/items">
                 <ItemsCosmeticList />
               </Route>

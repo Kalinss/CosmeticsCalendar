@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { inject, observer } from "mobx-react";
-import { taskObjectDB, uploadDailyTaskProps } from "types";
-import { toJS } from "mobx";
-import { TaskDB } from "../../utils/database/taskDB";
+import {itemCosmeticPrimaryType, uploadDailyTaskProps} from "../../types";
+import { TaskDB } from "../../database/index";
 import { dateСomparison } from "../../utils/dates";
-import { Task } from "../../stores/Task";
 import { getLastStringLocationPath } from "../../utils/string";
 import moment from "moment";
 
@@ -31,7 +29,7 @@ export const UploadDailyTask: React.FunctionComponent<uploadDailyTaskProps> = in
 
           const desiredDate = key.toDate();
 
-          const arr = stores!.ItemsCosmetic.items.filter((item) => {
+          const arr = stores!.ItemsCosmetic.items.filter((item:any) => {
             return dateСomparison(
               desiredDate,
               item.date,
@@ -40,7 +38,7 @@ export const UploadDailyTask: React.FunctionComponent<uploadDailyTaskProps> = in
           });
 
           TaskDB.set(key.format("YYYYMMDD"), {
-            task: arr.map((item) => ({
+            task: arr.map((item:itemCosmeticPrimaryType) => ({
               name: item.name,
               description: item.description,
               timingDelay: { ...item.timingDelay },
@@ -53,7 +51,7 @@ export const UploadDailyTask: React.FunctionComponent<uploadDailyTaskProps> = in
           });
 
           stores!.Task.setState({
-            task: arr.map((item) => ({
+            task: arr.map((item:itemCosmeticPrimaryType) => ({
               ...item,
               closed: { day: false, evening: false },
             })),

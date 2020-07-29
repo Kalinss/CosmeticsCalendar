@@ -1,13 +1,10 @@
 import React from "react";
-import { Content } from "../../components/Content/index";
-import { Page } from "../../components/Page/index";
-import { Header } from "../../components/Header/index";
+import { Content,Page,Header } from "../../components";
 import { Checkbox } from "semantic-ui-react";
 import style from "./style.scss";
 import { inject, observer } from "mobx-react";
-import { settingComponentType } from "types";
-import { toJS } from "mobx";
-import { settingType } from "types";
+import { settingComponentType } from "../../types";
+import { settingType } from "../../types";
 import { toggleSettingField } from "../../utils/controlData";
 
 export const Setting: React.FunctionComponent<settingComponentType> = inject(
@@ -36,7 +33,7 @@ export const Setting: React.FunctionComponent<settingComponentType> = inject(
         <Content>
           <h2>Настройки:</h2>
           <ul className={style.list}>
-            {stores!.Setting.config.map((item) => settingItem(item))}
+            {stores!.Setting.config.map((item:any) => settingItem(item))}
           </ul>
           <br />
           <br />

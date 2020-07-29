@@ -7,12 +7,15 @@
     "sourceMap": true,
     "strict": true,
     "moduleResolution": "node",
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "experimentalDecorators": true,
     "paths": {
-      "~/*": ["./src/*"],
-      "types": ["src/types.ts"],
-      "@components": ["src/components/index.ts"]
+      "types": ["./types.ts"],
+      "components": ["./components/index.ts"],
+      "pages": ["./pages/index.ts"],
+      "utils": ["./utils/*"],
+      "database": ["./database/index.ts"],
+      "stores": ["./stores/index.ts"]
     },
     "typeRoots": ["node_modules/@types"],
     "allowSyntheticDefaultImports": true,
@@ -36,7 +39,8 @@
       }
     ]
   },
-  "include": ["src/**/*","src/utils/database/*", "global.d.ts"],
+  "include": ["src/**/*",
+    "src/database/*", "global.d.ts"],
   "parcel-plugin-typescript": {
     "transpileOnly": true
   }

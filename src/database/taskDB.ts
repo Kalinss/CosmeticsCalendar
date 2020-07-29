@@ -1,7 +1,7 @@
-import { taskObjectDB, taskDB, itemCosmeticPrimaryType } from "types";
+import { taskObjectDB, taskDB } from "../types";
 import { openDB } from "idb";
-import { VERSION, TASK, DBNAME, COSMETIC_ITEMS } from "./config";
-import { string } from "mobx-state-tree/dist/types/primitives";
+import { VERSION, TASK, DBNAME} from "./config";
+
 
 export class TaskDB {
   task: taskObjectDB[];

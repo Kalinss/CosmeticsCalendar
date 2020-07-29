@@ -5,9 +5,9 @@ import {
   Page,
   UploadDailyTask,
   TodoListContent,
-} from "../../components/index";
+} from "../../components";
 
-import { IMainStore } from "../../stores/MainStore";
+import { IMainStore } from "../../stores";
 
 export const TodoList: React.FunctionComponent<IMainStore> = () => {
   return (

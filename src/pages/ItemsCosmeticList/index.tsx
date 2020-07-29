@@ -1,15 +1,13 @@
-import React, { FunctionComponent, useReducer } from "react";
-import { IMainStore } from "./../../stores/MainStore";
+import React, { FunctionComponent } from "react";
+import { IMainStore } from "../../stores";
 import { toJS } from "mobx";
 import { inject, observer } from "mobx-react";
-import { Header } from "../../components/Header";
-import { Content } from "../../components/Content";
-import { Page } from "../../components/Page";
+import { Header,Content,Page } from "../../components";
 import styles from "./style.scss";
 import { updateTaskAfterDeleteItem } from "../../utils/controlData";
 import { EditButton } from "../../components/@decoration/EditButton/index";
 import { RemoveButton } from "../../components/@decoration/RemoveButton/index";
-import { CosmeticItemsModelDB } from "../../utils/database/cosmeticItemsModelDB";
+import { CosmeticItemsModelDB } from "../../database";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 export const ItemsCosmeticList: FunctionComponent<IMainStore> = inject(

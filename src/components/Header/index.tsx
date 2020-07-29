@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import style from "./style.scss";
-import { HamburgerButton } from "../HamburgerButton/index";
-import { Menu } from "../Menu/index";
+import { Menu,HamburgerButton } from "../../components/index";
 
 export const Header = () => {
   const [isOpen, setOpen] = useState(false);

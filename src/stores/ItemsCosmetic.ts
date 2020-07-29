@@ -4,9 +4,9 @@ import {
   expandedItemCosmeticFieldProps,
   itemCosmeticPrimaryType,
   expendedItemType,
-} from "types";
+} from "../types";
 
-import { CosmeticItemsModelDB } from "../utils/database/cosmeticItemsModelDB";
+import { CosmeticItemsModelDB } from "../database/cosmeticItemsModelDB";
 
 export const expendedItemCosmeticInitialState = {
   name: {

@@ -15,3 +15,4 @@ export {Page} from './Page/index';
 export {TodoListContent} from './TodoListContent/index';
 export {Upload} from './UploadItemsCosmetic/index';
 export {UploadDailyTask} from './UploadDailyTask/index'
+export {TodayWidgetTodoList} from './TodayWidgetTodoList'
