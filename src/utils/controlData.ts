@@ -108,7 +108,8 @@ export const toggleSettingField = async (key: string) => {
   return settingDB.set(key, { ...item, value: !item.value });
 };
 
-export const uploadSetting = async () => { // upload new setting in DB
+export const uploadSetting = async () => {
+  // upload new setting in DB
   const storesSetting = stores.Setting.config;
   const settingDBItems = await settingDB
     .getAll()
@@ -128,7 +129,8 @@ export const uploadSetting = async () => { // upload new setting in DB
   return saveValueInStore();
 };
 
-export const createCollections = async () => { // Create database for the first boot
+export const createCollections = async () => {
+  // Create database for the first boot
   const create = await openDB(DBNAME, VERSION, {
     upgrade(db) {
       db.createObjectStore(TASK);
@@ -138,9 +140,30 @@ export const createCollections = async () => { // Create database for the first 
   });
   return create;
 };
-export const openCollections = async () => { // Open databases in a closure DB
+
+export const openCollections = async () => {
+  // Open databases in a closure DB
   const create = await TaskDB.open()
     .then(() => CosmeticItemsModelDB.open())
     .then(() => settingDB.open());
   return create;
+};
+
+export const cleaningOldTask = async () => {
+  const setting = await settingDB.get("clearOldTask");
+  if (!setting.value) return;
+  const allTask = await TaskDB.getAll().then((x) => x);
+  if (!allTask) return;
+  const nowDate = moment(new Date());
+  const neededTask = allTask.filter(
+    (item: taskDBType) => nowDate.diff(moment(item.date), "days") > 30
+  );
+  if (!neededTask) return;
+  const needKeys = neededTask.map((item: taskDBType) =>
+    moment(item.date).format(TASKKEY)
+  );
+  if (!needKeys) return;
+  return Promise.all(
+    needKeys.map((item: string) => TaskDB.delete(item).then((x) => x))
+  );
 };

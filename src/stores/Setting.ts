@@ -23,6 +23,11 @@ export class Setting {
       key: "todoListFull",
       value: false,
     },
+    {
+      name:"Очищать задачи, которые старше 30 дней (советуем включить эту настройку)",
+      key:"clearOldTask",
+      value:true
+    }
   ];
 
   @action getConfig() {

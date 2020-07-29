@@ -24,7 +24,11 @@ import { settingDB } from "./utils/database/settingDB";
 import stores from "./stores/store";
 import { uploadSetting } from "./utils/controlData";
 import { CalendarPage } from "./pages/CalendarPage";
-import { openCollections, createCollections } from "./utils/controlData";
+import {
+  openCollections,
+  createCollections,
+  cleaningOldTask,
+} from "./utils/controlData";
 import { Task } from "~/stores/Task";
 
 export const App: React.FunctionComponent = () => {
@@ -40,6 +44,7 @@ export const App: React.FunctionComponent = () => {
   createCollections()
     .then(() => openCollections())
     .then(() => uploadSetting())
+    .then(() => cleaningOldTask())
     .then(() => setLoader(false));
 
   return (
@@ -49,7 +54,6 @@ export const App: React.FunctionComponent = () => {
           <Router>
             <Switch>
               {/*Перебрать маршруты*/}
-
               <Route path="/items">
                 <ItemsCosmeticList />
               </Route>
