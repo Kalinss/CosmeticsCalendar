@@ -111,7 +111,7 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
             <div className={style.inputWrapper}>
               <label className={style.label}>{`Время дня:`}</label>
               <Select
-                placeholder="День и вечер"
+                placeholder="Утро и вечер"
                 options={dataFields.dayTime}
                 onChange={(e, data: DropdownProps) => {
                   itemsCosmetic.setCurrentField({

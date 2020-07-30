@@ -68,7 +68,7 @@ export const TodoListContent: React.FunctionComponent<todoListContentProps> = in
               <div className={style.top}>
                 {dayTask[0] && (
                   <>
-                    <h2 className={style.h2}>День</h2>
+                    <h2 className={style.h2}>Утро</h2>
                     <ul className={style.list}>
                       {dayTask.map((item, i) => {
                         return (

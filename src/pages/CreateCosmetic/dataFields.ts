@@ -59,12 +59,12 @@ export const dataFields: IdataFields = {
     {
       key: 1,
       value: 1,
-      text: "День и вечер",
+      text: "Утро и вечер",
     },
     {
       key: 2,
       value: 2,
-      text: "День",
+      text: "Утро",
     },
     {
       key: 3,

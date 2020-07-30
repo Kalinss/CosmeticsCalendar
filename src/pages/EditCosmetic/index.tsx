@@ -107,7 +107,7 @@ export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
                 <div className={style.inputWrapper}>
                   <label className={style.label}>{`Время дня:`}</label>
                   <Select
-                    placeholder="День и вечер"
+                    placeholder="Утро и вечер"
                     options={dataFields.dayTime}
                     defaultValue={defaultValues!.dayOrEvening.value}
                     onChange={(e, data) => {
