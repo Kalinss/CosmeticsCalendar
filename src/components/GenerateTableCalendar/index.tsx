@@ -27,6 +27,9 @@ const dotsTask = () => {
 export const GenerateTableCalendar: React.FunctionComponent<GenerateTableCalendarType> = (
   props
 ) => {
+  const setting = stores.Setting.config.find(
+    (item) => item.key === "everyDayDots"
+  );
   return (
     <table>
       <tbody>
@@ -69,7 +72,8 @@ export const GenerateTableCalendar: React.FunctionComponent<GenerateTableCalenda
                       dateСomparison(
                         item.date,
                         cosmetic.date,
-                        cosmetic.timingDelay.value
+                        cosmetic.timingDelay.value,
+                        setting!.value
                       )
                     ) && dotsTask()}
                     <Link to={`/todolist/${getFormatDate(item.date)}`}>

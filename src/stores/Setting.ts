@@ -27,6 +27,11 @@ export class Setting {
       name:"Очищать задачи, которые старше 30 дней (советуем включить эту настройку)",
       key:"clearOldTask",
       value:true
+    },
+    {
+      name:"Показывать точки для задач 'каждый день'",
+      key:'everyDayDots',
+      value:false
     }
   ];
 
