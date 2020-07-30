@@ -156,7 +156,7 @@ export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
                       })
                       .then(() => {
                         alert("Обьект успешно сохранен");
-                        window.location = window.location;
+                        window.location.href = '/items';
                       });
                   }}
                 >

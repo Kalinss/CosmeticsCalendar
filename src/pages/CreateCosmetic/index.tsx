@@ -161,7 +161,7 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
                   .then(() => {
                     itemsCosmetic.clearCurrentItem();
                     alert("Успешно добавленно");
-                    window.location.href = window.location.href;
+                    window.location.href = '/items';
                   });
               }}
             >
