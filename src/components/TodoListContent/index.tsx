@@ -45,7 +45,7 @@ export const TodoListContent: React.FunctionComponent<todoListContentProps> = in
     );
 
     dayTask.sort((a, b) => a.type!.value! - b.type!.value!);
-    eveningTask.sort((item) => item.type!.value);
+    eveningTask.sort((a, b) => a.type!.value! - b.type!.value);
 
     const classText = (item: taskObjectDB) =>
       classNames(style.text, item.closed.day ? style.closed : "");

@@ -40,7 +40,7 @@
     "typescript-plugin-css-modules": "^2.3.0"
   },
   "scripts": {
-    "start": "tsc --noEmit && parcel index.html --open",
+    "start": "tsc --noEmit && parcel index.html --open --host 192.168.0.104",
     "dev": "parcel index.html ",
     "build": "parcel build index.html"
   },
@@ -52,6 +52,7 @@
     "mobx-react": "^6.2.2",
     "moment": "^2.27.0",
     "pages": "^0.0.16",
+    "parsel": "^0.3.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",

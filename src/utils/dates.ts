@@ -5,7 +5,6 @@ import {
   createArrayObjectDaysType,
 } from "types";
 
-
 export const getTwoDimensionalArray = (
   array: any[],
   inCount: number
@@ -45,25 +44,28 @@ export const createArrayObjectDays = (
   return array;
 };
 
-export const isActuallyMonth = (a: Date, b: Date): boolean => moment(a).month() !== moment(b).month();
+export const isActuallyMonth = (a: Date, b: Date): boolean =>
+  moment(a).month() !== moment(b).month();
 
-export const isIdenticalDays= (a:Date,b:Date):boolean =>{
+export const isIdenticalDays = (a: Date, b: Date): boolean => {
   const firstDate = moment(a);
   const secondDate = moment(b);
-  firstDate.set({hour:0,minute:0,second:0,millisecond:0});
-  secondDate.set({hour:0,minute:0,second:0,millisecond:0});
-  return ((firstDate.diff(secondDate,'d') === 0))
+  firstDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+  secondDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+  return firstDate.diff(secondDate, "d") === 0;
 };
 
 //the function checks if a(date) the date that will be through (b + timeDelay * n (day))
-export const dateСomparison = (a:Date, b:Date,timeDelay:number)=>{
+export const dateСomparison = (a: Date, b: Date, timeDelay: number) => {
   const firstDate = moment(a); // Date
   const secondDate = moment(b); // starting point Date
-  firstDate.set({hour:0,minute:0,second:0,millisecond:0});
-  secondDate.set({hour:0,minute:0,second:0,millisecond:0});
-  const diff = secondDate.diff(firstDate,'d');
-  
-  if (diff > 0){
+  firstDate.set({ hour: 15, minute: 0, second: 0, millisecond: 0 });
+  secondDate.set({ hour: 15, minute: 0, second: 0, millisecond: 0 });
+  const diff = secondDate.diff(firstDate, "d");
+  if (diff === 0 && timeDelay === -1) {
+    return true;
+  }
+  if (diff > 0 || timeDelay === -1) {
     return false;
   }
   return (diff % timeDelay === 0)

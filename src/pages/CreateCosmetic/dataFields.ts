@@ -34,7 +34,7 @@ const createDays = (): IiteratorField[] => {
   array.unshift({
     key: -1,
     value: -1,
-    text: "— не напоминать",
+    text: "— не повторять",
   });
   return array!;
 };

@@ -86,7 +86,7 @@ export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
                 </div>
 
                 <div className={style.inputWrapper}>
-                  <label className={style.label}>{`Напоминать каждые`}</label>
+                  <label className={style.label}>{`Повторять каждые`}</label>
                   <Select
                     placeholder="2 дня"
                     options={dataFields.days}

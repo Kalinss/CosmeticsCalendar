@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import style from "./style.scss";
-import { Menu,HamburgerButton } from "../../components/index";
+import { Menu, HamburgerButton } from "../../components/index";
 
 export const Header = () => {
   const [isOpen, setOpen] = useState(false);
@@ -27,15 +27,13 @@ export const Header = () => {
     }
   };
 
-
-
   return (
     <header className={style.header}>
       <div
         className={style.field}
         style={{ display: isOpen ? "block" : "none" }}
         onClick={() => {
-            toggleMenu()
+          toggleMenu();
         }}
       ></div>
       <div className={style.headerWrapper}>
@@ -52,6 +50,7 @@ export const Header = () => {
       </div>
       <div
         className={style.menuWrapper}
+        //@ts-ignore
         style={{
           transform: `translateY(${isOpen ? "0px" : heightMenu})`,
           transition: `${animationDuration}s ease`,

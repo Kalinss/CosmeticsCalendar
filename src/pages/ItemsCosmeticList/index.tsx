@@ -22,6 +22,7 @@ export const ItemsCosmeticList: FunctionComponent<IMainStore> = inject(
         <Header />
         <Content>
           <h1 className={styles.h1}>Список косметики</h1>
+          <Link to={'/create'}>Создать</Link>
           <ul className={styles.list}>
             {items.map((item, i) => (
               <li key={i} className={styles.item}>
