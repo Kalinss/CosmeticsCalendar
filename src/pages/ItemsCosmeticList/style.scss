@@ -8,11 +8,11 @@
 .item{
   width: calc(50% - 10px);
   padding: 15px 60px 15px 15px;
-  min-height: 200px;
+  min-height: 100px;
   position: relative;
   border: 1px solid #cccccc;
   &:nth-child(n+3){
-    margin-top: 25px;
+    margin-top: 10px;
   }
   & p{
     margin-bottom: 7px;
@@ -27,16 +27,16 @@
 .buttonWrapper{
   position: absolute;
   right: 15px;
-  bottom: 15px;
+  top: 15px;
 }
 .buttonWrapperRemove{
   position: absolute;
   right: 15px;
-  bottom: 70px;
+  top: 70px;
 }
 @media screen and (max-width:650px) {
   .item{
     width: 100%;
-    margin-top: 25px;
+    margin-top: 10px;
   }
 }
