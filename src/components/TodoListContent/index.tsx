@@ -58,17 +58,16 @@ export const TodoListContent: React.FunctionComponent<todoListContentProps> = in
     const handlerCloseEvening = (e: React.SyntheticEvent) =>
       closeTask(e, false);
 
-    console.log(stores);
     return (
-      <>
-        <h1>Список дел на {getDayList() || "сегодня"}</h1>
+      <div className={style.todoList}>
+        <h1>План ухода на {getDayList() || "сегодня"}</h1>
         <div className={style.todoWrapper}>
           {dayTask[0] || eveningTask[0] ? (
             <div className={style.content}>
               <div className={style.top}>
                 {dayTask[0] && (
                   <>
-                    <h2 className={style.h2}>Утро</h2>
+                    <h2 className={style.h2}>Утро:</h2>
                     <ul className={style.list}>
                       {dayTask.map((item, i) => {
                         return (
@@ -106,7 +105,7 @@ export const TodoListContent: React.FunctionComponent<todoListContentProps> = in
               <div className={style.bottom}>
                 {eveningTask[0] && (
                   <>
-                    <h2 className={style.h2}>Вечер</h2>
+                    <h2 className={style.h2}>Вечер:</h2>
                     <ul className={style.list}>
                       {eveningTask.map((item, i) => {
                         return (
@@ -147,7 +146,7 @@ export const TodoListContent: React.FunctionComponent<todoListContentProps> = in
             <p>На сегодня задач нету</p>
           )}
         </div>
-      </>
+      </div>
     );
   })
 );

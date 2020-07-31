@@ -81,7 +81,8 @@ export type uploadDailyTaskProps = {
 export type settingType = {
   name:string,
   key:string,
-  value:boolean
+  value:boolean,
+  sort:number
 }
 export type controlDataProps = {
   stores?:MainStore;

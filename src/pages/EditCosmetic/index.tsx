@@ -13,9 +13,11 @@ import { CosmeticItemsModelDB } from "../../database/index";
 import { IMainStore } from "../../stores/index";
 import { deepClone } from "../../utils/other";
 import { expendedItemType, itemCosmeticPrimaryType } from "../../types";
-import { Header, Content , Page } from "../../components";
+import { Header, Content, Page } from "../../components";
 import { dataFields } from "../CreateCosmetic/dataFields";
 import { updateTaskAfterUpdateItem } from "../../utils/controlData";
+import moment from "moment";
+import { toPrimitiveType } from "../../utils/other";
 
 export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
   observer(({ stores }) => {
@@ -32,6 +34,20 @@ export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
     const findItemName = decodeURIComponent(location[location.length - 1]);
 
     useEffect(() => {
+      //deep equal prev state and now state
+      if (
+        JSON.stringify(defaultValues) !==
+        JSON.stringify(
+          toPrimitiveType(itemCosmetic.currentItem as expendedItemType)
+        )
+      ) {
+        setDisabled(false);
+      } else {
+        setDisabled(true);
+      }
+    });
+
+    useEffect(() => {
       // load finded object
       itemCosmetic.findItemEdit(findItemName).then((item) => {
         if (item) {
@@ -40,18 +56,6 @@ export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
         }
       });
     }, []);
-
-    useEffect(() => {
-      //deep equal prev state and now state
-      if (
-        JSON.stringify(defaultValues) !==
-        JSON.stringify(itemCosmetic.currentItem)
-      ) {
-        setDisabled(false);
-      } else {
-        setDisabled(true);
-      }
-    });
 
     return (
       <Page>
@@ -64,13 +68,6 @@ export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
             <>
               <h1>{defaultValues.name}</h1>
               <Form className={style.form}>
-                <button
-                  onClick={() => {
-                    console.log(toJS(itemCosmetic.currentItem));
-                  }}
-                >
-                  get state
-                </button>
                 <div className={style.inputWrapper}>
                   <label className={style.label}>Описание</label>
                   <TextArea
@@ -137,6 +134,24 @@ export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
                     }}
                   />
                 </div>
+                <div className={style.inputWrapper}>
+                  <label className={style.label}>Дата</label>
+                  <input
+                    defaultValue={moment(defaultValues.date).format(
+                      "YYYY-MM-DD"
+                    )}
+                    type="date"
+                    onChange={(event: any) => {
+                      itemCosmetic.setCurrentField({
+                        field: "date",
+                        value: moment(event.target.value)
+                          .set({ hour: 15 })
+                          .toDate(),
+                      });
+                      forceUpdate();
+                    }}
+                  />
+                </div>
                 <Button
                   secondary
                   disabled={disabled}
@@ -156,7 +171,7 @@ export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
                       })
                       .then(() => {
                         alert("Обьект успешно сохранен");
-                        window.location.href = '/items';
+                        window.location.href = "/items";
                       });
                   }}
                 >

@@ -8,6 +8,8 @@ import { updateTaskAfterDeleteItem } from "../../utils/controlData";
 import { EditButton } from "../../components/@decoration/EditButton/index";
 import { RemoveButton } from "../../components/@decoration/RemoveButton/index";
 import { CosmeticItemsModelDB } from "../../database";
+import {Button} from "semantic-ui-react";
+import moment from 'moment'
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 export const ItemsCosmeticList: FunctionComponent<IMainStore> = inject(
@@ -21,8 +23,13 @@ export const ItemsCosmeticList: FunctionComponent<IMainStore> = inject(
       <Page>
         <Header />
         <Content>
-          <h1 className={styles.h1}>Список косметики</h1>
-          <Link to={'/create'}>Создать</Link>
+          <h1 className={styles.h1}>Список уходовых средств</h1>
+            <div className={styles.buttonWrap}>
+                <Button className={styles.buttonLink} color='black'>
+                    <Link className={styles.link} to={'/create'}>Создать</Link>
+                </Button>
+            </div>
+
           <ul className={styles.list}>
             {items.map((item, i) => (
               <li key={i} className={styles.item}>
@@ -39,11 +46,14 @@ export const ItemsCosmeticList: FunctionComponent<IMainStore> = inject(
                     Повторять каждые: <span>{item.timingDelay.text}</span>
                   </p>
                   <p>
-                    Уведомление: <span>{item.dayOrEvening.text}</span>
+                    Время использования: <span>{item.dayOrEvening.text}</span>
                   </p>
                   <p>
                     Тип: <span>{item.type!.text}</span>
                   </p>
+                    <p>
+                        Дата: <span>{moment(item.date).format('DD.MM.YYYY')}</span>
+                    </p>
                   <div className={styles.buttonWrapper}>
                     <Link to={`/edit/${item.name}`}>
                       <EditButton />

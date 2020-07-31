@@ -4,35 +4,41 @@ import { action, observable } from "mobx";
 export class Setting {
   @observable config: settingType[] = [
     {
-      name: "Виджет задач на главной странице",
-      key: "todoListWidget",
-      value: true,
-    },
-    {
-      name: "Календарь на главной странице",
+      name: "Показывать календарь на главной странице",
       key: "calendar",
       value: true,
+      sort:1
     },
     {
-      name: "Точки задач на календаре",
-      key: "dotsCalendar",
+      name: "Показывать виджет плана ухода на день на главной странице",
+      key: "todoListWidget",
       value: true,
+      sort:2
     },
     {
-      name: "Полный лист задач на главной странице",
+      name: "Показывать полный план ухода на день на главной странице",
       key: "todoListFull",
       value: false,
+      sort:3
     },
     {
-      name:"Очищать задачи, которые старше 30 дней (советуем включить эту настройку)",
-      key:"clearOldTask",
-      value:true
+      name: "Отмечать точками напоминания в календаре",
+      key: "dotsCalendar",
+      value: true,
+      sort:4
     },
     {
-      name:"Показывать точки для задач 'каждый день'",
-      key:'everyDayDots',
-      value:false
-    }
+      name: `Отмечать точками на календаре срадства, используемые ежедневно`,
+      key: "everyDayDots",
+      value: false,
+      sort:5
+    },
+    {
+      name: "Очищать задачи, которые старше 30 дней (советуем включить эту настройку)",
+      key: "clearOldTask",
+      value: true,
+      sort:6
+    },
   ];
 
   @action getConfig() {

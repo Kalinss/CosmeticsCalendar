@@ -11,6 +11,7 @@
   min-height: 100px;
   position: relative;
   border: 1px solid #cccccc;
+  margin-top: 10px;
   &:nth-child(n+3){
     margin-top: 10px;
   }
@@ -33,6 +34,21 @@
   position: absolute;
   right: 15px;
   top: 70px;
+}
+.link{
+  color: white;
+  font-size: 14px;
+
+  &:visited{
+    color: white;
+  }
+}
+.buttonWrap{
+  width: 100%;
+}
+.buttonLink{
+  max-width: 105px;
+  text-align: left;
 }
 @media screen and (max-width:650px) {
   .item{

@@ -1,11 +1,12 @@
 import React from "react";
-import { Content,Page,Header } from "../../components";
+import { Content, Page, Header } from "../../components";
 import { Checkbox } from "semantic-ui-react";
 import style from "./style.scss";
 import { inject, observer } from "mobx-react";
 import { settingComponentType } from "../../types";
 import { settingType } from "../../types";
 import { toggleSettingField } from "../../utils/controlData";
+import { SettingDB } from "../../database/index";
 
 export const Setting: React.FunctionComponent<settingComponentType> = inject(
   "stores"
@@ -33,7 +34,9 @@ export const Setting: React.FunctionComponent<settingComponentType> = inject(
         <Content>
           <h2>Настройки:</h2>
           <ul className={style.list}>
-            {stores!.Setting.config.map((item:any) => settingItem(item))}
+            {stores!.Setting.config
+              .sort((a: settingType, b: settingType) => a.sort - b.sort)
+              .map((item: any) => settingItem(item))}
           </ul>
           <br />
           <br />
@@ -48,6 +51,18 @@ export const Setting: React.FunctionComponent<settingComponentType> = inject(
             <a href="mailto:kalinss16@gmail.com">kalinss16@gmail.com</a>
           </p>
         </Content>
+        <button
+          onClick={() => {
+            SettingDB.getAll()
+              .then((x) => x)
+              .then((x) =>
+                Promise.all(x.map((item: any) => SettingDB.delete(item.key)))
+              )
+              .then(() => alert("Перезагрузите страницу"));
+          }}
+        >
+          delete all setting
+        </button>
       </Page>
     );
   })

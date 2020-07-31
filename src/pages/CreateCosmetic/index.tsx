@@ -137,8 +137,10 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
                 }}
               />
             </div>
-            <div>
+            <div className={style.inputWrapper}>
+                <label className={style.label}>Дата</label>
               <input
+                defaultValue={moment(new Date()).format('YYYY-MM-DD')}
                 type="date"
                 onChange={(event: any) => {
                   itemsCosmetic.setCurrentField({
