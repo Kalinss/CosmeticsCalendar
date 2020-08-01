@@ -78,3 +78,6 @@ export const dateСomparison = (
   }
   return diff % timeDelay === 0;
 };
+
+export const urlFormatDate = (str: string): boolean =>
+  /\d{2}\.\d{2}\.\d{4}/g.test(str.trim());

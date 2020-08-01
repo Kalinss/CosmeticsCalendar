@@ -164,3 +164,8 @@ export const cleaningOldTask = async () => {
     needKeys.map((item: string) => TaskDB.delete(item).then((x) => x))
   );
 };
+
+export const addTask = async (key:string)=>{
+  const allTaskOnDay = await TaskDB.get(key);
+  console.log(allTaskOnDay);
+};

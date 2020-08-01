@@ -1,17 +1,22 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import style from "./style.scss";
 import { taskDB, taskObjectDB } from "types";
 import moment from "moment";
+import { toJS } from "mobx";
 import { ArrowCheck } from "../@decoration/ArrowCheck";
 import classNames from "classnames";
-import { TASKKEY,TaskDB } from "../../database/index";
+import { TASKKEY, TaskDB } from "../../database/index";
 import { inject, observer } from "mobx-react";
 import { deepClone } from "../../utils/other";
 import { getLastStringLocationPath } from "../../utils/string";
-import {MainStore} from "../../stores/index";
+import { MainStore } from "../../stores/index";
+import { Button, Dropdown, DropdownProps, Select } from "semantic-ui-react";
+import { addTask } from "../../utils/controlData";
+import { dataFields } from "../../pages/CreateCosmetic/dataFields";
+import { urlFormatDate } from "../../utils/dates";
 
 type todoListContentProps = {
-    stores?:MainStore
+  stores?: MainStore;
 };
 
 export const TodoListContent: React.FunctionComponent<todoListContentProps> = inject(
@@ -19,6 +24,13 @@ export const TodoListContent: React.FunctionComponent<todoListContentProps> = in
 )(
   observer(({ stores }) => {
     const items = stores!.Task.taskState;
+    const pathname = getLastStringLocationPath(location.pathname);
+    const [selectValue, setSelectValue] = useState(1);
+    const refInput = useRef() as React.MutableRefObject<HTMLInputElement>;
+    const refSelect = useRef() as React.MutableRefObject<HTMLDivElement>;
+    const date = urlFormatDate(pathname)
+      ? moment(pathname, "DD.MM.YYYY")
+      : moment(new Date());
     const closeTask = (e: any, day: boolean) => {
       const task = stores!.Task;
       const name =
@@ -36,7 +48,6 @@ export const TodoListContent: React.FunctionComponent<todoListContentProps> = in
         ? "сегодня"
         : chosenDate;
     };
-
     const dayTask = items!.task.filter(
       (item) => item.dayOrEvening.value == 1 || item.dayOrEvening.value == 2
     );
@@ -140,6 +151,77 @@ export const TodoListContent: React.FunctionComponent<todoListContentProps> = in
                     </ul>
                   </>
                 )}
+              </div>
+              <div className={style.addTask}>
+                <h2 className={style.h2}>Новая задача на сегодня:</h2>
+                <div className={style.addTaskWrapper}>
+                  <input
+                    type="text"
+                    placeholder="Новая задача"
+                    className={style.inputAdd}
+                    ref={refInput}
+                  />
+                  <div className={style.selectWrapper} ref={refSelect}>
+                    <Select
+                      size="mini"
+                      className={style.selectAdd}
+                      placeholder="Утро и вечер"
+                      options={dataFields.dayTime}
+                      defaultValue={1}
+                      onChange={(e, data) => {
+                        setSelectValue(data.value as number);
+                      }}
+                    />
+                    <Button
+                      color="green"
+                      onClick={(e) => {
+                        TaskDB.get(date.format(TASKKEY))
+                          .then((x) => {
+                            const newCollection = x;
+                            const text = refInput!.current!.value;
+                            const value = selectValue;
+                            newCollection.task.push({
+                              name: text,
+                              description: "",
+                              timingDelay: {
+                                value: -1,
+                                text: "",
+                              },
+                              dayOrEvening: {
+                                value: value,
+                                text: "",
+                              },
+                              type: {
+                                value: 9999,
+                                text: "",
+                              },
+                              date: date.toDate(),
+                              closed: {
+                                day: false,
+                                evening: false,
+                              },
+                            });
+                            return newCollection;
+                          })
+                          .then((data) => {
+                            const item = data.task.find(
+                              (item: taskObjectDB) =>
+                                item.name === refInput!.current!.value
+                            );
+                            TaskDB.delete(date.format(TASKKEY))
+                              .then(() =>
+                                TaskDB.set(date.format(TASKKEY), data)
+                              )
+                              .then(() => {
+                                stores!.Task.taskState!.task.push(item);
+                              });
+                          });
+                      }}
+                    >
+                      Добавить
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
           ) : (
