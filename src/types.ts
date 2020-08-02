@@ -54,6 +54,7 @@ export type GenerateTableCalendarType = {
   actuallyDate: Date;
   allDisabled: boolean;
   itemsCosmetic: itemCosmeticPrimaryType[];
+  settings:settingType[]
 };
 
 export interface taskObjectDB extends itemCosmeticPrimaryType {

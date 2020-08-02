@@ -1,0 +1,20 @@
+@import "../../../styles/variables";
+.list{
+  width: 100%;
+}
+.item{
+  display: flex;
+  align-items: center;
+  padding-left:5px;
+  margin-bottom:10px;
+}
+.name{
+  font-weight: 400  ;
+  font-size: 18px;
+  margin-right: 10px;
+}
+.info{
+  padding: 0 5px;
+  color:$first-color;
+  font-size: 14px;
+}

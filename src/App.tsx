@@ -7,13 +7,13 @@ import {
   TodoList,
   Setting,
   CalendarPage,
-} from "./pages/index";
+} from "./components/pages/index";
 import "./styles/reset.scss";
 import "semantic-ui-css/semantic.min.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Provider } from "mobx-react";
-import { Upload } from "./components/index";
 import stores from "./stores/store";
+import {toJS} from 'mobx';
 import {
   uploadSetting,
   openCollections,
@@ -36,13 +36,16 @@ export const App: React.FunctionComponent = () => {
       .then(() => openCollections())
       .then(() => uploadSetting())
       .then(() => cleaningOldTask())
+      .then(() => stores.ItemsCosmetic.loadAllItemsFromDB())// todo вынести в контроллер
       .then(() => setLoader(false));
   }, []);
+
 
   return (
     <Provider stores={stores}>
       <Loader>
-        <Upload>
+        <button onClick={()=>{
+          console.log(toJS(stores.Setting.config));}}>444444444444444</button>
           <Router>
             <Switch>
               <Route path="/items">
@@ -68,7 +71,6 @@ export const App: React.FunctionComponent = () => {
               </Route>
             </Switch>
           </Router>
-        </Upload>
       </Loader>
     </Provider>
   );

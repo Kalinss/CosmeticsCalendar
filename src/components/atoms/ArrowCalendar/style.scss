@@ -1,0 +1,10 @@
+@import "../../../styles/variables";
+.svg {
+  cursor: pointer;
+  fill: $first-color;
+  transition: 0.3s ease;
+
+  &:hover {
+    fill: $second-color;
+  }
+}

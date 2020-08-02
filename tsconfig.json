@@ -10,12 +10,7 @@
     "baseUrl": "./src",
     "experimentalDecorators": true,
     "paths": {
-      "types": ["./types.ts"],
-      "components": ["./components/index.ts"],
-      "pages": ["./pages/index.ts"],
-      "utils": ["./utils/*"],
-      "database": ["./database/index.ts"],
-      "stores": ["./stores/index.ts"]
+      "types": ["./types.ts"]
     },
     "typeRoots": ["node_modules/@types"],
     "allowSyntheticDefaultImports": true,
