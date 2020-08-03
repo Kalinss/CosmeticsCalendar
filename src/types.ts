@@ -101,3 +101,9 @@ export interface createCosmeticComponentProps extends controlDataObject {
 export type settingComponentType = {
   stores?:MainStore,
 }
+export type formDataType = {
+  field:string;
+  value?: string | number | Date;
+  error?: string;
+  text?: string;
+}

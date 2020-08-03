@@ -7,7 +7,7 @@ import { TaskDB } from "../../../database";
 import { dateСomparison } from "../../../utils/dates";
 import { itemCosmeticPrimaryType } from "types";
 import { inject, observer } from "mobx-react";
-
+// todo refactoring
 export const TodoList: React.FunctionComponent<IMainStore> = inject("stores")(
   observer(({ stores }) => {
     const [loading, setLoading] = useState(true);

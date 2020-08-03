@@ -6,3 +6,4 @@ export { Logo } from "./Logo/index";
 export { RemoveButton } from "./RemoveButton/index";
 export { Settings } from "./Settings/index";
 export { CalendarTableCell } from "./CalendarTableCell/index";
+export {FormLabel} from './FormLabel/index'

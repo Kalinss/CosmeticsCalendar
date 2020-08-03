@@ -68,6 +68,7 @@ export const App: React.FunctionComponent = () => {
               </Route>
               <Route path="/calendar">
                 <CalendarPage />
+                {/*+*/}
               </Route>
             </Switch>
           </Router>

@@ -1,10 +1,10 @@
 import { expendedItemType, itemCosmeticPrimaryType } from "types";
 import { deepClone, toPrimitiveType } from "../utils/other";
-import { CosmeticItemsModelDB,TaskDB,SettingDB } from "../database";
+import { CosmeticItemsModelDB, TaskDB, SettingDB } from "../database";
 import stores from "./../stores/store";
 import { openDB } from "idb";
 import { taskDBType } from "types";
-import {  dateСomparison } from "../utils/dates";
+import { dateСomparison } from "../utils/dates";
 import moment from "moment";
 
 import {
@@ -108,8 +108,7 @@ export const toggleSettingField = async (key: string) => {
 export const uploadSetting = async () => {
   // upload new setting in DB
   const storesSetting = stores.Setting.config;
-  const SettingDBItems = await SettingDB
-    .getAll()
+  const SettingDBItems = await SettingDB.getAll()
     .then((x) => x)
     .catch(console.log);
   const saveValueInStore = () => {
@@ -146,6 +145,13 @@ export const openCollections = async () => {
   return create;
 };
 
+export const updateTask = async (key: string, data: itemCosmeticPrimaryType) => {
+  const result = await CosmeticItemsModelDB.delete(key).then(() =>
+    CosmeticItemsModelDB.set(key, deepClone(data))
+  );
+  return result;
+};
+
 export const cleaningOldTask = async () => {
   const setting = await SettingDB.get("clearOldTask");
   if (!setting.value) return;
@@ -165,7 +171,7 @@ export const cleaningOldTask = async () => {
   );
 };
 
-export const addTask = async (key:string)=>{
+export const addTask = async (key: string) => {
   const allTaskOnDay = await TaskDB.get(key);
   console.log(allTaskOnDay);
 };
