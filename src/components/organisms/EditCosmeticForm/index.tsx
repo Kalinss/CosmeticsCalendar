@@ -1,5 +1,5 @@
 import React from "react";
-import style from "../../pages/CreateCosmetic/style.scss";
+import style from "./style.scss";
 import { DropdownProps, Form, Button } from "semantic-ui-react";
 import { itemCosmeticPrimaryType, formDataType } from "types";
 import { dataFields } from "../../pages/CreateCosmetic/dataFields";

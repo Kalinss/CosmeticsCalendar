@@ -1,0 +1,19 @@
+.errorText{
+  color: #db4d4d;
+  font-size: 12px;
+  position:absolute;
+  bottom:-20px;
+  transition:0.3s ease;
+}
+.error{
+  transition: all 0.3s ease !important;
+}
+.label{
+  margin-bottom: 3px;
+}
+.errorInput input{
+  border: 1px solid #db4d4d !important;
+  background-color: #fff6f6;
+  box-shadow: none;
+  transition: all 0.3s ease !important;
+}

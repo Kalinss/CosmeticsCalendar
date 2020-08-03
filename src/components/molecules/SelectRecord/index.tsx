@@ -7,21 +7,21 @@ import { StrictSelectProps } from "semantic-ui-react/dist/commonjs/addons/Select
 
 type typeSelectRecord = {
   label: string;
-  defaultValue: string | number;
-  changeHandler: (
-    e: React.SyntheticEvent<HTMLElement, Event>,
-    data: DropdownProps
-  ) => void;
   placeholder: string;
   options: DropdownItemProps[];
+  defaultValue?: string | number;
+  changeHandler?: (
+      e: React.SyntheticEvent<HTMLElement, Event>,
+      data: DropdownProps
+  ) => void;
   classComponent?: string;
 };
 export const SelectRecord: React.FC<typeSelectRecord> = ({
   label,
   defaultValue,
-  changeHandler,
   placeholder,
   options,
+  changeHandler = () => {},
   classComponent = "",
 }) => {
   return (
