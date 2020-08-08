@@ -5,15 +5,28 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import { EditButton, RemoveButton } from "../../atoms/index";
 import { CosmeticItemsModelDB } from "../../../database";
-import { updateTaskAfterDeleteItem } from "../../../utils/controlData";
-import { IMainStore } from "../../../stores";
+import { updateTaskAfterDeleteItem } from "../../../controller";
+import { MainStore } from "../../../stores";
 import { toJS } from "mobx";
 import { Page } from "../Page";
 import { Content } from "../Content";
+import { itemCosmeticPrimaryType } from "types";
 
-export const ItemsCosmeticTemplate: React.FC<IMainStore> = ({ stores }) => {
+type ItemsCosmeticTemplate = {
+  stores: MainStore;
+  deleteHandler?: (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    data: itemCosmeticPrimaryType
+  ) => void;
+};
+
+export const ItemsCosmeticTemplate: React.FC<ItemsCosmeticTemplate> = ({
+  stores,
+  deleteHandler = () => {},
+}) => {
   const itemsCosmetic = stores!.ItemsCosmetic;
   const items = toJS(stores!.ItemsCosmetic.items);
+
   return (
     <Page>
       <Content>
@@ -57,18 +70,7 @@ export const ItemsCosmeticTemplate: React.FC<IMainStore> = ({ stores }) => {
                 </div>
                 <div
                   className={styles.buttonWrapperRemove}
-                  onClick={() => {
-                    const confirm: any = window.confirm(
-                      "Вы уверены, что хотите удалить этот элемент?"
-                    );
-                    if (confirm) {
-                      CosmeticItemsModelDB.delete(item.name.trim())
-                        .then(() => updateTaskAfterDeleteItem(item))
-                        .then(() => itemsCosmetic.deleteItem(item.name));
-                      alert("Успешно удалено");
-                    }
-                    return;
-                  }}
+                  onClick={(e) => deleteHandler(e, item)}
                 >
                   <RemoveButton />
                 </div>

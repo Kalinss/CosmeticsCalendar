@@ -19,7 +19,7 @@ import {
   openCollections,
   createCollections,
   cleaningOldTask,
-} from "./utils/controlData";
+} from "./controller";
 
 export const App: React.FunctionComponent = () => {
   const [loader, setLoader] = useState(true);
@@ -68,7 +68,6 @@ export const App: React.FunctionComponent = () => {
               </Route>
               <Route path="/calendar">
                 <CalendarPage />
-                {/*+*/}
               </Route>
             </Switch>
           </Router>

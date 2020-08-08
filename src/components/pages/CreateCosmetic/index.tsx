@@ -11,7 +11,7 @@ import { expendedItemType, formDataType } from "types";
 import {
   saveInDBNewItemCosmetic,
   updateTaskAfterNewItem,
-} from "../../../utils/controlData";
+} from "../../../controller";
 
 export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
   observer(({ stores }) => {

@@ -2,7 +2,7 @@ import React from "react";
 import style from "./style.scss";
 import { DropdownProps, Form, Button } from "semantic-ui-react";
 import { itemCosmeticPrimaryType, formDataType } from "types";
-import { dataFields } from "../../pages/CreateCosmetic/dataFields";
+import { dataFields } from "../../../utils/mocks/dataFields";
 import moment from "moment";
 import {
   TextAreaRecord,

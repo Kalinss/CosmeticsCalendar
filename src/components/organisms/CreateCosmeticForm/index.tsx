@@ -15,12 +15,12 @@ import {
   Select,
   TextArea,
 } from "semantic-ui-react";
-import { dataFields } from "../../pages/CreateCosmetic/dataFields";
+import { dataFields } from "../../../utils/mocks/dataFields";
 import moment from "moment";
 import {
   saveInDBNewItemCosmetic,
   updateTaskAfterNewItem,
-} from "../../../utils/controlData";
+} from "../../../controller";
 import { expendedItemType, formDataType } from "types";
 import { MainStore } from "../../../stores";
 import {
@@ -111,6 +111,7 @@ export const CreateCosmeticForm: React.FC<CreateCosmeticForm> = ({
             options={dataFields.dayTime}
             changeHandler={selectChangeHandler(changeHandler)("dayOrEvening")}
           />
+
           <SelectRecord
             placeholder={dataFields.priority[0].text}
             classComponent={style.inputWrapper}
@@ -118,6 +119,7 @@ export const CreateCosmeticForm: React.FC<CreateCosmeticForm> = ({
             options={dataFields.priority}
             changeHandler={selectChangeHandler(changeHandler)("type")}
           />
+
           <DataRecord
             label="Дата"
             defaultValue={new Date()}

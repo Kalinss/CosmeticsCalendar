@@ -73,7 +73,7 @@ export const toPrimitiveType = (item: expendedItemType): itemCosmeticPrimaryType
         date: item.date.value as Date,
     };
 }
-//todo-delete -> move other utils
+
 export const toExpandedType = (item:itemCosmeticPrimaryType):expendedItemType =>{
     return {
         name: {
@@ -108,3 +108,5 @@ export const toExpandedType = (item:itemCosmeticPrimaryType):expendedItemType =>
         },
     };
 }
+
+

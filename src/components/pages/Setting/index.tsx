@@ -4,7 +4,7 @@ import { Checkbox } from "semantic-ui-react";
 import style from "./style.scss";
 import { inject, observer } from "mobx-react";
 import { settingComponentType , settingType } from "types";
-import { toggleSettingField } from "../../../utils/controlData";
+import { toggleSettingField } from "../../../controller";
 import { SettingDB } from "../../../database";
 
 export const Setting: React.FunctionComponent<settingComponentType> = inject(

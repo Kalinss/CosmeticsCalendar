@@ -10,7 +10,7 @@ import { deepClone } from "../../../utils/other";
 import { getLastStringLocationPath } from "../../../utils/string";
 import { MainStore } from "../../../stores";
 import { Button, Select } from "semantic-ui-react";
-import { dataFields } from "../../pages/CreateCosmetic/dataFields";
+import { dataFields } from "../../../utils/mocks/dataFields";
 import { urlFormatDate } from "../../../utils/dates";
 
 type todoListContentProps = {

@@ -13,9 +13,9 @@ import {
   formDataType,
   itemCosmeticPrimaryType,
 } from "types";
-import { updateTask } from "../../../utils/controlData";
+import { updateTask } from "../../../controller";
 import { deepClone, toPrimitiveType } from "../../../utils/other";
-import { updateTaskAfterUpdateItem } from "../../../utils/controlData";
+import { updateTaskAfterUpdateItem } from "../../../controller";
 import { CosmeticItemsModelDB } from "../../../database";
 
 export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(

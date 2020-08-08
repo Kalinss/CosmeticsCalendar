@@ -1,11 +1,12 @@
 import { expendedItemType, itemCosmeticPrimaryType } from "types";
 import { deepClone, toPrimitiveType } from "../utils/other";
 import { CosmeticItemsModelDB, TaskDB, SettingDB } from "../database";
-import stores from "./../stores/store";
+import stores from "../stores/store";
 import { openDB } from "idb";
 import { taskDBType } from "types";
 import { dateСomparison } from "../utils/dates";
 import moment from "moment";
+import { urlFormatDate } from "../utils/dates";
 
 import {
   TASKKEY,
@@ -19,23 +20,31 @@ import {
 export const updateTaskAfterUpdateItem = async (
   object: itemCosmeticPrimaryType
 ) => {
-  const createDateItem = moment(object.date).format(TASKKEY);
   const items = await TaskDB.getAll();
-  let closedObject: { day: boolean; evening: boolean };
-
-  const itemsNeeded: taskDBType[] = items.filter((item: taskDBType) =>
-    dateСomparison(item.date, object.date as Date, object.timingDelay.value)
-  );
-
-  const newItems = itemsNeeded.map((item: taskDBType) => {
-    return {
-      task: [
-        ...item.task.map((task) =>
-          object.name === task.name ? { ...object, closed: task.closed } : task
-        ),
-      ],
-      date: item.date,
-    };
+  const newItems = items.map((item: taskDBType) => {
+    if (
+      !dateСomparison(item.date, object.date as Date, object.timingDelay.value)
+    ) {
+      return {
+        task: [...item.task.filter((x: any) => x.name !== object.name)],
+        date: item.date,
+      };
+    } else {
+      const exist = item.task.find((x) => x.name === object.name);
+      if (exist) {
+        return {
+          task: [...item.task],
+          date: item.date,
+        };
+      }
+      return {
+        task: [
+          ...item.task,
+          { ...object, closed: { day: false, evening: false } },
+        ],
+        date: item.date,
+      };
+    }
   });
 
   const promises = await Promise.all(
@@ -145,7 +154,16 @@ export const openCollections = async () => {
   return create;
 };
 
-export const updateTask = async (key: string, data: itemCosmeticPrimaryType) => {
+export const deleteItemCosmetic = async (data: itemCosmeticPrimaryType) => {
+  return await CosmeticItemsModelDB.delete(data.name.trim())
+    .then(() => updateTaskAfterDeleteItem(data))
+    .then(() => stores!.ItemsCosmetic.deleteItem(data.name));
+};
+
+export const updateTask = async (
+  key: string,
+  data: itemCosmeticPrimaryType
+) => {
   const result = await CosmeticItemsModelDB.delete(key).then(() =>
     CosmeticItemsModelDB.set(key, deepClone(data))
   );
@@ -171,7 +189,49 @@ export const cleaningOldTask = async () => {
   );
 };
 
+export const onloadTaskForDate = async (str: string) => {
+  //  DD.MM.YYYY format
+  const key = urlFormatDate(str) ? moment(str, "L") : moment(new Date());
+
+  return await TaskDB.get(key.format("YYYYMMDD")).then((item) => {
+    if (!item) {
+      // if task not found => create task and save him in BD
+      const itemsCosmetic = stores!.ItemsCosmetic.items;
+
+      if (!itemsCosmetic) return false;
+
+      const desiredDate = key.toDate();
+
+      const arr = stores!.ItemsCosmetic.items.filter((item: any) => {
+        return dateСomparison(desiredDate, item.date, item.timingDelay.value);
+      });
+
+      TaskDB.set(key.format("YYYYMMDD"), {
+        task: arr.map((item: itemCosmeticPrimaryType) =>
+          deepClone({
+            ...item,
+            closed: { day: false, evening: false },
+          })
+        ),
+        date: desiredDate,
+      });
+
+      stores!.Task.setState({
+        task: arr.map((item: itemCosmeticPrimaryType) => ({
+          ...item,
+          closed: { day: false, evening: false },
+        })),
+        date: desiredDate,
+      });
+    } else {
+      stores!.Task.setState({
+        task: [...item.task],
+        date: item.date,
+      });
+    }
+  });
+};
+
 export const addTask = async (key: string) => {
   const allTaskOnDay = await TaskDB.get(key);
-  console.log(allTaskOnDay);
 };

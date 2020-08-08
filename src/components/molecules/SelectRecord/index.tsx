@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./style.scss";
 import { DropdownItemProps, DropdownProps, Select } from "semantic-ui-react";
-import { dataFields } from "../../pages/CreateCosmetic/dataFields";
+import { dataFields } from "../../../utils/mocks/dataFields";
 import { FormLabel } from "../../atoms/FormLabel";
 import { StrictSelectProps } from "semantic-ui-react/dist/commonjs/addons/Select";
 
