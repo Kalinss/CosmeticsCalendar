@@ -18,12 +18,14 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
     const itemsCosmetic = stores!.ItemsCosmetic;
     const [buttonFormDisabled, setButtonFormDisabled] = useState(true);
     const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
+    const [isOpenAlert, setOpenAlert] = useState(false);
+    const [currentName, setCurrentName] = useState("");
 
     const nameFieldChange = (e: React.SyntheticEvent) => {
       const value = (e.target as HTMLInputElement).value.trim();
       const empty = isNotEmpty(value);
-      itemsCosmetic.setCurrentField({ field: "name", error: "" });
 
+      itemsCosmetic.setCurrentField({ field: "name", error: "" });
       if (empty) {
         itemsCosmetic.setCurrentField({
           field: "name",
@@ -47,6 +49,7 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
             value: value,
             error: "",
           });
+          setCurrentName(value);
           setButtonFormDisabled(false);
         }
         forceUpdate();
@@ -64,14 +67,16 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
       forceUpdate();
     };
 
+    const popupConfirmation = () => {
+      setOpenAlert(false);
+      window.location.href = "/items";
+    };
+
     const buttonClick = () => {
       saveInDBNewItemCosmetic(itemsCosmetic!.currentItem as expendedItemType)
         .then(() => updateTaskAfterNewItem())
-        .then(() => {
-          itemsCosmetic.clearCurrentItem();
-          alert("Успешно добавленно");
-          window.location.href = "/items";
-        });
+        .then(() => itemsCosmetic.clearCurrentItem())
+        .then(() => setOpenAlert(true));
     };
 
     return (
@@ -81,6 +86,9 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
         disabledButton={buttonFormDisabled}
         error={itemsCosmetic.currentItem.name.error || ""}
         clickHandler={buttonClick}
+        isOpenAlert={isOpenAlert}
+        popupHandler={popupConfirmation}
+        cosmeticName={currentName}
       />
     );
   })

@@ -1,28 +1,38 @@
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import styles from "../../pages/ItemsCosmeticList/style.scss";
 import { Button } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { EditButton, RemoveButton } from "../../atoms/index";
-import { CosmeticItemsModelDB } from "../../../database";
-import { updateTaskAfterDeleteItem } from "../../../controller";
 import { MainStore } from "../../../stores";
 import { toJS } from "mobx";
 import { Page } from "../Page";
 import { Content } from "../Content";
 import { itemCosmeticPrimaryType } from "types";
+import { Alert } from "../../organisms/index";
+import { Confirm } from "../../organisms/index";
 
 type ItemsCosmeticTemplate = {
   stores: MainStore;
+  alertHandler: VoidFunction;
+  itemName: string;
   deleteHandler?: (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     data: itemCosmeticPrimaryType
   ) => void;
+  confirmHandler: (e: SyntheticEvent<HTMLButtonElement, Event>) => void;
+  isAlertOpen?: boolean;
+  isConfirmOpen?: boolean;
 };
 
 export const ItemsCosmeticTemplate: React.FC<ItemsCosmeticTemplate> = ({
   stores,
   deleteHandler = () => {},
+  alertHandler = () => {},
+  confirmHandler = () => ({}),
+  itemName = "",
+  isAlertOpen = false,
+  isConfirmOpen = false,
 }) => {
   const itemsCosmetic = stores!.ItemsCosmetic;
   const items = toJS(stores!.ItemsCosmetic.items);
@@ -38,7 +48,6 @@ export const ItemsCosmeticTemplate: React.FC<ItemsCosmeticTemplate> = ({
             </Link>
           </Button>
         </div>
-
         <ul className={styles.list}>
           {items.map((item, i) => (
             <li key={i} className={styles.item}>
@@ -78,6 +87,19 @@ export const ItemsCosmeticTemplate: React.FC<ItemsCosmeticTemplate> = ({
             </li>
           ))}
         </ul>
+        <Alert
+          description="Успешно удалено"
+          buttonName="Ок"
+          title={itemName}
+          clickHandler={alertHandler}
+          isOpen={isAlertOpen}
+        />
+        <Confirm
+          description={`Вы уверены что хотите удалить "${itemName}"?`}
+          title={"Удаление"}
+          isOpen={isConfirmOpen}
+          clickHandler={confirmHandler}
+        />
       </Content>
     </Page>
   );

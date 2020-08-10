@@ -4,6 +4,7 @@ import style from "./style.scss";
 import { CreateCosmeticForm } from "../../organisms/index";
 import { MainStore } from "../../../stores";
 import { formDataType } from "types";
+import { Alert } from "../../organisms/index";
 
 type CreateCosmeticTemplate = {
   stores: MainStore;
@@ -11,6 +12,9 @@ type CreateCosmeticTemplate = {
   changeHandler: (e: any, data: formDataType) => void;
   error: string;
   clickHandler: VoidFunction;
+  isOpenAlert?: boolean;
+  popupHandler?: VoidFunction;
+  cosmeticName?: string;
 };
 
 export const CreateCosmeticTemplate: React.FC<CreateCosmeticTemplate> = ({
@@ -19,6 +23,9 @@ export const CreateCosmeticTemplate: React.FC<CreateCosmeticTemplate> = ({
   changeHandler,
   error,
   clickHandler,
+  popupHandler,
+  isOpenAlert,
+  cosmeticName,
 }) => {
   return (
     <Page>
@@ -30,6 +37,13 @@ export const CreateCosmeticTemplate: React.FC<CreateCosmeticTemplate> = ({
           error={error}
           clickHandler={clickHandler}
         />
+        <Alert
+          buttonName="Ок"
+          description="Успешно добавлено"
+          title={cosmeticName || "Новая косметика"}
+          isOpen={isOpenAlert}
+          clickHandler={popupHandler}
+        ></Alert>
       </Content>
     </Page>
   );

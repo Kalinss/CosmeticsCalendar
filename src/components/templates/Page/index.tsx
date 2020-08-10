@@ -9,7 +9,7 @@ export const Page: FunctionComponent<IMainStore> = ({ children }) => {
       <div className={style.page}>
         <div className={style.wrapper}>
           <>
-            {/*<Header />*/}
+            <Header />
             {children}
           </>
         </div>

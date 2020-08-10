@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState, useMemo } from "react";
 import style from "./style.scss";
 import { toJS } from "mobx";
 import {
@@ -28,8 +28,10 @@ export const Calendar: FunctionComponent<IMainStore> = ({ stores }) => {
   const prevMonth = moment(actuallyDate).subtract(1, "M").toDate();
   const nextMonth = moment(actuallyDate).add(1, "M").toDate();
 
-  const arrayDays = createArrayObjectDays(actuallyDate);
-  const dimensionalDateArray = getTwoDimensionalArray(arrayDays, 7);
+  const dimensionalDateArray = useMemo(
+    () => getTwoDimensionalArray(createArrayObjectDays(actuallyDate), 7),
+    [actuallyDate]
+  );
   const actuallyDateMonthName = getUpperFirstCharString(
     moment(actuallyDate).locale("ru").format("MMMM")
   );

@@ -1,13 +1,6 @@
 import React, { useState } from "react";
 import style from "./style.scss";
 import {
-  alreadyIdExistsInDB,
-  getErrorValidation,
-  isNotEmpty,
-} from "../../../utils/validation";
-import { Page } from "../../templates/Page";
-import { Content } from "../../templates/Content";
-import {
   Button,
   DropdownProps,
   Form,
@@ -17,10 +10,6 @@ import {
 } from "semantic-ui-react";
 import { dataFields } from "../../../utils/mocks/dataFields";
 import moment from "moment";
-import {
-  saveInDBNewItemCosmetic,
-  updateTaskAfterNewItem,
-} from "../../../controller";
 import { expendedItemType, formDataType } from "types";
 import { MainStore } from "../../../stores";
 import {
@@ -29,7 +18,6 @@ import {
   TextAreaRecord,
   InputRecord,
 } from "../../molecules/index";
-import classNames from "classnames";
 type typeFieldChangeHandler = (e: any, data: formDataType) => any;
 
 type CreateCosmeticForm = {
@@ -46,8 +34,7 @@ export const CreateCosmeticForm: React.FC<CreateCosmeticForm> = ({
   error = "",
   clickHandler = () => {},
 }) => {
-  const itemsCosmetic = stores!.ItemsCosmetic!;
-  const stateItem = stores!.ItemsCosmetic!.currentItem;
+  const [currentName, setCurrentName] = useState("");
 
   const selectChangeHandler = (callback: typeFieldChangeHandler) => (
     field: string
@@ -62,83 +49,82 @@ export const CreateCosmeticForm: React.FC<CreateCosmeticForm> = ({
   };
 
   return (
-    <Page>
-      <Content>
-        <h1 className={style.h1}>Создание косметики</h1>
-        <Form className={style.form}>
-          <InputRecord
-            label="Название"
-            error={error}
-            blurHandler={(e) => {
-              changeHandler(e, {
-                field: "name",
-                value: e.target.value,
-                text: "",
-                error: "",
-              });
-            }}
-            classComponent={style.inputWrapper}
-            placeholder={dataFields.name}
-          />
+    <>
+      <h1 className={style.h1}>Создание косметики</h1>
+      <Form className={style.form}>
+        <InputRecord
+          label="Название"
+          error={error}
+          blurHandler={(e) => {
+            setCurrentName(e.target.value);
+            changeHandler(e, {
+              field: "name",
+              value: e.target.value,
+              text: "",
+              error: "",
+            });
+          }}
+          classComponent={style.inputWrapper}
+          placeholder={dataFields.name}
+        />
 
-          <TextAreaRecord
-            label={"Описание"}
-            classComponent={style.inputWrapper}
-            placeholder={dataFields.description}
-            blurHandler={(e) => {
-              const data = {
-                field: "description",
-                value: e.target.value,
-                text: "",
-                error: "",
-              };
-              changeHandler(e, data);
-            }}
-          />
+        <TextAreaRecord
+          label={"Описание"}
+          classComponent={style.inputWrapper}
+          placeholder={dataFields.description}
+          blurHandler={(e) => {
+            const data = {
+              field: "description",
+              value: e.target.value,
+              text: "",
+              error: "",
+            };
+            changeHandler(e, data);
+          }}
+        />
 
-          <SelectRecord
-            placeholder="2 дня"
-            classComponent={style.inputWrapper}
-            label="Повторять каждые"
-            options={dataFields.days}
-            changeHandler={selectChangeHandler(changeHandler)("timingDelay")}
-          />
+        <SelectRecord
+          placeholder="2 дня"
+          classComponent={style.inputWrapper}
+          label="Повторять каждые"
+          options={dataFields.days}
+          changeHandler={selectChangeHandler(changeHandler)("timingDelay")}
+        />
 
-          <SelectRecord
-            placeholder="Утро и вечер"
-            classComponent={style.inputWrapper}
-            label="Время дня:"
-            options={dataFields.dayTime}
-            changeHandler={selectChangeHandler(changeHandler)("dayOrEvening")}
-          />
+        <SelectRecord
+          placeholder="Утро и вечер"
+          classComponent={style.inputWrapper}
+          label="Время дня:"
+          options={dataFields.dayTime}
+          changeHandler={selectChangeHandler(changeHandler)("dayOrEvening")}
+        />
 
-          <SelectRecord
-            placeholder={dataFields.priority[0].text}
-            classComponent={style.inputWrapper}
-            label="Тип косметики"
-            options={dataFields.priority}
-            changeHandler={selectChangeHandler(changeHandler)("type")}
-          />
+        <SelectRecord
+          placeholder={dataFields.priority[0].text}
+          classComponent={style.inputWrapper}
+          label="Тип косметики"
+          options={dataFields.priority}
+          changeHandler={selectChangeHandler(changeHandler)("type")}
+        />
 
-          <DataRecord
-            label="Дата"
-            defaultValue={new Date()}
-            classComponent={style.inputWrapper}
-            changeHandler={(e) => {
-              const result = {
-                field: "date",
-                value: moment(e.target.value).set({ hour: 15 }).toDate(),
-                text: (e.target as HTMLDivElement).innerText,
-                error: "",
-              };
-              changeHandler(e, result);
-            }}
-          />
-          <Button secondary disabled={disabled} onClick={clickHandler}>
-            Добавить
-          </Button>
-        </Form>
-      </Content>
-    </Page>
+        <DataRecord
+          label="Дата"
+          defaultValue={new Date()}
+          classComponent={style.inputWrapper}
+          changeHandler={(e) => {
+            const result = {
+              field: "date",
+              value: moment(e.target.value).set({ hour: 15 }).toDate(),
+              text: (e.target as HTMLDivElement).innerText,
+              error: "",
+            };
+            changeHandler(e, result);
+          }}
+        />
+        <Button secondary disabled={disabled} onClick={clickHandler}>
+          Добавить
+        </Button>
+      </Form>
+    </>
   );
 };
