@@ -22,6 +22,11 @@ export const Header = () => {
     }
   };
 
+  const clickMenu = () => {
+    close();
+    setTimeout(() => setVisible(false), animationDuration * 1000);
+  };
+
   useEffect(() => {
     setHeightMenu(`-${getComputedStyle(menu.current!).height}`);
   }, []);
@@ -45,7 +50,7 @@ export const Header = () => {
         }}
         ref={menu}
       >
-        <Menu />
+        <Menu clickHandler={clickMenu}/>
       </div>
     </header>
   );
