@@ -15,7 +15,7 @@ export const Main: FunctionComponent<IMainStore> = inject("stores")(
   observer(({ stores }) => {
     const [loading, setLoading] = useState(true);
     const currentTask = stores!.Task.getState();
-
+    stores!.Setting.config
     const load = async () => {
       const path = window.location.pathname.trim();
       const dateString = getLastStringLocationPath(path);
@@ -32,6 +32,5 @@ export const Main: FunctionComponent<IMainStore> = inject("stores")(
     }, []);
 
     return loading ? <LoaderComponent/> : <MainTemplate stores={stores!} />;
-      {/*<MainTemplate stores={stores!} />*/}
   })
 );

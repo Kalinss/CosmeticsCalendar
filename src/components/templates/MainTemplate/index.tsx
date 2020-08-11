@@ -7,6 +7,7 @@ import {
   TodoListContent,
 } from "../../index";
 import { Calendar } from "../../organisms/Calendar";
+import {toJS} from 'mobx';
 
 type typeMainTemplate = {
   stores: MainStore;
@@ -14,19 +15,24 @@ type typeMainTemplate = {
 
 export const MainTemplate: React.FC<typeMainTemplate> = ({ stores }) => {
   stores!.Setting.config;
-
-  const getField = (
+  console.log(toJS(stores!.Setting.config));
+  const isViewField = (
     key: string // checks that store has a field
-  ) => stores!.Setting.config.find((item) => item.key === key);
+  ) => {
+    const result = stores!.Setting.config.find((item) => item.key === key);
+    if(!(result)) return false;
+    return result.value
+  };
 
   const TodayWidgetWrap = () =>
-    getField("todoListWidget") ? <TodayWidgetTodoList /> : <></>;
+      isViewField("todoListWidget") ? <TodayWidgetTodoList /> : <></>;
 
   const CalendarWrap = () =>
-    getField("calendar") ? <Calendar stores={stores} /> : <></>;
+      isViewField("calendar") ? <Calendar stores={stores} /> : <></>;
 
-  const FullTodoListWrap = () =>
-    getField("todoListFull") ? <TodoListContent /> : <></>;
+  const FullTodoListWrap = () =>isViewField("todoListFull") ? <TodoListContent /> : <></>;
+
+
 
   return (
     <Page>
