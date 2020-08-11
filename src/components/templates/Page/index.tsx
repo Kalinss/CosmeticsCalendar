@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from "react";
 import style from "./style.scss";
 import { IMainStore } from "../../../stores";
-import { Header } from "../../organisms";
 
 export const Page: FunctionComponent<IMainStore> = ({ children }) => {
   return (
@@ -9,7 +8,6 @@ export const Page: FunctionComponent<IMainStore> = ({ children }) => {
       <div className={style.page}>
         <div className={style.wrapper}>
           <>
-            <Header />
             {children}
           </>
         </div>

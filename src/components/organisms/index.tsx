@@ -6,3 +6,5 @@ export { TodoListContent } from "./TodoListContent/index";
 export { CreateCosmeticForm } from "./CreateCosmeticForm/index";
 export { Alert } from "./Popup/Alert/index";
 export { Confirm } from "./Popup/Confirm/index";
+export {Preloader} from './Preloader/index';
+import {LoaderComponent} from "./Loader/index";

@@ -9,6 +9,7 @@ import { dateСomparison } from "../../../utils/dates";
 import { itemCosmeticPrimaryType } from "types";
 import { deepClone } from "../../../utils/other";
 import {onloadTaskForDate} from "../../../controller";
+import {LoaderComponent} from "../../organisms/Loader";
 
 export const Main: FunctionComponent<IMainStore> = inject("stores")(
   observer(({ stores }) => {
@@ -30,6 +31,7 @@ export const Main: FunctionComponent<IMainStore> = inject("stores")(
       load();
     }, []);
 
-    return loading ? <p>123</p> : <MainTemplate stores={stores!} />;
+    return loading ? <LoaderComponent/> : <MainTemplate stores={stores!} />;
+      {/*<MainTemplate stores={stores!} />*/}
   })
 );

@@ -7,6 +7,7 @@ import { TaskDB } from "../../../database";
 import { dateСomparison } from "../../../utils/dates";
 import { itemCosmeticPrimaryType } from "types";
 import { inject, observer } from "mobx-react";
+import {LoaderComponent} from "../../organisms/Loader";
 // todo refactoring
 export const TodoList: React.FunctionComponent<IMainStore> = inject("stores")(
   observer(({ stores }) => {
@@ -73,7 +74,7 @@ export const TodoList: React.FunctionComponent<IMainStore> = inject("stores")(
     }, []);
 
     return loading ? (
-      <p>123</p>
+        <LoaderComponent/>
     ) : (
       <>
         <TodoListTemplate/>
