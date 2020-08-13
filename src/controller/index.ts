@@ -7,7 +7,8 @@ import { taskDBType } from "types";
 import { dateСomparison } from "../utils/dates";
 import moment from "moment";
 import { urlFormatDate } from "../utils/dates";
-
+import { addTaskOnDayMock } from "../utils/mocks/addTaskOnDay";
+import { taskObjectDB } from "types";
 import {
   TASKKEY,
   SETTING,
@@ -16,6 +17,8 @@ import {
   COSMETIC_ITEMS,
   VERSION,
 } from "../database/config";
+import { Button } from "semantic-ui-react";
+import React from "react";
 
 export const updateTaskAfterUpdateItem = async (
   object: itemCosmeticPrimaryType
@@ -189,9 +192,9 @@ export const cleaningOldTask = async () => {
   );
 };
 
-export const onloadTaskForDate = async (str: string) => {
+export const onloadTaskForDate = async (keyData: string) => {
   //  DD.MM.YYYY format
-  const key = urlFormatDate(str) ? moment(str, "L") : moment(new Date());
+  const key = urlFormatDate(keyData) ? moment(keyData, "L") : moment(new Date());
 
   return await TaskDB.get(key.format("YYYYMMDD")).then((item) => {
     if (!item) {
@@ -232,6 +235,40 @@ export const onloadTaskForDate = async (str: string) => {
   });
 };
 
-export const addTask = async (key: string) => {
-  const allTaskOnDay = await TaskDB.get(key);
+export const addTask = async (
+  key: string,
+  {
+    valueName,
+    valueDayOrEvening,
+    date,
+  }: { valueName: string; valueDayOrEvening: number; date: Date }
+) => {
+  return TaskDB.get(key)
+    .then((items) => {
+      const newCollection = items;
+      const newItem = deepClone(addTaskOnDayMock);
+
+      newCollection.task.push({
+        ...newItem,
+        name: valueName,
+        dayOrEvening: {
+          value: valueDayOrEvening,
+          text: "",
+        },
+        date: date,
+      });
+
+      return newCollection;
+    })
+    .then((data) => {
+      const momentDate = moment(date);
+      const item = data.task.find(
+        (item: taskObjectDB) => item.name === valueName
+      );
+      return TaskDB.delete(momentDate.format(TASKKEY))
+        .then(() => TaskDB.set(momentDate.format(TASKKEY), data))
+        .then(() => {
+          stores!.Task.taskState!.task.push(item);
+        });
+    });
 };

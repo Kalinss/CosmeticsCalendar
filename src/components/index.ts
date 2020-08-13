@@ -9,5 +9,4 @@ export { GenerateTableCalendar } from "./molecules/GenerateTableCalendar/index";
 export { Header } from "./organisms/Header/index";
 export { Menu } from "./molecules/Menu/index";
 export { Page } from "./templates/Page/index";
-export { TodoListContent } from "./organisms/TodoListContent/index";
 export { TodayWidgetTodoList } from "./organisms/TodayWidgetTodoList";

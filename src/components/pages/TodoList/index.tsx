@@ -1,72 +1,56 @@
-import React, { useEffect, useState } from "react";
-import {TodoListTemplate } from "../../templates";
+import React, { useEffect, useState, useReducer } from "react";
+import { TodoListTemplate } from "../../templates";
 import { IMainStore } from "../../../stores";
 import { getLastStringLocationPath } from "../../../utils/string";
 import moment from "moment";
-import { TaskDB } from "../../../database";
-import { dateСomparison } from "../../../utils/dates";
-import { itemCosmeticPrimaryType } from "types";
+import { TaskDB, TASKKEY } from "../../../database";
+import { urlFormatDate } from "../../../utils/dates";
 import { inject, observer } from "mobx-react";
-import {LoaderComponent} from "../../organisms/Loader";
-// todo refactoring
+import { LoaderComponent } from "../../organisms/Loader";
+import { addTask } from "../../../controller";
+import { clickHandlerType as clickAddButton } from "./types";
+import { closeTaskType } from "./types";
+import { deepClone } from "../../../utils/other";
+import { onloadTaskForDate } from "../../../controller";
+
 export const TodoList: React.FunctionComponent<IMainStore> = inject("stores")(
   observer(({ stores }) => {
     const [loading, setLoading] = useState(true);
-    const currentTask = stores!.Task.getState();
+    const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
+
+    const items = stores!.Task.taskState;
+    const pathname = getLastStringLocationPath(location.pathname);
+    const date = urlFormatDate(pathname)
+      ? moment(pathname, "DD.MM.YYYY")
+      : moment(new Date());
+    const key = date.format(TASKKEY);
+
     const load = async () => {
-      const path = window.location.pathname.trim();
-      const date = getLastStringLocationPath(path);
-      const checkDate = (date: string) =>
-        /\d{2}\.\d{2}\.\d{4}/g.test(date.trim());
-      const key = checkDate(date) ? moment(date, "L") : moment(new Date());
-
-      await TaskDB.get(key.format("YYYYMMDD")).then((item) => {
-        if (!item) {
-          // if task not found => create task and save him in BD
-          const itemsCosmetic = stores!.ItemsCosmetic.items;
-
-          if (!itemsCosmetic) return false;
-
-          const desiredDate = key.toDate();
-
-          const arr = stores!.ItemsCosmetic.items.filter((item: any) => {
-            return dateСomparison(
-              desiredDate,
-              item.date,
-              item.timingDelay.value
-            );
-          });
-
-          TaskDB.set(key.format("YYYYMMDD"), {
-            task: arr.map((item: itemCosmeticPrimaryType) => ({
-              name: item.name,
-              description: item.description,
-              timingDelay: { ...item.timingDelay },
-              dayOrEvening: { ...item.dayOrEvening },
-              type: { ...item.type! },
-              date: item.date,
-              closed: { day: false, evening: false },
-            })),
-            date: desiredDate,
-          });
-
-          stores!.Task.setState({
-            task: arr.map((item: itemCosmeticPrimaryType) => ({
-              ...item,
-              closed: { day: false, evening: false },
-            })),
-            date: desiredDate,
-          });
-
-          setLoading(false);
-        } else {
-          stores!.Task.setState({
-            task: [...item.task],
-            date: item.date,
-          });
-          setLoading(false);
-        }
+      const date = getLastStringLocationPath(pathname);
+      onloadTaskForDate(date).then(() => {
+        setLoading(false);
       });
+    };
+
+    const closeTask: closeTaskType = (day: boolean) => (e: any) => {
+      const task = stores!.Task;
+      const name =
+        e.target.dataset.name ||
+        e.target.closest("div[data-name]").dataset.name;
+      const key = moment(task.taskState!.date).format(TASKKEY);
+      task.toogleCloseTask(name, day);
+      TaskDB.update(key, deepClone(task.taskState));
+    };
+
+    const clickAddButton: clickAddButton = (date, key) => (
+      inputValue,
+      selectValue
+    ) => {
+        addTask(key, {
+        valueName: inputValue,
+        valueDayOrEvening: selectValue,
+        date: date,
+      }).then(() => forceUpdate());
     };
 
     useEffect(() => {
@@ -74,10 +58,14 @@ export const TodoList: React.FunctionComponent<IMainStore> = inject("stores")(
     }, []);
 
     return loading ? (
-        <LoaderComponent/>
+      <LoaderComponent />
     ) : (
       <>
-        <TodoListTemplate/>
+        <TodoListTemplate
+          items={items!}
+          clickHandler={clickAddButton(date.toDate(), key)}
+          clickTaskHandler={closeTask}
+        />
       </>
     );
   })

@@ -22,6 +22,7 @@ import {
   cleaningOldTask,
 } from "./controller";
 import { Header } from "./components/organisms/Header";
+import config from "./config";
 
 export const App: React.FunctionComponent = () => {
   const [loader, setLoader] = useState(true);
@@ -40,7 +41,7 @@ export const App: React.FunctionComponent = () => {
       .then(() => uploadSetting())
       .then(() => cleaningOldTask())
       .then(() => stores.ItemsCosmetic.loadAllItemsFromDB()) // todo вынести в контроллер
-      .then(() => setTimeout(() => setLoader(false), 1500));
+      .then(() => setTimeout(() => setLoader(false), config.preloadTime));
   }, []);
 
   return (
