@@ -13,8 +13,23 @@ type todayWidgetTodoList = {
   stores?: MainStore;
 };
 
+const isDay = (date: Date) => moment(date).get("hours") >= 16;
+
+const getNeededTask = (task: taskObjectDB[], type: 1 | 2 | 3) =>
+  task.filter((item) => item.dayOrEvening.value === type);
+
+const getActuallyTask = (task: taskObjectDB[], day: boolean) =>
+  !day
+    ? [...getNeededTask(task, 1), ...getNeededTask(task, 2)]
+    : [...getNeededTask(task, 1), ...getNeededTask(task, 3)];
+
 const getItemsTask = (stateTask: TaskDB) => {
   let task = deepClone(stateTask.task);
+  const now = new Date();
+  task = getActuallyTask(task, isDay(now));
+  task.sort(
+    (a: taskObjectDB, b: taskObjectDB) => a.type!.value - b.type!.value
+  );
   if (task.length > 4) {
     task.length = 4;
     return task;
@@ -29,9 +44,14 @@ export const TodayWidgetTodoList: React.FunctionComponent<todayWidgetTodoList> =
     const todayTask = stores!.Task.taskState!;
     const formatDate = moment(todayTask.date).format("L");
     const taskItems = getItemsTask(todayTask);
+    const now = new Date();
+
+    const getActuallyTimeClass = (item: taskObjectDB) =>
+      isDay(now) ? item.closed.evening : item.closed.day;
 
     const itemClass = (item: taskObjectDB) =>
-      classNames(style.item, item.closed.day && style.closed);
+      classNames(style.item, getActuallyTimeClass(item) && style.closed);
+
     const lastItem = () => classNames(style.item, style.last);
 
     return (
