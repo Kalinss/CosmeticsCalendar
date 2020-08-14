@@ -1,18 +1,23 @@
-.page{
-    display: flex;
-    justify-content: center;
+.page {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: 55px;
 }
-.page .wrapper{
-    //border: 1px dashed black;
-    min-width: 320px;
-    width: 100%; // todo media 320-768px
-    max-width: 768px;
-    padding-left: 2px;
-    padding-right: 2px;
-    padding-bottom: 35px;
-    padding-top:35px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
+.page  .page {
+  top: 0px;
+}
+
+.page .wrapper {
+  //border: 1px dashed black;
+  min-width: 320px;
+  width: 100%; // todo media 320-768px
+  max-width: 768px;
+  padding-left: 2px;
+  padding-right: 2px;
+  padding-bottom: 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
 }
