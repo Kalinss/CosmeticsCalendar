@@ -34,7 +34,14 @@ export const App: React.FunctionComponent = () => {
     return <>{loader ? <Preloader /> : children}</>;
     // Preloader ->children
   };
-
+  // useEffect(() => {
+  //   createCollections()
+  //     .then(() => openCollections())
+  //     .then(() => uploadSetting())
+  //     .then(() => cleaningOldTask())
+  //     .then(() => stores.ItemsCosmetic.loadAllItemsFromDB()) // todo вынести в контроллер
+  //     .then(() => setTimeout(() => setLoader(false), config.preloadTime));
+  // }, []);
   useEffect(() => {
     createCollections()
       .then(() => openCollections())
@@ -43,12 +50,9 @@ export const App: React.FunctionComponent = () => {
       .then(() => stores.ItemsCosmetic.loadAllItemsFromDB()) // todo вынести в контроллер
       .then(() => setTimeout(() => setLoader(false), config.preloadTime));
   }, []);
-
   return (
     <Provider stores={stores}>
       <Loader>
-        {/*<button onClick={()=>{*/}
-        {/*  console.log(toJS(stores.Setting.config));}}>444444444444444</button>*/}
         <Router>
           <Header />
           <Switch>
@@ -75,6 +79,8 @@ export const App: React.FunctionComponent = () => {
             </Route>
           </Switch>
         </Router>
+        <button onClick={()=>{
+          console.log(toJS(stores.Setting.config));}}>444444444444444</button>
       </Loader>
     </Provider>
   );

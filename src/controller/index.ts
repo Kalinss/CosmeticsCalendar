@@ -126,15 +126,15 @@ export const uploadSetting = async () => {
   const saveValueInStore = () => {
     stores.Setting.setConfig([...SettingDBItems]);
   };
-  if (SettingDBItems < storesSetting || !SettingDBItems) {
+  if (SettingDBItems !== storesSetting || !SettingDBItems) {
     // If there are new ones then reset
     const promise = await Promise.all(
       storesSetting.map((item) => SettingDB.set(item.key, deepClone(item)))
     );
-    saveValueInStore();
     return;
   }
-  return saveValueInStore();
+  saveValueInStore();
+
 };
 
 export const createCollections = async () => {
