@@ -1,0 +1,1 @@
+{"version":3,"sources":["asd.module.css"],"names":[],"mappings":"AAAA,eACI,cACJ","file":"index.css","sourceRoot":"..","sourcesContent":[".button{\r\n    box-shadow: red;\r\n}"]}
