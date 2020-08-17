@@ -20,9 +20,11 @@ import {
   openCollections,
   createCollections,
   cleaningOldTask,
+  uploadAdditional,
 } from "./controller";
 import { Header } from "./components/organisms/Header";
 import config from "./config";
+import { Alert } from "./components/organisms/Popup/Alert";
 
 export const App: React.FunctionComponent = () => {
   const [loader, setLoader] = useState(true);
@@ -34,22 +36,16 @@ export const App: React.FunctionComponent = () => {
     return <>{loader ? <Preloader /> : children}</>;
     // Preloader ->children
   };
-  // useEffect(() => {
-  //   createCollections()
-  //     .then(() => openCollections())
-  //     .then(() => uploadSetting())
-  //     .then(() => cleaningOldTask())
-  //     .then(() => stores.ItemsCosmetic.loadAllItemsFromDB()) // todo вынести в контроллер
-  //     .then(() => setTimeout(() => setLoader(false), config.preloadTime));
-  // }, []);
   useEffect(() => {
     createCollections()
       .then(() => openCollections())
       .then(() => uploadSetting())
+      .then(() => uploadAdditional())
       .then(() => cleaningOldTask())
-      .then(() => stores.ItemsCosmetic.loadAllItemsFromDB()) // todo вынести в контроллер
+      .then(() => stores.ItemsCosmetic.loadAllItemsFromDB())
       .then(() => setTimeout(() => setLoader(false), config.preloadTime));
   }, []);
+
   return (
     <Provider stores={stores}>
       <Loader>
@@ -79,8 +75,6 @@ export const App: React.FunctionComponent = () => {
             </Route>
           </Switch>
         </Router>
-        <button onClick={()=>{
-          console.log(toJS(stores.Setting.config));}}>444444444444444</button>
       </Loader>
     </Provider>
   );

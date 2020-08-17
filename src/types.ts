@@ -1,6 +1,7 @@
 import {MainStore,IMainStore} from "./stores";
 import React from "react";
 import exp = require("constants");
+import {string} from "mobx-state-tree/dist/types/primitives";
 
 export type objectDateCalendar = {
   date: Date;
@@ -78,6 +79,10 @@ export type stateTask = {
 export type uploadDailyTaskProps = {
    stores?:MainStore
   children:React.ReactNode
+}
+export const additionalType = {
+  key:string,
+  value:string
 }
 export type settingType = {
   name:string,

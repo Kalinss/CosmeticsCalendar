@@ -41,26 +41,26 @@ export const Setting: React.FunctionComponent<settingComponentType> = inject(
           <p className={style.info}>
             Данное приложение не сохраняет никакую информацию о своих
             пользователях, а так же не передает информацию о пользователях 3
-            лицам. Вся информация введенная вами, сохраняется на ваших
+            лицам. Вся информация, введенная вами, сохраняется на ваших
             устройствах.
           </p>
           <p className={style.info}>
-            Предложения по улучшению приложения присылайте на{" "}
+            Предложения по улучшению приложения, а также найденные вами ошибки присылайте на{" "}
             <a href="mailto:kalinss16@gmail.com">kalinss16@gmail.com</a>
           </p>
         </Content>
-        <button
-          onClick={() => {
-            SettingDB.getAll()
-              .then((x) => x)
-              .then((x) =>
-                Promise.all(x.map((item: any) => SettingDB.delete(item.key)))
-              )
-              .then(() => alert("Перезагрузите страницу"));
-          }}
-        >
-          delete all setting
-        </button>
+        {/*<button*/}
+        {/*  onClick={() => {*/}
+        {/*    SettingDB.getAll()*/}
+        {/*      .then((x) => x)*/}
+        {/*      .then((x) =>*/}
+        {/*        Promise.all(x.map((item: any) => SettingDB.delete(item.key)))*/}
+        {/*      )*/}
+        {/*      .then(() => alert("Перезагрузите страницу"));*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  delete all setting*/}
+        {/*</button>*/}
       </Page>
     );
   })

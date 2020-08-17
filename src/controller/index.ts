@@ -1,6 +1,11 @@
 import { expendedItemType, itemCosmeticPrimaryType } from "types";
 import { deepClone, toPrimitiveType } from "../utils/other";
-import { CosmeticItemsModelDB, TaskDB, SettingDB } from "../database";
+import {
+  CosmeticItemsModelDB,
+  TaskDB,
+  SettingDB,
+  AdditionalDB,
+} from "../database";
 import stores from "../stores/store";
 import { openDB } from "idb";
 import { taskDBType } from "types";
@@ -8,13 +13,14 @@ import { dateСomparison } from "../utils/dates";
 import moment from "moment";
 import { urlFormatDate } from "../utils/dates";
 import { addTaskOnDayMock } from "../utils/mocks/addTaskOnDay";
-import { taskObjectDB } from "types";
+import { taskObjectDB, additionalType } from "types";
 import {
   TASKKEY,
   SETTING,
   DBNAME,
   TASK,
   COSMETIC_ITEMS,
+  ADDITIONAL,
   VERSION,
 } from "../database/config";
 import { Button } from "semantic-ui-react";
@@ -134,16 +140,46 @@ export const uploadSetting = async () => {
     return;
   }
   saveValueInStore();
-
 };
+export const uploadAdditional = async () => {
+  const additionalState = stores.Additional;
+  const publicVersion = await AdditionalDB.get("version");
+  const alertUpdate = await AdditionalDB.get("alertUpdate");
+  if (!publicVersion || publicVersion !== additionalState.version) {
+    const promise = Promise.all([
+      AdditionalDB.set("version", additionalState.version),
+      AdditionalDB.set("alertUpdate", additionalState.alertUpdate),
+    ]);
+    promise.then((x) => x).catch(console.log);
+  } else {
+    additionalState.setAlert(alertUpdate);
+  }
+};
+
+export const closeUpdateAlert = async () =>
+  AdditionalDB.set("alertUpdate", "false");
 
 export const createCollections = async () => {
   // Create database for the first boot
+  const createDB = (db: any,name: string) => {
+    const names = db.objectStoreNames;
+    const isExist = Array.prototype.some.call(names,(item: string) => item === name);
+    if (!isExist) {
+      db.createObjectStore(name);
+    }
+  };
   const create = await openDB(DBNAME, VERSION, {
     upgrade(db) {
-      db.createObjectStore(TASK);
-      db.createObjectStore(COSMETIC_ITEMS);
-      db.createObjectStore(SETTING);
+      // todo-bug-new-version-db
+      createDB(db,TASK);
+      createDB(db,COSMETIC_ITEMS);
+      createDB(db,SETTING);
+      createDB(db,ADDITIONAL)
+    },
+    //@ts-ignore
+    blocked(optional: any): void {
+      console.log("adasdasdasd");
+      console.log(optional);
     },
   });
   return create;
@@ -153,7 +189,8 @@ export const openCollections = async () => {
   // Open databases in a closure DB
   const create = await TaskDB.open()
     .then(() => CosmeticItemsModelDB.open())
-    .then(() => SettingDB.open());
+    .then(() => SettingDB.open())
+    .then(() => AdditionalDB.open());
   return create;
 };
 
@@ -194,7 +231,9 @@ export const cleaningOldTask = async () => {
 
 export const onloadTaskForDate = async (keyData: string) => {
   //  DD.MM.YYYY format
-  const key = urlFormatDate(keyData) ? moment(keyData, "L") : moment(new Date());
+  const key = urlFormatDate(keyData)
+    ? moment(keyData, "L")
+    : moment(new Date());
 
   return await TaskDB.get(key.format("YYYYMMDD")).then((item) => {
     if (!item) {

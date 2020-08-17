@@ -25,7 +25,6 @@ export const EditCosmeticTemplate: React.FC<typeEditCosmeticTemplate> = ({
   isOpenAlert = false,
   popupHandler = () => {},
 }) => {
-  console.log(toJS(defaultValues));
   return (
     <Page>
       <Content>

@@ -47,7 +47,7 @@ export class ItemsCosmetic {
   @observable currentItem = { ...expendedItemCosmeticInitialState } as {
     [key: string]: expandedItemCosmeticField;
   };
-  //todo-delete -> move other utils
+
   toPrimitiveType(item: expendedItemType): itemCosmeticPrimaryType {
     return {
       name: ("" + item.name.value).trim(),
@@ -67,7 +67,7 @@ export class ItemsCosmetic {
       date: item.date.value as Date,
     };
   }
-  //todo-delete -> move other utils
+
   toExpandedType(item:itemCosmeticPrimaryType):expendedItemType{
     return {
       name: {

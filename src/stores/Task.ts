@@ -54,8 +54,4 @@ export class Task {
       date: this.taskState!.date,
     });
   }
-
-  @action upload() {
-    console.log(ItemsCosmetic);
-  }
 }

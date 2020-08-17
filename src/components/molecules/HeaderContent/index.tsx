@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import style from "./style.scss";
 import { Logo, Hamburger } from "../../atoms/index";
+import LogoImage from '../../../media/svg/main-logo.svg'
 
 type typeHeaderContent = {
   isOpen: boolean;
@@ -14,7 +15,7 @@ export const HeaderContent: React.FC<typeHeaderContent> = ({
   return (
     <div className={style.headerContent}>
       <div className={style.left}>
-        <Logo />
+        <Logo  src={LogoImage} alt={'logo'} />
       </div>
       <div className={style.right}>
         <button className={style.setting}>
