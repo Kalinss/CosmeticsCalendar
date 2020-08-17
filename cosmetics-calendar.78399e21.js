@@ -39118,7 +39118,18 @@ if ("development" !== "production") {
     style: _propTypes.default.object
   });
 }
-},{"react-router":"node_modules/react-router/esm/react-router.js","@babel/runtime/helpers/esm/inheritsLoose":"node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"node_modules/react/index.js","history":"node_modules/history/esm/history.js","prop-types":"node_modules/prop-types/index.js","tiny-warning":"node_modules/tiny-warning/dist/tiny-warning.esm.js","@babel/runtime/helpers/esm/extends":"node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","tiny-invariant":"node_modules/tiny-invariant/dist/tiny-invariant.esm.js"}],"src/components/atoms/CalendarTableCell/index.tsx":[function(require,module,exports) {
+},{"react-router":"node_modules/react-router/esm/react-router.js","@babel/runtime/helpers/esm/inheritsLoose":"node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"node_modules/react/index.js","history":"node_modules/history/esm/history.js","prop-types":"node_modules/prop-types/index.js","tiny-warning":"node_modules/tiny-warning/dist/tiny-warning.esm.js","@babel/runtime/helpers/esm/extends":"node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","tiny-invariant":"node_modules/tiny-invariant/dist/tiny-invariant.esm.js"}],"src/config.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
+  preloadTime: 0,
+  appPublicVersion: '0.1.0',
+  baseHref: '/cosmetics-calendar'
+};
+},{}],"src/components/atoms/CalendarTableCell/index.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -39142,6 +39153,8 @@ var react_router_dom_1 = require("react-router-dom");
 
 var moment_1 = __importDefault(require("moment"));
 
+var config_1 = __importDefault(require("../../../config"));
+
 exports.CalendarTableCell = function (_a) {
   var disabled = _a.disabled,
       value = _a.value,
@@ -39155,7 +39168,7 @@ exports.CalendarTableCell = function (_a) {
     return moment_1.default(date).format("L");
   };
 
-  var getLink = "/todolist/" + getFormatDate(date);
+  var getLink = config_1.default.baseHref + "/todolist/" + getFormatDate(date);
   var classNameTD = classnames_1.default(style_scss_1.default.td, disabled && style_scss_1.default.disabled);
   var classActive = classnames_1.default(active && style_scss_1.default.active);
 
@@ -39177,7 +39190,7 @@ exports.CalendarTableCell = function (_a) {
     className: style_scss_1.default.dot
   }), getValueCell(disabled)));
 };
-},{"react":"node_modules/react/index.js","./style.scss":"src/components/atoms/CalendarTableCell/style.scss","classnames":"node_modules/classnames/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","moment":"node_modules/moment/moment.js"}],"src/components/molecules/GenerateTableCalendar/index.tsx":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./style.scss":"src/components/atoms/CalendarTableCell/style.scss","classnames":"node_modules/classnames/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","moment":"node_modules/moment/moment.js","../../../config":"src/config.ts"}],"src/components/molecules/GenerateTableCalendar/index.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -39602,6 +39615,8 @@ var index_1 = require("../../atoms/index");
 
 var main_logo_svg_1 = __importDefault(require("../../../media/svg/main-logo.svg"));
 
+var config_1 = __importDefault(require("../../../config"));
+
 exports.HeaderContent = function (_a) {
   var isOpen = _a.isOpen,
       _b = _a.hamburgerClickHandler,
@@ -39611,6 +39626,7 @@ exports.HeaderContent = function (_a) {
   }, react_1.default.createElement("div", {
     className: style_scss_1.default.left
   }, react_1.default.createElement(index_1.Logo, {
+    path: config_1.default.baseHref + '/',
     src: main_logo_svg_1.default,
     alt: 'logo'
   })), react_1.default.createElement("div", {
@@ -39624,7 +39640,7 @@ exports.HeaderContent = function (_a) {
     active: isOpen
   })))));
 };
-},{"react":"node_modules/react/index.js","./style.scss":"src/components/molecules/HeaderContent/style.scss","../../atoms/index":"src/components/atoms/index.ts","../../../media/svg/main-logo.svg":"src/media/svg/main-logo.svg"}],"src/components/molecules/Menu/style.scss":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./style.scss":"src/components/molecules/HeaderContent/style.scss","../../atoms/index":"src/components/atoms/index.ts","../../../media/svg/main-logo.svg":"src/media/svg/main-logo.svg","../../../config":"src/config.ts"}],"src/components/molecules/Menu/style.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -39655,6 +39671,8 @@ var style_scss_1 = __importDefault(require("./style.scss"));
 
 var react_router_dom_1 = require("react-router-dom");
 
+var config_1 = __importDefault(require("./../../../config"));
+
 exports.Menu = function (_a) {
   var clickHandler = _a.clickHandler;
   return react_1.default.createElement("nav", {
@@ -39665,22 +39683,22 @@ exports.Menu = function (_a) {
   }, react_1.default.createElement("li", {
     className: style_scss_1.default.item
   }, react_1.default.createElement(react_router_dom_1.Link, {
-    to: "/"
+    to: config_1.default.baseHref + "/"
   }, react_1.default.createElement("div", null, react_1.default.createElement("span", null, "\u0413\u043B\u0430\u0432\u043D\u0430\u044F \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0430")))), react_1.default.createElement("li", {
     className: style_scss_1.default.item
   }, react_1.default.createElement(react_router_dom_1.Link, {
-    to: "/calendar"
+    to: config_1.default.baseHref + "/calendar"
   }, react_1.default.createElement("div", null, react_1.default.createElement("span", null, "\u041A\u0430\u043B\u0435\u043D\u0434\u0430\u0440\u044C")))), react_1.default.createElement("li", {
     className: style_scss_1.default.item
   }, react_1.default.createElement(react_router_dom_1.Link, {
-    to: "/items"
+    to: config_1.default.baseHref + "/items"
   }, react_1.default.createElement("div", null, react_1.default.createElement("span", null, "\u041A\u0430\u0442\u0430\u043B\u043E\u0433")))), react_1.default.createElement("li", {
     className: style_scss_1.default.item
   }, react_1.default.createElement(react_router_dom_1.Link, {
-    to: "/setting"
+    to: config_1.default.baseHref + "/setting"
   }, react_1.default.createElement("div", null, react_1.default.createElement("span", null, "\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438"))))));
 };
-},{"react":"node_modules/react/index.js","./style.scss":"src/components/molecules/Menu/style.scss","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js"}],"node_modules/@babel/runtime/helpers/esm/typeof.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./style.scss":"src/components/molecules/Menu/style.scss","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./../../../config":"src/config.ts"}],"node_modules/@babel/runtime/helpers/esm/typeof.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -92444,6 +92462,8 @@ var index_2 = require("../../organisms/index");
 
 var index_3 = require("../../organisms/index");
 
+var config_1 = __importDefault(require("../../../config"));
+
 exports.ItemsCosmeticTemplate = function (_a) {
   var stores = _a.stores,
       _b = _a.deleteHandler,
@@ -92471,7 +92491,7 @@ exports.ItemsCosmeticTemplate = function (_a) {
     color: "black"
   }, react_1.default.createElement(react_router_dom_1.Link, {
     className: style_scss_1.default.link,
-    to: "/create"
+    to: config_1.default.baseHref + "/create"
   }, "\u0421\u043E\u0437\u0434\u0430\u0442\u044C"))), react_1.default.createElement("ul", {
     className: style_scss_1.default.list
   }, items.map(function (item, i) {
@@ -92481,7 +92501,7 @@ exports.ItemsCosmeticTemplate = function (_a) {
     }, react_1.default.createElement("div", null, react_1.default.createElement("p", null, "\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435: ", react_1.default.createElement("span", null, item.name)), item.description && react_1.default.createElement("p", null, "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435: ", react_1.default.createElement("span", null, item.description)), react_1.default.createElement("p", null, "\u041F\u043E\u0432\u0442\u043E\u0440\u044F\u0442\u044C \u043A\u0430\u0436\u0434\u044B\u0435: ", react_1.default.createElement("span", null, item.timingDelay.text)), react_1.default.createElement("p", null, "\u0412\u0440\u0435\u043C\u044F \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u043D\u0438\u044F: ", react_1.default.createElement("span", null, item.dayOrEvening.text)), react_1.default.createElement("p", null, "\u0422\u0438\u043F: ", react_1.default.createElement("span", null, item.type.text)), react_1.default.createElement("p", null, "\u0414\u0430\u0442\u0430: ", react_1.default.createElement("span", null, moment_1.default(item.date).format("DD.MM.YYYY"))), react_1.default.createElement("div", {
       className: style_scss_1.default.buttonWrapper
     }, react_1.default.createElement(react_router_dom_1.Link, {
-      to: "/edit/" + item.name
+      to: config_1.default.baseHref + "/edit/" + item.name
     }, react_1.default.createElement(index_1.EditButton, null))), react_1.default.createElement("div", {
       className: style_scss_1.default.buttonWrapperRemove,
       onClick: function onClick(e) {
@@ -92501,7 +92521,7 @@ exports.ItemsCosmeticTemplate = function (_a) {
     clickHandler: confirmHandler
   })));
 };
-},{"react":"node_modules/react/index.js","../../pages/ItemsCosmeticList/style.scss":"src/components/pages/ItemsCosmeticList/style.scss","semantic-ui-react":"node_modules/semantic-ui-react/dist/es/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","moment":"node_modules/moment/moment.js","../../atoms/index":"src/components/atoms/index.ts","mobx":"node_modules/mobx/lib/mobx.module.js","../Page":"src/components/templates/Page/index.tsx","../Content":"src/components/templates/Content/index.tsx","../../organisms/index":"src/components/organisms/index.tsx"}],"src/components/templates/TodoListTemplate/style.scss":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","../../pages/ItemsCosmeticList/style.scss":"src/components/pages/ItemsCosmeticList/style.scss","semantic-ui-react":"node_modules/semantic-ui-react/dist/es/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","moment":"node_modules/moment/moment.js","../../atoms/index":"src/components/atoms/index.ts","mobx":"node_modules/mobx/lib/mobx.module.js","../Page":"src/components/templates/Page/index.tsx","../Content":"src/components/templates/Content/index.tsx","../../organisms/index":"src/components/organisms/index.tsx","../../../config":"src/config.ts"}],"src/components/templates/TodoListTemplate/style.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -95110,17 +95130,7 @@ function () {
 }();
 
 exports.Setting = Setting;
-},{"mobx":"node_modules/mobx/lib/mobx.module.js"}],"src/config.ts":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = {
-  preloadTime: 0,
-  appPublicVersion: '0.1.0'
-};
-},{}],"src/stores/Additional.ts":[function(require,module,exports) {
+},{"mobx":"node_modules/mobx/lib/mobx.module.js"}],"src/stores/Additional.ts":[function(require,module,exports) {
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -96086,6 +96096,12 @@ var __read = this && this.__read || function (o, n) {
   return ar;
 };
 
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -96100,6 +96116,8 @@ var CreateCosmeticTemplate_1 = require("../../templates/CreateCosmeticTemplate")
 var validation_1 = require("../../../utils/validation");
 
 var controller_1 = require("../../../controller");
+
+var config_1 = __importDefault(require("../../../config"));
 
 exports.CreateCosmetic = mobx_react_1.inject("stores")(mobx_react_1.observer(function (_a) {
   var stores = _a.stores;
@@ -96174,7 +96192,7 @@ exports.CreateCosmetic = mobx_react_1.inject("stores")(mobx_react_1.observer(fun
 
   var popupConfirmation = function popupConfirmation() {
     setOpenAlert(false);
-    window.location.href = "/items";
+    window.location.href = config_1.default.baseHref + "/items";
   };
 
   var buttonClick = function buttonClick() {
@@ -96198,7 +96216,7 @@ exports.CreateCosmetic = mobx_react_1.inject("stores")(mobx_react_1.observer(fun
     cosmeticName: currentName
   });
 }));
-},{"react":"node_modules/react/index.js","mobx-react":"node_modules/mobx-react/dist/mobxreact.esm.js","../../templates/CreateCosmeticTemplate":"src/components/templates/CreateCosmeticTemplate/index.tsx","../../../utils/validation":"src/utils/validation.ts","../../../controller":"src/controller/index.ts"}],"src/components/templates/EditCosmeticTemplate/index.tsx":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","mobx-react":"node_modules/mobx-react/dist/mobxreact.esm.js","../../templates/CreateCosmeticTemplate":"src/components/templates/CreateCosmeticTemplate/index.tsx","../../../utils/validation":"src/utils/validation.ts","../../../controller":"src/controller/index.ts","../../../config":"src/config.ts"}],"src/components/templates/EditCosmeticTemplate/index.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -96323,6 +96341,12 @@ var __read = this && this.__read || function (o, n) {
   return ar;
 };
 
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -96339,6 +96363,8 @@ var controller_1 = require("../../../controller");
 var other_1 = require("../../../utils/other");
 
 var controller_2 = require("../../../controller");
+
+var config_1 = __importDefault(require("../../../config"));
 
 exports.EditCosmetic = mobx_react_1.inject("stores")(mobx_react_1.observer(function (_a) {
   var stores = _a.stores;
@@ -96368,7 +96394,7 @@ exports.EditCosmetic = mobx_react_1.inject("stores")(mobx_react_1.observer(funct
 
   var popupConfirmation = function popupConfirmation() {
     setOpenAlert(false);
-    window.location.href = "/items";
+    window.location.href = config_1.default.baseHref + "/items";
   };
 
   var clickButton = function clickButton() {
@@ -96414,7 +96440,7 @@ exports.EditCosmetic = mobx_react_1.inject("stores")(mobx_react_1.observer(funct
     popupHandler: popupConfirmation
   });
 }));
-},{"react":"node_modules/react/index.js","mobx-react":"node_modules/mobx-react/dist/mobxreact.esm.js","../../templates/EditCosmeticTemplate":"src/components/templates/EditCosmeticTemplate/index.tsx","../../../controller":"src/controller/index.ts","../../../utils/other":"src/utils/other.ts"}],"src/components/pages/ItemsCosmeticList/index.tsx":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","mobx-react":"node_modules/mobx-react/dist/mobxreact.esm.js","../../templates/EditCosmeticTemplate":"src/components/templates/EditCosmeticTemplate/index.tsx","../../../controller":"src/controller/index.ts","../../../utils/other":"src/utils/other.ts","../../../config":"src/config.ts"}],"src/components/pages/ItemsCosmeticList/index.tsx":[function(require,module,exports) {
 "use strict";
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
@@ -97461,20 +97487,20 @@ exports.App = function () {
   return react_1.default.createElement(mobx_react_1.Provider, {
     stores: store_1.default
   }, react_1.default.createElement(Loader, null, react_1.default.createElement(react_router_dom_1.BrowserRouter, null, react_1.default.createElement(Header_1.Header, null), react_1.default.createElement(react_router_dom_1.Switch, null, react_1.default.createElement(react_router_dom_1.Route, {
-    path: "/items"
+    path: config_1.default.baseHref + "/items"
   }, react_1.default.createElement(index_1.ItemsCosmeticList, null)), react_1.default.createElement(react_router_dom_1.Route, {
-    path: "/edit"
+    path: config_1.default.baseHref + "/edit"
   }, react_1.default.createElement(index_1.EditCosmetic, null)), react_1.default.createElement(react_router_dom_1.Route, {
-    path: "/create"
+    path: config_1.default.baseHref + "/create"
   }, react_1.default.createElement(index_1.CreateCosmetic, null)), react_1.default.createElement(react_router_dom_1.Route, {
     exact: true,
-    path: "/"
+    path: config_1.default.baseHref + "/"
   }, react_1.default.createElement(index_1.Main, null)), react_1.default.createElement(react_router_dom_1.Route, {
-    path: "/todolist"
+    path: config_1.default.baseHref + "/todolist"
   }, react_1.default.createElement(index_1.TodoList, null)), react_1.default.createElement(react_router_dom_1.Route, {
-    path: "/setting"
+    path: config_1.default.baseHref + "/setting"
   }, react_1.default.createElement(index_1.Setting, null)), react_1.default.createElement(react_router_dom_1.Route, {
-    path: "/calendar"
+    path: config_1.default.baseHref + "/calendar"
   }, react_1.default.createElement(index_1.CalendarPage, null))))));
 };
 },{"react":"node_modules/react/index.js","./components/pages/index":"src/components/pages/index.ts","./styles/reset.scss":"src/styles/reset.scss","semantic-ui-css/semantic.min.css":"node_modules/semantic-ui-css/semantic.min.css","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","mobx-react":"node_modules/mobx-react/dist/mobxreact.esm.js","./stores/store":"src/stores/store.ts","./components/organisms/Preloader":"src/components/organisms/Preloader/index.tsx","./controller":"src/controller/index.ts","./components/organisms/Header":"src/components/organisms/Header/index.tsx","./config":"src/config.ts"}],"index.jsx":[function(require,module,exports) {
@@ -97521,7 +97547,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "192.168.0.104" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "39544" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "40223" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
