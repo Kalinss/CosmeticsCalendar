@@ -11,6 +11,7 @@ import { Content } from "../Content";
 import { itemCosmeticPrimaryType } from "types";
 import { Alert } from "../../organisms/index";
 import { Confirm } from "../../organisms/index";
+import config from "../../../config";
 
 type ItemsCosmeticTemplate = {
   stores: MainStore;
@@ -43,7 +44,7 @@ export const ItemsCosmeticTemplate: React.FC<ItemsCosmeticTemplate> = ({
         <h1 className={styles.h1}>Список уходовых средств</h1>
         <div className={styles.buttonWrap}>
           <Button className={styles.buttonLink} color="black">
-            <Link className={styles.link} to={"/create"}>
+            <Link className={styles.link} to={`${config.baseHref}/create`}>
               Создать
             </Link>
           </Button>
@@ -73,7 +74,7 @@ export const ItemsCosmeticTemplate: React.FC<ItemsCosmeticTemplate> = ({
                   Дата: <span>{moment(item.date).format("DD.MM.YYYY")}</span>
                 </p>
                 <div className={styles.buttonWrapper}>
-                  <Link to={`/edit/${item.name}`}>
+                  <Link to={`${config.baseHref}/edit/${item.name}`}>
                     <EditButton />
                   </Link>
                 </div>

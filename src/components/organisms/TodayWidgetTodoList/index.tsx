@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { TaskDB } from "../../../database";
 import moment from "moment";
 import { deepClone } from "../../../utils/other";
-
+import config from "../../../config";
 type todayWidgetTodoList = {
   stores?: MainStore;
 };
@@ -55,7 +55,7 @@ export const TodayWidgetTodoList: React.FunctionComponent<todayWidgetTodoList> =
     const lastItem = () => classNames(style.item, style.last);
 
     return (
-      <Link to={`/todolist/${formatDate}`}>
+      <Link to={`${config.baseHref}/todolist/${formatDate}`}>
         <div className={style.widget}>
           <h2 className={style.h2}>Cегодня</h2>
           <ul className={style.container}>

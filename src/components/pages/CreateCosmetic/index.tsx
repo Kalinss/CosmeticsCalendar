@@ -12,6 +12,7 @@ import {
   saveInDBNewItemCosmetic,
   updateTaskAfterNewItem,
 } from "../../../controller";
+import config from "../../../config";
 
 export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
   observer(({ stores }) => {
@@ -69,7 +70,7 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
 
     const popupConfirmation = () => {
       setOpenAlert(false);
-      window.location.href = "/items";
+      window.location.href = config.baseHref+"/items";
     };
 
     const buttonClick = () => {

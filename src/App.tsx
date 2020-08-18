@@ -52,25 +52,25 @@ export const App: React.FunctionComponent = () => {
         <Router>
           <Header />
           <Switch>
-            <Route path="/items">
+            <Route path={`${config.baseHref}/items`}>
               <ItemsCosmeticList />
             </Route>
-            <Route path="/edit">
+            <Route path={`${config.baseHref}/edit`}>
               <EditCosmetic />
             </Route>
-            <Route path="/create">
+            <Route path={`${config.baseHref}/create`}>
               <CreateCosmetic />
             </Route>
-            <Route exact path="/">
+            <Route exact path={`${config.baseHref}/`}>
               <Main />
             </Route>
-            <Route path="/todolist">
+            <Route path={`${config.baseHref}/todolist`}>
               <TodoList />
             </Route>
-            <Route path="/setting">
+            <Route path={`${config.baseHref}/setting`}>
               <Setting />
             </Route>
-            <Route path="/calendar">
+            <Route path={`${config.baseHref}/calendar`}>
               <CalendarPage />
             </Route>
           </Switch>

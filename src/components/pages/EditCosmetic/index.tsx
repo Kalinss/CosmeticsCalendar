@@ -16,6 +16,7 @@ import {
 import { updateTask } from "../../../controller";
 import { deepClone, toPrimitiveType } from "../../../utils/other";
 import { updateTaskAfterUpdateItem } from "../../../controller";
+import config from "../../../config";
 
 export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
   observer(({ stores }) => {
@@ -34,7 +35,7 @@ export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
 
     const popupConfirmation = () => {
       setOpenAlert(false);
-      window.location.href = "/items";
+      window.location.href = config.baseHref+"/items";
     };
     const clickButton = () => {
       setOpenAlert(true);
