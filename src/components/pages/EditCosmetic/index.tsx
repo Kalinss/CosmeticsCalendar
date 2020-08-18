@@ -4,6 +4,7 @@ import React, {
   useState,
   useReducer,
 } from "react";
+import { useHistory } from "react-router-dom";
 import { inject, observer } from "mobx-react";
 import { IMainStore } from "../../../stores";
 import { EditCosmeticTemplate } from "../../templates/EditCosmeticTemplate";
@@ -17,7 +18,7 @@ import { updateTask } from "../../../controller";
 import { deepClone, toPrimitiveType } from "../../../utils/other";
 import { updateTaskAfterUpdateItem } from "../../../controller";
 import config from "../../../config";
-
+import { toJS } from "mobx";
 export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
   observer(({ stores }) => {
     const itemCosmeticStore = stores!.ItemsCosmetic;
@@ -29,13 +30,13 @@ export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
     const [defaultValues, setDefaultValues] = useState<
       itemCosmeticPrimaryType | undefined
     >(undefined);
+    const history = useHistory();
 
     const location = window.location.pathname.split("/");
     const findItemName = decodeURIComponent(location[location.length - 1]);
-
     const popupConfirmation = () => {
       setOpenAlert(false);
-      window.location.href = config.baseHref+"/items";
+      history.push(`${config.baseHref}/items`);
     };
     const clickButton = () => {
       setOpenAlert(true);

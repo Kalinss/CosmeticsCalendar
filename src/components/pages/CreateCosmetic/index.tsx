@@ -2,6 +2,7 @@ import React, { FunctionComponent, useReducer, useState } from "react";
 import { inject, observer } from "mobx-react";
 import { IMainStore } from "../../../stores";
 import { CreateCosmeticTemplate } from "../../templates/CreateCosmeticTemplate";
+import { useHistory } from "react-router-dom";
 import {
   alreadyIdExistsInDB,
   getErrorValidation,
@@ -21,6 +22,7 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
     const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
     const [isOpenAlert, setOpenAlert] = useState(false);
     const [currentName, setCurrentName] = useState("");
+    const history = useHistory();
 
     const nameFieldChange = (e: React.SyntheticEvent) => {
       const value = (e.target as HTMLInputElement).value.trim();
@@ -70,7 +72,7 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
 
     const popupConfirmation = () => {
       setOpenAlert(false);
-      window.location.href = config.baseHref+"/items";
+      history.push(`${config.baseHref}/items`);
     };
 
     const buttonClick = () => {

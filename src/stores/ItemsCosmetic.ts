@@ -161,11 +161,21 @@ export class ItemsCosmetic {
     // save standart Type object in currentItem
     this.currentItem = {...this.toExpandedType(item)} as {[key: string]: expandedItemCosmeticField} ;
   };
+  @action setItems = (items:itemCosmeticPrimaryType[])=>{
+    this.items = [...items];
+  };
 
   @action saveItem = () => {
     // transform expanded itemCreate to the standart type, and save in item collection
     this.items.push(this.toPrimitiveType(this.currentItem as expendedItemType));
   };
+  @action editItem = ()=>{
+    const items = this.getAll();
+    const needed = this.toPrimitiveType(this.currentItem as expendedItemType);
+    const newItems = items.filter((item)=>item.name !== needed.name);
+    this.setItems([...newItems,needed])
+
+  }
   @action clearCurrentItem = () => {
     this.currentItem = { ...expendedItemCosmeticInitialState };
   };

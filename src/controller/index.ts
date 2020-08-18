@@ -14,6 +14,7 @@ import moment from "moment";
 import { urlFormatDate } from "../utils/dates";
 import { addTaskOnDayMock } from "../utils/mocks/addTaskOnDay";
 import { taskObjectDB, additionalType } from "types";
+import {toJS} from 'mobx'
 import {
   TASKKEY,
   SETTING,
@@ -30,6 +31,7 @@ export const updateTaskAfterUpdateItem = async (
   object: itemCosmeticPrimaryType
 ) => {
   const items = await TaskDB.getAll();
+  stores.ItemsCosmetic.editItem()
   const newItems = items.map((item: taskDBType) => {
     if (
       !dateСomparison(item.date, object.date as Date, object.timingDelay.value)
@@ -94,6 +96,7 @@ export const updateTaskAfterNewItem = async () => {
   const itemsNeeded = items.filter((item: taskDBType) =>
     dateСomparison(item.date, newItem.date as Date, newItem.timingDelay.value)
   );
+  stores.ItemsCosmetic.saveItem()
   const updatePromises = await Promise.all(
     itemsNeeded.map((item: taskDBType) => {
       const newObject: taskDBType = { ...item };
@@ -170,17 +173,11 @@ export const createCollections = async () => {
   };
   const create = await openDB(DBNAME, VERSION, {
     upgrade(db) {
-      // todo-bug-new-version-db
       createDB(db,TASK);
       createDB(db,COSMETIC_ITEMS);
       createDB(db,SETTING);
       createDB(db,ADDITIONAL)
-    },
-    //@ts-ignore
-    blocked(optional: any): void {
-      console.log("adasdasdasd");
-      console.log(optional);
-    },
+    }
   });
   return create;
 };
