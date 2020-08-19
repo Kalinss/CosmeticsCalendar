@@ -25,6 +25,10 @@ export class SettingDB{
         return (await this._dbPromise).delete(SETTING, key);
     }
 
+    static async clear() {
+        return (await this._dbPromise).clear(SETTING);
+    }
+
     static async keys() {
         return (await this._dbPromise).getAllKeys(SETTING);
     }

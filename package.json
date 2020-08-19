@@ -43,8 +43,8 @@
   "scripts": {
     "start": "tsc --noEmit && parcel index.html --open --host 192.168.0.104",
     "dev": "parcel index.html ",
-    "build": "parcel build index.html -d dist --public-url .//",
-    "predeploy": "parcel build index.html --public-url .//",
+    "build": "parcel build index.html -d dist --public-url .// && parcel build 404.html -d dist --public-url .//",
+    "predeploy": "parcel build index.html -d dist --public-url .// && parcel build 404.html -d dist --public-url .//",
     "deploy": "gh-pages -d dist "
   },
   "dependencies": {

@@ -1,4 +1,4 @@
-import { expendedItemType, itemCosmeticPrimaryType } from "types";
+import { expendedItemType, itemCosmeticPrimaryType, settingType } from "types";
 import { deepClone, toPrimitiveType } from "../utils/other";
 import {
   CosmeticItemsModelDB,
@@ -14,7 +14,7 @@ import moment from "moment";
 import { urlFormatDate } from "../utils/dates";
 import { addTaskOnDayMock } from "../utils/mocks/addTaskOnDay";
 import { taskObjectDB, additionalType } from "types";
-import {toJS} from 'mobx'
+import { toJS } from "mobx";
 import {
   TASKKEY,
   SETTING,
@@ -31,7 +31,7 @@ export const updateTaskAfterUpdateItem = async (
   object: itemCosmeticPrimaryType
 ) => {
   const items = await TaskDB.getAll();
-  stores.ItemsCosmetic.editItem()
+  stores.ItemsCosmetic.editItem();
   const newItems = items.map((item: taskDBType) => {
     if (
       !dateСomparison(item.date, object.date as Date, object.timingDelay.value)
@@ -96,7 +96,7 @@ export const updateTaskAfterNewItem = async () => {
   const itemsNeeded = items.filter((item: taskDBType) =>
     dateСomparison(item.date, newItem.date as Date, newItem.timingDelay.value)
   );
-  stores.ItemsCosmetic.saveItem()
+  stores.ItemsCosmetic.saveItem();
   const updatePromises = await Promise.all(
     itemsNeeded.map((item: taskDBType) => {
       const newObject: taskDBType = { ...item };
@@ -135,14 +135,39 @@ export const uploadSetting = async () => {
   const saveValueInStore = () => {
     stores.Setting.setConfig([...SettingDBItems]);
   };
-  if (SettingDBItems !== storesSetting || !SettingDBItems) {
-    // If there are new ones then reset
-    const promise = await Promise.all(
-      storesSetting.map((item) => SettingDB.set(item.key, deepClone(item)))
-    );
-    return;
-  }
-  saveValueInStore();
+  const compareSetting = (
+    DBSettings: settingType[],
+    storeSettings: settingType[]
+  ) => {
+    const max = storeSettings.length;
+    let match = 0;
+    for (let i = 0; i < storeSettings.length; i++) {
+      for (let j = 0; j < DBSettings.length; j++) {
+        if (storesSetting[i].name === DBSettings[j].name) {
+          ++match;
+          break;
+        }
+      }
+    }
+    return max === match;
+  };
+  const update = async () => {
+    if (
+      !SettingDBItems ||
+      !compareSetting(SettingDBItems, storesSetting) ||
+      SettingDBItems.length !== storesSetting.length
+    ) {
+      // If there are new ones then rese
+      await SettingDB.clear().then(() => {
+        Promise.all(
+          storesSetting.map((item) => SettingDB.set(item.key, deepClone(item)))
+        );
+      });
+    }
+  };
+  return update().then(() => {
+    saveValueInStore();
+  });
 };
 export const uploadAdditional = async () => {
   const additionalState = stores.Additional;
@@ -164,20 +189,23 @@ export const closeUpdateAlert = async () =>
 
 export const createCollections = async () => {
   // Create database for the first boot
-  const createDB = (db: any,name: string) => {
+  const createDB = (db: any, name: string) => {
     const names = db.objectStoreNames;
-    const isExist = Array.prototype.some.call(names,(item: string) => item === name);
+    const isExist = Array.prototype.some.call(
+      names,
+      (item: string) => item === name
+    );
     if (!isExist) {
       db.createObjectStore(name);
     }
   };
   const create = await openDB(DBNAME, VERSION, {
     upgrade(db) {
-      createDB(db,TASK);
-      createDB(db,COSMETIC_ITEMS);
-      createDB(db,SETTING);
-      createDB(db,ADDITIONAL)
-    }
+      createDB(db, TASK);
+      createDB(db, COSMETIC_ITEMS);
+      createDB(db, SETTING);
+      createDB(db, ADDITIONAL);
+    },
   });
   return create;
 };
