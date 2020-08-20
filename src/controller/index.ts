@@ -1,31 +1,12 @@
-import { expendedItemType, itemCosmeticPrimaryType, settingType } from "types";
-import { deepClone, toPrimitiveType } from "../utils/other";
-import {
-  CosmeticItemsModelDB,
-  TaskDB,
-  SettingDB,
-  AdditionalDB,
-} from "../database";
+import {expendedItemType, itemCosmeticPrimaryType, taskDBType, taskObjectDB} from "types";
+import {deepClone, toPrimitiveType} from "../utils/other";
+import {AdditionalDB, CosmeticItemsModelDB, SettingDB, TaskDB,} from "../database";
 import stores from "../stores/store";
-import { openDB } from "idb";
-import { taskDBType } from "types";
-import { dateСomparison } from "../utils/dates";
+import {openDB} from "idb";
+import {dateСomparison, urlFormatDate} from "../utils/dates";
 import moment from "moment";
-import { urlFormatDate } from "../utils/dates";
-import { addTaskOnDayMock } from "../utils/mocks/addTaskOnDay";
-import { taskObjectDB, additionalType } from "types";
-import { toJS } from "mobx";
-import {
-  TASKKEY,
-  SETTING,
-  DBNAME,
-  TASK,
-  COSMETIC_ITEMS,
-  ADDITIONAL,
-  VERSION,
-} from "../database/config";
-import { Button } from "semantic-ui-react";
-import React from "react";
+import {addTaskOnDayMock} from "../utils/mocks/addTaskOnDay";
+import {ADDITIONAL, COSMETIC_ITEMS, DBNAME, SETTING, TASK, TASKKEY, VERSION,} from "../database/config";
 
 export const updateTaskAfterUpdateItem = async (
   object: itemCosmeticPrimaryType
@@ -119,56 +100,6 @@ export const saveInDBNewItemCosmetic = async (object: expendedItemType) => {
   );
 };
 
-export const toggleSettingField = async (key: string) => {
-  stores.Setting.toggleValueItem(key);
-  const item = await SettingDB.get(key);
-
-  return SettingDB.set(key, { ...item, value: !item.value });
-};
-
-export const uploadSetting = async () => {
-  // upload new setting in DB
-  const storesSetting = stores.Setting.config;
-  const SettingDBItems = await SettingDB.getAll()
-    .then((x) => x)
-    .catch(console.log);
-  const saveValueInStore = () => {
-    stores.Setting.setConfig([...SettingDBItems]);
-  };
-  const compareSetting = (
-    DBSettings: settingType[],
-    storeSettings: settingType[]
-  ) => {
-    const max = storeSettings.length;
-    let match = 0;
-    for (let i = 0; i < storeSettings.length; i++) {
-      for (let j = 0; j < DBSettings.length; j++) {
-        if (storesSetting[i].name === DBSettings[j].name) {
-          ++match;
-          break;
-        }
-      }
-    }
-    return max === match;
-  };
-  const update = async () => {
-    if (
-      !SettingDBItems ||
-      !compareSetting(SettingDBItems, storesSetting) ||
-      SettingDBItems.length !== storesSetting.length
-    ) {
-      // If there are new ones then rese
-      await SettingDB.clear().then(() => {
-        Promise.all(
-          storesSetting.map((item) => SettingDB.set(item.key, deepClone(item)))
-        );
-      });
-    }
-  };
-  return update().then(() => {
-    saveValueInStore();
-  });
-};
 export const uploadAdditional = async () => {
   const additionalState = stores.Additional;
   const publicVersion = await AdditionalDB.get("version");
@@ -237,7 +168,7 @@ export const updateTask = async (
 
 export const cleaningOldTask = async () => {
   const setting = await SettingDB.get("clearOldTask");
-  if (!setting.value) return;
+  if (setting && !setting.value) return;
   const allTask = await TaskDB.getAll().then((x) => x);
   if (!allTask) return;
   const nowDate = moment(new Date());

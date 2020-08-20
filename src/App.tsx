@@ -16,7 +16,6 @@ import stores from "./stores/store";
 import { toJS } from "mobx";
 import { Preloader } from "./components/organisms/Preloader";
 import {
-  uploadSetting,
   openCollections,
   createCollections,
   cleaningOldTask,
@@ -25,6 +24,7 @@ import {
 import { Header } from "./components/organisms/Header";
 import config from "./config";
 import { Alert } from "./components/organisms/Popup/Alert";
+import {uploadSetting} from "./controller/setting";
 
 export const App: React.FunctionComponent = () => {
   const [loader, setLoader] = useState(true);

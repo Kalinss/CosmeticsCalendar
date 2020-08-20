@@ -1,5 +1,20 @@
 import { settingType } from "types";
 import { action, observable } from "mobx";
+import { filter, map } from "lodash";
+
+export const filterExcludingName = (list: settingType[], name: string) =>
+  filter(list, (item) => item.name !== name);
+
+export const toggleValueFieldByKey = (list: settingType[], key: string) => {
+  return map(list, (item) =>
+    item.key === key
+      ? {
+          ...item,
+          value: !item.value,
+        }
+      : item
+  );
+};
 
 export class Setting {
   @observable config: settingType[] = [
@@ -7,37 +22,38 @@ export class Setting {
       name: "Показывать календарь на главной странице",
       key: "calendar",
       value: true,
-      sort:1
+      sort: 1,
     },
     {
       name: "Показывать виджет плана ухода на день на главной странице",
       key: "todoListWidget",
       value: true,
-      sort:2
+      sort: 2,
     },
     {
       name: "Показывать полный план ухода на день на главной странице",
       key: "todoListFull",
       value: false,
-      sort:3
+      sort: 3,
     },
     {
       name: "Отмечать точками напоминания в календаре",
       key: "dotsCalendar",
       value: true,
-      sort:4
+      sort: 4,
     },
     {
       name: `Отмечать точками на календаре срадства, используемые ежедневно`,
       key: "everyDayDots",
       value: false,
-      sort:5
+      sort: 5,
     },
     {
-      name: "Очищать задачи, которые старше 30 дней (советуем включить эту настройку)",
+      name:
+        "Очищать задачи, которые старше 30 дней (советуем включить эту настройку)",
       key: "clearOldTask",
       value: true,
-      sort:6
+      sort: 6,
     },
   ];
 
@@ -45,26 +61,15 @@ export class Setting {
     return this.config;
   }
 
-  @action setConfig(data: settingType[]) {
+  @action async setConfig(data: settingType[]) {
     this.config = [...data];
   }
 
-  @action deleteItem(key: string) {
-    this.config = [
-      ...this.config.filter((item: settingType) => item.name !== key),
-    ];
+  @action deleteItemByName(name: string) {
+    this.setConfig(filterExcludingName(this.config, name));
   }
 
-  @action toggleValueItem(key: string) {
-    this.config = [
-      ...this.config.map((item) =>
-        item.key === key
-          ? {
-              ...item,
-              value: !item.value,
-            }
-          : item
-      ),
-    ];
+  @action async toggleValueFieldByKey(key: string) {
+    return await this.setConfig(toggleValueFieldByKey(this.config, key));
   }
 }

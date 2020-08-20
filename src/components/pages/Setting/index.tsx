@@ -1,15 +1,17 @@
 import React from "react";
-import { Content, Page, Header } from "../../index";
+import { Content, Page } from "../../index";
 import { Checkbox } from "semantic-ui-react";
 import style from "./style.scss";
 import { inject, observer } from "mobx-react";
-import { settingComponentType , settingType } from "types";
-import { toggleSettingField } from "../../../controller";
-import { SettingDB } from "../../../database";
+import { settingType } from "types";
+import { MainStore } from "../../../stores";
+import { toggleSettingValueField } from "../../../controller/setting";
 
-export const Setting: React.FunctionComponent<settingComponentType> = inject(
-  "stores"
-)(
+export type SettingType = {
+  stores?: MainStore;
+};
+
+export const Setting: React.FunctionComponent<SettingType> = inject("stores")(
   observer(({ stores }) => {
     const settingItem = ({ name, value, key }: settingType) => {
       return (
@@ -19,23 +21,23 @@ export const Setting: React.FunctionComponent<settingComponentType> = inject(
             name={name}
             value={key}
             checked={value}
-            onClick={(e) => {
-              toggleSettingField(key);
+            onClick={(_) => {
+              toggleSettingValueField(key);
             }}
           />
         </li>
       );
     };
 
+    const settingItemsCollection = stores!.Setting.config
+      .sort((a: settingType, b: settingType) => a.sort - b.sort)
+      .map((item: any) => settingItem(item));
+
     return (
       <Page>
         <Content>
           <h2>Настройки:</h2>
-          <ul className={style.list}>
-            {stores!.Setting.config
-              .sort((a: settingType, b: settingType) => a.sort - b.sort)
-              .map((item: any) => settingItem(item))}
-          </ul>
+          <ul className={style.list}>{settingItemsCollection}</ul>
           <br />
           <br />
           <p className={style.info}>
@@ -45,22 +47,11 @@ export const Setting: React.FunctionComponent<settingComponentType> = inject(
             устройствах.
           </p>
           <p className={style.info}>
-            Предложения по улучшению приложения, а также найденные вами ошибки присылайте на{" "}
+            Предложения по улучшению приложения, а также найденные вами ошибки
+            присылайте на{" "}
             <a href="mailto:kalinss16@gmail.com">kalinss16@gmail.com</a>
           </p>
         </Content>
-        {/*<button*/}
-        {/*  onClick={() => {*/}
-        {/*    SettingDB.getAll()*/}
-        {/*      .then((x) => x)*/}
-        {/*      .then((x) =>*/}
-        {/*        Promise.all(x.map((item: any) => SettingDB.delete(item.key)))*/}
-        {/*      )*/}
-        {/*      .then(() => alert("Перезагрузите страницу"));*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  delete all setting*/}
-        {/*</button>*/}
       </Page>
     );
   })

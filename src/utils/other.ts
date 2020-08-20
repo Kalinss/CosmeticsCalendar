@@ -1,5 +1,5 @@
 import { expendedItemType, itemCosmeticPrimaryType } from "types";
-
+import { curry } from "lodash/fp";
 export function deepClone(item: any) {
   if (!item) {
     return item;
@@ -114,5 +114,27 @@ export const toExpandedType = (
       text: "",
     },
   };
+};
+
+type primitive = number | string | boolean;
+export const comparePrimitive = curry(
+  (a: primitive, b: primitive): boolean => a === b
+);
+
+export const matchAmountProperty =(
+  object1: { [key:string]: any }[],
+  object2: { [key:string]: any }[],
+  field: string
+) => {
+  let match = 0;
+  for (let i = 0; i < object1.length; i++) {
+    for (let j = 0; j < object2.length; j++) {
+      if (object1[i][`${field}`] === object2[j][`${field}`]) {
+        ++match;
+        break;
+      }
+    }
+  }
+  return match;
 };
 
