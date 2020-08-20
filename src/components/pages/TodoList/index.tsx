@@ -4,7 +4,7 @@ import { IMainStore } from "../../../stores";
 import { getLastStringLocationPath } from "../../../utils/string";
 import moment from "moment";
 import { TaskDB, TASKKEY } from "../../../database";
-import { urlFormatDate } from "../../../utils/dates";
+import { isNeededUrlFormatDate } from "../../../utils/dates";
 import { inject, observer } from "mobx-react";
 import { LoaderComponent } from "../../organisms/Loader";
 import { addTask } from "../../../controller";
@@ -20,7 +20,7 @@ export const TodoList: React.FunctionComponent<IMainStore> = inject("stores")(
 
     const items = stores!.Task.taskState;
     const pathname = getLastStringLocationPath(location.pathname);
-    const date = urlFormatDate(pathname)
+    const date = isNeededUrlFormatDate(pathname)
       ? moment(pathname, "DD.MM.YYYY")
       : moment(new Date());
     const key = date.format(TASKKEY);

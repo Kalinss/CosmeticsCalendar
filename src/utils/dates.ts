@@ -1,29 +1,11 @@
 import moment from "moment";
-import {
-  objectDateCalendar,
-  getTwoDimensionalArrayType,
-  createArrayObjectDaysType,
-} from "types";
+import {createArrayObjectDaysType, objectDateCalendar,} from "types";
 
-export const getTwoDimensionalArray = (
-  array: any[],
-  inCount: number
-): getTwoDimensionalArrayType => {
-  if (inCount == 0) return array;
-
-  const arr = array
-    .map((_, i: number) =>
-      i % inCount === 0 ? array.slice(i, i + inCount) : []
-    )
-    .filter((item) => item[0]);
-
-  return arr;
-};
 
 export const createArrayObjectDays = (
-  month: Date
+  date: Date
 ): createArrayObjectDaysType => {
-  const firstDay = moment(month).startOf("month").format(); // first day of this month
+  const firstDay = moment(date).startOf("month").format(); // first day of this month
   const firstDayNumberOfWeek = moment(firstDay).day() || 7; // day counter from 1 to 7 -> Monday - Sunday
   const array: objectDateCalendar[] = [];
 
@@ -44,10 +26,10 @@ export const createArrayObjectDays = (
   return array;
 };
 
-export const isActuallyMonth = (a: Date, b: Date): boolean =>
+export const isNotSameMonth = (a: Date, b: Date): boolean =>
   moment(a).month() !== moment(b).month();
 
-export const isIdenticalDays = (a: Date, b: Date): boolean => {
+export const isIdenticalDates = (a: Date, b: Date): boolean => {
   const firstDate = moment(a);
   const secondDate = moment(b);
   firstDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
@@ -56,14 +38,14 @@ export const isIdenticalDays = (a: Date, b: Date): boolean => {
 };
 
 //the function checks if a(date) the date that will be through (b + timeDelay * n (day))
-export const dateСomparison = (
-  a: Date,
-  b: Date,
-  timeDelay: number,
-  everyDayDots: boolean = true
+export const compareDateAfterNDays = (
+    actuallyPointDate: Date,
+    startingPointDate: Date,
+    timeDelay: number,
+    everyDayDots: boolean = true
 ) => {
-  const firstDate = moment(a); // Date
-  const secondDate = moment(b); // starting point Date
+  const firstDate = moment(actuallyPointDate); // Date
+  const secondDate = moment(startingPointDate); // starting point Date
   firstDate.set({ hour: 15, minute: 0, second: 0, millisecond: 0 });
   secondDate.set({ hour: 15, minute: 0, second: 0, millisecond: 0 });
   const diff = secondDate.diff(firstDate, "d");
@@ -79,5 +61,5 @@ export const dateСomparison = (
   return diff % timeDelay === 0;
 };
 
-export const urlFormatDate = (str: string): boolean =>
+export const isNeededUrlFormatDate = (str: string): boolean => // cc.cc.cccc format
   /\d{2}\.\d{2}\.\d{4}/g.test(str.trim());

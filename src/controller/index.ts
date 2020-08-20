@@ -1,9 +1,9 @@
 import {expendedItemType, itemCosmeticPrimaryType, taskDBType, taskObjectDB} from "types";
-import {deepClone, toPrimitiveType} from "../utils/other";
+import {deepClone, toPrimitiveCosmeticItemType} from "../utils/other";
 import {AdditionalDB, CosmeticItemsModelDB, SettingDB, TaskDB,} from "../database";
 import stores from "../stores/store";
 import {openDB} from "idb";
-import {dateСomparison, urlFormatDate} from "../utils/dates";
+import {compareDateAfterNDays, isNeededUrlFormatDate} from "../utils/dates";
 import moment from "moment";
 import {addTaskOnDayMock} from "../utils/mocks/addTaskOnDay";
 import {ADDITIONAL, COSMETIC_ITEMS, DBNAME, SETTING, TASK, TASKKEY, VERSION,} from "../database/config";
@@ -15,7 +15,7 @@ export const updateTaskAfterUpdateItem = async (
   stores.ItemsCosmetic.editItem();
   const newItems = items.map((item: taskDBType) => {
     if (
-      !dateСomparison(item.date, object.date as Date, object.timingDelay.value)
+      !compareDateAfterNDays(item.date, object.date as Date, object.timingDelay.value)
     ) {
       return {
         task: [...item.task.filter((x: any) => x.name !== object.name)],
@@ -71,11 +71,11 @@ export const updateTaskAfterDeleteItem = async (
 
 export const updateTaskAfterNewItem = async () => {
   const items = await TaskDB.getAll();
-  const newItem = toPrimitiveType(
+  const newItem = toPrimitiveCosmeticItemType(
     stores.ItemsCosmetic.currentItem as expendedItemType
   );
   const itemsNeeded = items.filter((item: taskDBType) =>
-    dateСomparison(item.date, newItem.date as Date, newItem.timingDelay.value)
+    compareDateAfterNDays(item.date, newItem.date as Date, newItem.timingDelay.value)
   );
   stores.ItemsCosmetic.saveItem();
   const updatePromises = await Promise.all(
@@ -93,7 +93,7 @@ export const updateTaskAfterNewItem = async () => {
 };
 
 export const saveInDBNewItemCosmetic = async (object: expendedItemType) => {
-  const formDBObject = toPrimitiveType(object);
+  const formDBObject = toPrimitiveCosmeticItemType(object);
   const result = await CosmeticItemsModelDB.set(
     formDBObject.name.trim(),
     deepClone(formDBObject)
@@ -187,7 +187,7 @@ export const cleaningOldTask = async () => {
 
 export const onloadTaskForDate = async (keyData: string) => {
   //  DD.MM.YYYY format
-  const key = urlFormatDate(keyData)
+  const key = isNeededUrlFormatDate(keyData)
     ? moment(keyData, "L")
     : moment(new Date());
 
@@ -201,7 +201,7 @@ export const onloadTaskForDate = async (keyData: string) => {
       const desiredDate = key.toDate();
 
       const arr = stores!.ItemsCosmetic.items.filter((item: any) => {
-        return dateСomparison(desiredDate, item.date, item.timingDelay.value);
+        return compareDateAfterNDays(desiredDate, item.date, item.timingDelay.value);
       });
 
       TaskDB.set(key.format("YYYYMMDD"), {

@@ -15,7 +15,7 @@ import {
   itemCosmeticPrimaryType,
 } from "types";
 import { updateTask } from "../../../controller";
-import { deepClone, toPrimitiveType } from "../../../utils/other";
+import { deepClone, toPrimitiveCosmeticItemType } from "../../../utils/other";
 import { updateTaskAfterUpdateItem } from "../../../controller";
 import config from "../../../config";
 import { toJS } from "mobx";
@@ -40,7 +40,7 @@ export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
     };
     const clickButton = () => {
       setOpenAlert(true);
-      const current = itemCosmeticStore.toPrimitiveType(
+      const current = toPrimitiveCosmeticItemType(
         currentItemCosmetic as expendedItemType
       );
       updateTaskAfterUpdateItem(current)
@@ -58,7 +58,7 @@ export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
     useEffect(() => {
       // load default values
       // load finded object
-      itemCosmeticStore.findItemEdit(findItemName).then((item) => {
+      itemCosmeticStore.getItemFromCollection(findItemName).then((item) => {
         if (item) {
           itemCosmeticStore.toCurrentItem(item);
           setDefaultValues(item);
@@ -72,7 +72,7 @@ export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
       if (
         JSON.stringify(defaultValues) !==
         JSON.stringify(
-          toPrimitiveType(itemCosmeticStore.currentItem as expendedItemType)
+          toPrimitiveCosmeticItemType(itemCosmeticStore.currentItem as expendedItemType)
         )
       ) {
         setDisabledEditButton(false);

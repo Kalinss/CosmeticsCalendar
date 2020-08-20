@@ -13,7 +13,6 @@ import "semantic-ui-css/semantic.min.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Provider } from "mobx-react";
 import stores from "./stores/store";
-import { toJS } from "mobx";
 import { Preloader } from "./components/organisms/Preloader";
 import {
   openCollections,

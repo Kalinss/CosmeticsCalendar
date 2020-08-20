@@ -1,5 +1,10 @@
-import { expendedItemType, itemCosmeticPrimaryType } from "types";
+import {
+  expendedItemType,
+  getTwoDimensionalArrayType,
+  itemCosmeticPrimaryType,
+} from "types";
 import { curry } from "lodash/fp";
+
 export function deepClone(item: any) {
   if (!item) {
     return item;
@@ -57,29 +62,29 @@ export function deepClone(item: any) {
   return result;
 }
 
-export const toPrimitiveType = (
+export const toPrimitiveCosmeticItemType = (
   item: expendedItemType
 ): itemCosmeticPrimaryType => {
   return {
-    name: ("" + item.name.value).trim(),
-    description: "" + item.description!.value,
+    name:  `${item.name.value}`,
+    description: `${item.description!.value}`,
     timingDelay: {
-      value: +item.timingDelay.value!,
-      text: "" + item.timingDelay.text,
+      value: Number(item.timingDelay.value!),
+      text: `${item.timingDelay.text}`,
     },
     dayOrEvening: {
-      value: +item.dayOrEvening.value!,
-      text: "" + item.dayOrEvening.text,
+      value: Number(item.dayOrEvening.value!),
+      text: `${item.dayOrEvening.text}`,
     },
     type: {
-      value: +item.type!.value! || 0,
-      text: "" + item.type!.text || "",
+      value: Number(item.type!.value!) || 0,
+      text: `${item.type!.text || ""}`,
     },
     date: item.date.value as Date,
   };
 };
 
-export const toExpandedType = (
+export const toExpandedCosmeticItemType = (
   item: itemCosmeticPrimaryType
 ): expendedItemType => {
   return {
@@ -116,14 +121,9 @@ export const toExpandedType = (
   };
 };
 
-type primitive = number | string | boolean;
-export const comparePrimitive = curry(
-  (a: primitive, b: primitive): boolean => a === b
-);
-
-export const matchAmountProperty =(
-  object1: { [key:string]: any }[],
-  object2: { [key:string]: any }[],
+export const matchAmountProperty = (
+  object1: { [key: string]: any }[],
+  object2: { [key: string]: any }[],
   field: string
 ) => {
   let match = 0;
@@ -138,3 +138,12 @@ export const matchAmountProperty =(
   return match;
 };
 
+export const chunk = (
+  array: any[],
+  inCount: number
+): getTwoDimensionalArrayType =>
+  array.reduce(
+    (acc, item, i, arr) =>
+      i % inCount === 0 ? [...acc, arr.slice(i, i + inCount)] : [...acc],
+    []
+  );

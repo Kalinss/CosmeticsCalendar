@@ -1,43 +1,32 @@
-import { openDB } from "idb";
+import { DBSchema, IDBPDatabase, openDB } from "idb";
 import { VERSION, COSMETIC_ITEMS, DBNAME } from "./config";
-import {itemCosmeticPrimaryType} from "../types";
+import { itemCosmeticPrimaryType } from "../types";
 
+export type ICosmeticDB = {
+  key: string;
+  value: {
+    name: string;
+    description?: string;
+    timingDelay: {
+      value: number;
+      text: string;
+    };
+    dayOrEvening: {
+      value: number;
+      text: string;
+    };
+    type?: {
+      value: number;
+      text: string;
+    };
+    date: Date;
+  };
+};
 export class CosmeticItemsModelDB {
-  name: string;
-  description?: string;
-  timingDelay: {
-    value: number;
-    text: string;
-  };
-  dayOrEvening: {
-    value: number;
-    text: string;
-  };
-  type?: {
-    value: number;
-    text: string;
-  };
-  date:Date;
-  // todo any db
-  static _dbPromise: any;
-
-  constructor({
-    name,
-    description = "",
-    timingDelay,
-    dayOrEvening,
-    type,
-  }: itemCosmeticPrimaryType) {
-    this.name = name;
-    this.description = description;
-    this.timingDelay = timingDelay;
-    this.dayOrEvening = dayOrEvening;
-    this.type = type;
-    this.date = new Date();
-  }
+  static _dbPromise: Promise<IDBPDatabase<ICosmeticDB>>;
 
   static open() {
-    return (this._dbPromise = openDB(DBNAME, VERSION, {
+    return (this._dbPromise = openDB<ICosmeticDB>(DBNAME, VERSION, {
       upgrade(db) {
         db.createObjectStore(COSMETIC_ITEMS);
       },

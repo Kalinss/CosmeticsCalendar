@@ -1,22 +1,27 @@
 import React from "react";
-import classNames from "classnames";
 import { GenerateTableCalendarType, objectDateCalendar } from "types";
 import {
-  isIdenticalDays,
-  dateСomparison,
-  isActuallyMonth,
+  isIdenticalDates,
+  compareDateAfterNDays,
+  isNotSameMonth,
 } from "../../../utils/dates";
 import { CalendarTableCell } from "../../atoms/CalendarTableCell";
 
 export const GenerateTableCalendar: React.FunctionComponent<GenerateTableCalendarType> = (
   props
 ) => {
-  const dotsTask = () => {
+  const isShowDotsTask = () => {
     const field = props.settings.find((item) => item.key === "dotsCalendar");
     return field && field.value;
   };
 
-  const setting = props.settings.find((item) => item.key === "everyDayDots");
+  const isShowDotsEveryDayTask = () => {
+    const everyDayTaskObject = props.settings.find(
+      (item) => item.key === "everyDayDots"
+    );
+    return everyDayTaskObject!.value;
+  };
+
   return (
     <table>
       <tbody>
@@ -30,7 +35,7 @@ export const GenerateTableCalendar: React.FunctionComponent<GenerateTableCalenda
                   disabled={true}
                   value={item.number}
                 />
-              ) : isActuallyMonth(props.actuallyDate, item.date) ? (
+              ) : isNotSameMonth(props.actuallyDate, item.date) ? (
                 <CalendarTableCell
                   key={z}
                   date={item.date}
@@ -43,15 +48,15 @@ export const GenerateTableCalendar: React.FunctionComponent<GenerateTableCalenda
                   date={item.date}
                   disabled={false}
                   value={item.number}
-                  active={isIdenticalDays(item.date, props.actuallyDate)}
+                  active={isIdenticalDates(item.date, props.actuallyDate)}
                   dot={props.itemsCosmetic.some(
                     (cosmetic) =>
-                      dateСomparison(
+                      compareDateAfterNDays(
                         item.date,
                         cosmetic.date,
                         cosmetic.timingDelay.value,
-                        setting!.value
-                      ) && dotsTask()
+                        isShowDotsEveryDayTask()
+                      ) && isShowDotsTask()
                   )}
                 />
               );

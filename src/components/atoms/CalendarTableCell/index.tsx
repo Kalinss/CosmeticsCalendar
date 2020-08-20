@@ -4,6 +4,7 @@ import classNames from "classnames";
 import { Link, Router } from "react-router-dom";
 import moment from "moment";
 import config from "../../../config";
+
 type typeCalendarTableCell = {
   disabled: boolean;
   value: number;
@@ -21,6 +22,7 @@ export const CalendarTableCell: React.FC<typeCalendarTableCell> = ({
 }) => {
   const getFormatDate = (date: Date) => moment(date).format("L");
   const getLink = `${config.baseHref}/todolist/${getFormatDate(date)}`;
+
   const classNameTD = classNames(style.td, disabled && style.disabled);
   const classActive = classNames(active && style.active);
 

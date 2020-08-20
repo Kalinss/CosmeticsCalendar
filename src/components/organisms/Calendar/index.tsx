@@ -1,10 +1,6 @@
 import React, { FunctionComponent, useState, useMemo } from "react";
 import style from "./style.scss";
-import { toJS } from "mobx";
-import {
-  createArrayObjectDays,
-  getTwoDimensionalArray,
-} from "../../../utils/dates";
+import { createArrayObjectDays } from "../../../utils/dates";
 import { getUpperFirstCharString } from "../../../utils/string";
 import {
   ButtonCalendar,
@@ -14,6 +10,7 @@ import {
 import moment from "moment";
 import "moment/locale/ru";
 import { IMainStore } from "stores";
+import { chunk } from "../../../utils/other";
 
 //animation constants
 const HEIGHT_CALENDAR = 271;
@@ -22,20 +19,21 @@ const TRANSITION_SLIDER_DELAY = 0.3;
 export const Calendar: FunctionComponent<IMainStore> = ({ stores }) => {
   const [actuallyDate, setActuallyDate] = useState(new Date());
   const [yPosition, setYPosition] = useState(-HEIGHT_CALENDAR);
-  const [transition, setTransition] = useState(true);
-  const [disabledButton, setDisabledButton] = useState(false);
+  const [isTransition, setTransition] = useState(true);
+  const [isDisabledButton, setDisabledButton] = useState(false);
 
   const prevMonth = moment(actuallyDate).subtract(1, "M").toDate();
   const nextMonth = moment(actuallyDate).add(1, "M").toDate();
 
-  const dimensionalDateArray = useMemo(
-    () => getTwoDimensionalArray(createArrayObjectDays(actuallyDate), 7),
+  const chunkedDateArray = useMemo(
+    () => chunk(createArrayObjectDays(actuallyDate), 7),
     [actuallyDate]
   );
   const actuallyDateMonthName = getUpperFirstCharString(
     moment(actuallyDate).locale("ru").format("MMMM")
   );
-  const itemsCosmetic = toJS(stores!.ItemsCosmetic.items);
+
+  const itemsCosmetic = stores!.ItemsCosmetic.items;
   const setting = stores!.Setting.config;
 
   // animation functions
@@ -66,7 +64,7 @@ export const Calendar: FunctionComponent<IMainStore> = ({ stores }) => {
   // style for animation
   const styleSlider = {
     transform: `translateY(${yPosition}px)`,
-    transition: transition ? `${TRANSITION_SLIDER_DELAY}s ease` : "",
+    transition: isTransition ? `${TRANSITION_SLIDER_DELAY}s ease` : "",
   };
 
   return (
@@ -81,10 +79,10 @@ export const Calendar: FunctionComponent<IMainStore> = ({ stores }) => {
         </div>
 
         <div className={style.right}>
-          <ButtonCalendar clickHandler={prev} disabled={disabledButton} />
+          <ButtonCalendar clickHandler={prev} disabled={isDisabledButton} />
           <ButtonCalendar
             clickHandler={next}
-            disabled={disabledButton}
+            disabled={isDisabledButton}
             bottom={true}
           />
         </div>
@@ -98,14 +96,14 @@ export const Calendar: FunctionComponent<IMainStore> = ({ stores }) => {
       >
         <div className={style.styleSlider} style={styleSlider}>
           <GenerateTableCalendar // for prev month
-            array={dimensionalDateArray}
+            array={chunkedDateArray}
             actuallyDate={prevMonth}
             allDisabled={true}
             itemsCosmetic={itemsCosmetic}
             settings={setting}
           />
           <GenerateTableCalendar // for actually month
-            array={dimensionalDateArray}
+            array={chunkedDateArray}
             actuallyDate={actuallyDate}
             allDisabled={false}
             itemsCosmetic={itemsCosmetic}
@@ -114,7 +112,7 @@ export const Calendar: FunctionComponent<IMainStore> = ({ stores }) => {
 
           <GenerateTableCalendar //for next month
             allDisabled={true}
-            array={dimensionalDateArray}
+            array={chunkedDateArray}
             actuallyDate={nextMonth}
             itemsCosmetic={itemsCosmetic}
             settings={setting}

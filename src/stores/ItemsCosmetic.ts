@@ -5,7 +5,10 @@ import {
   itemCosmeticPrimaryType,
   expendedItemType,
 } from "../types";
-
+import {
+  toExpandedCosmeticItemType,
+  toPrimitiveCosmeticItemType,
+} from "../utils/other";
 import { CosmeticItemsModelDB } from "../database/cosmeticItemsModelDB";
 
 export const expendedItemCosmeticInitialState = {
@@ -48,61 +51,6 @@ export class ItemsCosmetic {
     [key: string]: expandedItemCosmeticField;
   };
 
-  toPrimitiveType(item: expendedItemType): itemCosmeticPrimaryType {
-    return {
-      name: ("" + item.name.value).trim(),
-      description: "" + item.description!.value,
-      timingDelay: {
-        value: +item.timingDelay.value!,
-        text: "" + item.timingDelay.text,
-      },
-      dayOrEvening: {
-        value: +item.dayOrEvening.value!,
-        text: "" + item.dayOrEvening.text,
-      },
-      type: {
-        value: +item.type!.value! || 0,
-        text: "" + item.type!.text || "",
-      },
-      date: item.date.value as Date,
-    };
-  }
-
-  toExpandedType(item:itemCosmeticPrimaryType):expendedItemType{
-    return {
-      name: {
-        value: item.name,
-        error: "",
-        text: "",
-      },
-      description: {
-        value: item.description,
-        error: "",
-        text: "",
-      },
-      timingDelay: {
-        value: item.timingDelay.value,
-        error: "",
-        text: item.timingDelay.text,
-      },
-      dayOrEvening: {
-        value: item.dayOrEvening.value,
-        error: "",
-        text: item.dayOrEvening.text,
-      },
-      type: {
-        value: item.type!.value,
-        error: "",
-        text: item.type!.text,
-      },
-      date: {
-        value: item.date,
-        error: "",
-        text: "",
-      },
-    };
-  }
-
   @action getAll(): itemCosmeticPrimaryType[] {
     return [...this.items];
   }
@@ -117,16 +65,11 @@ export class ItemsCosmetic {
     };
   };
 
-  @action findItemEdit(
+  @action getItemFromCollection = async (
     key: string
-  ): Promise<itemCosmeticPrimaryType | undefined> {
-    return new Promise((resolve, reject) => {
-      const find: itemCosmeticPrimaryType | undefined = this.items.find(
-        (item) => item.name === key
-      );
-      resolve(find as itemCosmeticPrimaryType);
-    });
-  }
+  ): Promise<itemCosmeticPrimaryType | undefined> => {
+    return this.items.find((item) => item.name === key);
+  };
 
   @action saveEditItem = (currentItem: itemCosmeticPrimaryType) => {
     const findIndexObject = this.items.findIndex(
@@ -141,16 +84,13 @@ export class ItemsCosmetic {
     return this.items[this.items.length - 1];
   }
 
-  @action loadAllItemsFromDB = () => {
+  @action loadAllItemsFromDB = async () => {
     // get all item
-    return new Promise((resolve, reject) => {
-      CosmeticItemsModelDB.getAll()
+    return await CosmeticItemsModelDB.getAll()
         .then((data) => {
           this.items = [...data];
-          resolve(true);
         })
-        .catch((err) => reject(err));
-    });
+        .catch(console.log); // todo handle errors
   };
 
   @action deleteItem = (key: string) => {
@@ -159,23 +99,28 @@ export class ItemsCosmetic {
 
   @action toCurrentItem = (item: itemCosmeticPrimaryType) => {
     // save standart Type object in currentItem
-    this.currentItem = {...this.toExpandedType(item)} as {[key: string]: expandedItemCosmeticField} ;
+    this.currentItem = { ...toExpandedCosmeticItemType(item) } as {
+      [key: string]: expandedItemCosmeticField;
+    };
   };
-  @action setItems = (items:itemCosmeticPrimaryType[])=>{
+  @action setItems = (items: itemCosmeticPrimaryType[]) => {
     this.items = [...items];
   };
 
   @action saveItem = () => {
     // transform expanded itemCreate to the standart type, and save in item collection
-    this.items.push(this.toPrimitiveType(this.currentItem as expendedItemType));
+    this.items.push(
+      toPrimitiveCosmeticItemType(this.currentItem as expendedItemType)
+    );
   };
-  @action editItem = ()=>{
+  @action editItem = () => {
     const items = this.getAll();
-    const needed = this.toPrimitiveType(this.currentItem as expendedItemType);
-    const newItems = items.filter((item)=>item.name !== needed.name);
-    this.setItems([...newItems,needed])
-
-  }
+    const needed = toPrimitiveCosmeticItemType(
+      this.currentItem as expendedItemType
+    );
+    const newItems = items.filter((item) => item.name !== needed.name);
+    this.setItems([...newItems, needed]);
+  };
   @action clearCurrentItem = () => {
     this.currentItem = { ...expendedItemCosmeticInitialState };
   };
