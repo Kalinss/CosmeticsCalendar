@@ -4,11 +4,12 @@ import { inject, observer } from "mobx-react";
 import { MainStore } from "../../../stores";
 import classNames from "classnames";
 import { taskObjectDB } from "types";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { TaskDB } from "../../../database";
+import { Link } from "react-router-dom";
+import { ITaskDBValue } from "../../../database/taskDB";
 import moment from "moment";
 import { deepClone } from "../../../utils/other";
 import config from "../../../config";
+
 type todayWidgetTodoList = {
   stores?: MainStore;
 };
@@ -23,7 +24,7 @@ const getActuallyTask = (task: taskObjectDB[], day: boolean) =>
     ? [...getNeededTask(task, 1), ...getNeededTask(task, 2)]
     : [...getNeededTask(task, 1), ...getNeededTask(task, 3)];
 
-const getItemsTask = (stateTask: TaskDB) => {
+const getItemsTask = (stateTask: ITaskDBValue) => {
   let task = deepClone(stateTask.task);
   const now = new Date();
   task = getActuallyTask(task, isDay(now));

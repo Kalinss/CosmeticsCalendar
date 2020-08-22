@@ -1,10 +1,8 @@
 import React from "react";
-import { Page, Content } from "../index";
-import style from "./style.scss";
-import { CreateCosmeticForm } from "../../organisms/index";
+import { Content, Page } from "../index";
+import { Alert, CreateCosmeticForm } from "../../organisms/index";
 import { MainStore } from "../../../stores";
 import { formDataType } from "types";
-import { Alert } from "../../organisms/index";
 
 type CreateCosmeticTemplate = {
   stores: MainStore;
@@ -43,7 +41,7 @@ export const CreateCosmeticTemplate: React.FC<CreateCosmeticTemplate> = ({
           title={cosmeticName || "Новая косметика"}
           isOpen={isOpenAlert}
           clickHandler={popupHandler}
-        ></Alert>
+        />
       </Content>
     </Page>
   );

@@ -56,9 +56,9 @@ describe("toggleValueFieldByKey", () => {
       key: "todoListWidget",
       value: true,
       sort: 2,
-    }
+    },
   ];
-  test('should return changed value field',()=>{
-    expect(toggleValueFieldByKey(input,'calendar')).toStrictEqual(otput);
+  test("should return changed value field", () => {
+    expect(toggleValueFieldByKey(input, "calendar")).toStrictEqual(otput);
   });
 });

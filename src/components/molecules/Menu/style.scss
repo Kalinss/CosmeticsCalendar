@@ -1,4 +1,5 @@
 @import "../../../styles/variables";
+
 .menu {
   width: 100%;
   display: block;
@@ -9,10 +10,12 @@
   height: auto;
   background-color: white;
 }
+
 .list {
   display: flex;
   flex-direction: column;
 }
+
 .item {
   font-size: 18px;
   display: inline-block;
@@ -24,22 +27,26 @@
     transition: color 0.3s ease;
     color: $second-color;
   }
-  & a{
+
+  & a {
     padding: 10px 0;
-    display:block;
+    display: block;
   }
+
   &:last-child {
     & a {
       padding: 10px 0 0 0;
     }
   }
 }
+
 .item .active {
   & span {
     color: $second-color;
     font-weight: 500;
   }
 }
+
 .item:hover {
   & span {
     color: $second-color;

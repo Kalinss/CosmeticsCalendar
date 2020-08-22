@@ -1,13 +1,11 @@
 import React, { useRef } from "react";
-import { MainStore } from "../../../stores/index";
+import { MainStore } from "../../../stores";
 import { Content, Page, TodayWidgetTodoList } from "../../index";
-import { toJS } from "mobx";
 import { TodoListTemplate } from "../TodoListTemplate";
 import { Calendar } from "../../organisms/Calendar";
 import { clickHandlerType as clickButtonHandler } from "../../organisms/AddTask/type";
 import { taskDB } from "types";
-import { Checkbox } from "semantic-ui-react";
-import { CheckboxProps } from "semantic-ui-react";
+import { Checkbox, CheckboxProps } from "semantic-ui-react";
 import { Alert } from "../../organisms/Popup/Alert";
 import style from "./style.scss";
 
@@ -118,8 +116,8 @@ export const MainTemplate: React.FC<typeMainTemplate> = ({
   return (
     <Page>
       <Content>
-        <TodayWidgetWrap></TodayWidgetWrap>
-        <CalendarWrap></CalendarWrap>
+        <TodayWidgetWrap />
+        <CalendarWrap />
         {fullTodoListWrap()}
         <Alert
           buttonName={"Закрыть"}

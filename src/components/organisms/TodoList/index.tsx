@@ -2,7 +2,7 @@ import React from "react";
 import style from "./style.scss";
 import { taskObjectDB } from "types";
 import { clickHandlerType } from "./types";
-import {TodoListItem} from "../../molecules/TodoListItem";
+import { TodoListItem } from "../../molecules/TodoListItem";
 
 export type TodoListType = {
   tasks: taskObjectDB[];
@@ -10,7 +10,6 @@ export type TodoListType = {
   isDayTask?: boolean;
   clickHandler?: clickHandlerType;
 };
-
 
 export const TodoList: React.FC<TodoListType> = ({
   tasks,
@@ -24,9 +23,12 @@ export const TodoList: React.FC<TodoListType> = ({
       <ul className={style.list}>
         {tasks.map((item, i) => {
           return (
-
-            <TodoListItem key={i} item={item} clickHandler={clickHandler} isDayTask={isDayTask}/>
-
+            <TodoListItem
+              key={i}
+              item={item}
+              clickHandler={clickHandler}
+              isDayTask={isDayTask}
+            />
           );
         })}
       </ul>

@@ -1,7 +1,5 @@
 import React, { ChangeEvent } from "react";
-import style from "./style.scss";
 import moment from "moment";
-import { DropdownItemProps, DropdownProps } from "semantic-ui-react";
 import { FormLabel } from "../../atoms/FormLabel";
 
 type typeDataRecord = {
@@ -14,7 +12,7 @@ export const DataRecord: React.FC<typeDataRecord> = ({
   label,
   defaultValue,
   changeHandler,
-  classComponent = '',
+  classComponent = "",
 }) => {
   return (
     <div className={classComponent}>

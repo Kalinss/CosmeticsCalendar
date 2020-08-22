@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./style.scss";
-import { taskObjectDB } from "../../../types";
+import { taskObjectDB } from "types";
 import classNames from "classnames";
 import { TASKKEY } from "../../../database";
 import { ArrowCheck } from "../../atoms/ArrowCheck";
@@ -11,7 +11,6 @@ type TodoListItem = {
   isDayTask?: boolean;
   item: taskObjectDB;
   clickHandler: clickHandlerType;
-
 };
 
 const classText = (item: taskObjectDB) =>
@@ -24,12 +23,12 @@ const classCloseLineEvening = (item: taskObjectDB) =>
 export const TodoListItem: React.FC<TodoListItem> = React.memo(
   ({ item, clickHandler, isDayTask = true }) => {
     return (
-      <li  className={style.item} data-type={item.type!.value}>
+      <li className={style.item} data-type={item.type!.value}>
         <p className={classText(item)}>
           {isDayTask ? (
-            <span className={classCloseLineDay(item)}></span>
+            <span className={classCloseLineDay(item)} />
           ) : (
-            <span className={classCloseLineEvening(item)}></span>
+            <span className={classCloseLineEvening(item)} />
           )}
           {item.name}
         </p>

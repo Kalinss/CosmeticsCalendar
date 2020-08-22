@@ -1,23 +1,17 @@
 import React, { useState } from "react";
 import style from "./style.scss";
-import {
-  Button,
-  DropdownProps,
-  Form,
-  Input,
-  Select,
-  TextArea,
-} from "semantic-ui-react";
+import { Button, DropdownProps, Form } from "semantic-ui-react";
 import { dataFields } from "../../../utils/mocks/dataFields";
 import moment from "moment";
-import { expendedItemType, formDataType } from "types";
+import { formDataType } from "types";
 import { MainStore } from "../../../stores";
 import {
-  SelectRecord,
   DataRecord,
-  TextAreaRecord,
   InputRecord,
+  SelectRecord,
+  TextAreaRecord,
 } from "../../molecules/index";
+
 type typeFieldChangeHandler = (e: any, data: formDataType) => any;
 
 type CreateCosmeticForm = {
@@ -28,7 +22,6 @@ type CreateCosmeticForm = {
   clickHandler: VoidFunction;
 };
 export const CreateCosmeticForm: React.FC<CreateCosmeticForm> = ({
-  stores,
   disabled,
   changeHandler = () => {},
   error = "",

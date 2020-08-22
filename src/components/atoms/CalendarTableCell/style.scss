@@ -1,65 +1,73 @@
-@import '../../../styles/variables';
-.td{
+@import "../../../styles/variables";
+
+.td {
   width: 45px;
   height: 45px;
-  border:1px solid transparent;
+  border: 1px solid transparent;
   position: relative;
   font-size: 0;
   //border-collapse:separate;
   cursor: pointer;
-  & a{
+
+  & a {
     width: 100%;
     height: 100%;
     display: block;
   }
-  & div{
+
+  & div {
     width: 100%;
     height: 100%;
     transition: border 0.3s ease;
-    border:1px solid transparent;
-    border-radius:50%;
+    border: 1px solid transparent;
+    border-radius: 50%;
     cursor: inherit;
   }
-  & div:hover{
-    border:1px solid $first-color;
-    border-radius:50%;
 
+  & div:hover {
+    border: 1px solid $first-color;
+    border-radius: 50%;
   }
-  & span{
+
+  & span {
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%,-50%);
-    display:block;
+    transform: translate(-50%, -50%);
+    display: block;
     cursor: inherit;
   }
-
 }
+
 .disabled {
   opacity: 0.5;
   cursor: default;
-  translate:0.5s ease;
-  & div:hover{
+
+  & div:hover {
     border: 1px solid transparent;
   }
 }
-.linkText{
+
+.linkText {
   color: $second-color;
 }
-.active{
+
+.active {
   border: 1px solid #ccc !important;
-  border-radius:50%;
+  border-radius: 50%;
 }
-.linkToList{
+
+.linkToList {
   display: block;
   width: 100%;
   height: 100%;
 }
-.wrap{
-  position: relative;
 
+.wrap {
+  position: relative;
 }
-.dot{
+
+.dot {
   width: 4px;
   height: 4px;
   background-color: #272727;

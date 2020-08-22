@@ -1,21 +1,21 @@
-import { taskObjectDB, taskDB } from "../types";
-import { openDB } from "idb";
-import { VERSION, TASK, DBNAME} from "./config";
+import { taskObjectDB } from "types";
+import { IDBPDatabase, openDB } from "idb";
+import { DBNAME, TASK, VERSION } from "./config";
 
-
-export class TaskDB {
+export type ITaskDBValue = {
   task: taskObjectDB[];
   date: Date;
-  // todo any db
-  static _dbPromise: any;
+};
+export type ITaskDB = {
+  key: string;
+  value: ITaskDBValue;
+};
 
-  constructor(props: taskDB) {
-    this.task = props.task;
-    this.date = props.date;
-  }
+export class TaskDB {
+  static _dbPromise: Promise<IDBPDatabase<ITaskDB>>;
 
   static open() {
-    return (this._dbPromise = openDB(DBNAME, VERSION, {
+    return (this._dbPromise = openDB<ITaskDB>(DBNAME, VERSION, {
       upgrade(db) {
         db.createObjectStore(TASK);
       },
@@ -44,12 +44,12 @@ export class TaskDB {
   }
 
   static async update(key: string, val: { task: taskObjectDB[]; date: Date }) {
-    const result = await this.delete(key)
-      .then((x) => {
+    return await this.delete(key)
+      .then(() => {
         return this.set(key, { ...val });
       })
+      .catch(console.log) // todo error handler
       .then((x) => x);
-    return result;
   }
 
   static async db() {

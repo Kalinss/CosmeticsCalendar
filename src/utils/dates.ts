@@ -1,6 +1,5 @@
 import moment from "moment";
-import {createArrayObjectDaysType, objectDateCalendar,} from "types";
-
+import { createArrayObjectDaysType, objectDateCalendar } from "types";
 
 export const createArrayObjectDays = (
   date: Date
@@ -39,10 +38,10 @@ export const isIdenticalDates = (a: Date, b: Date): boolean => {
 
 //the function checks if a(date) the date that will be through (b + timeDelay * n (day))
 export const compareDateAfterNDays = (
-    actuallyPointDate: Date,
-    startingPointDate: Date,
-    timeDelay: number,
-    everyDayDots: boolean = true
+  actuallyPointDate: Date,
+  startingPointDate: Date,
+  timeDelay: number,
+  everyDayDots: boolean = true
 ) => {
   const firstDate = moment(actuallyPointDate); // Date
   const secondDate = moment(startingPointDate); // starting point Date
@@ -61,5 +60,5 @@ export const compareDateAfterNDays = (
   return diff % timeDelay === 0;
 };
 
-export const isNeededUrlFormatDate = (str: string): boolean => // cc.cc.cccc format
-  /\d{2}\.\d{2}\.\d{4}/g.test(str.trim());
+export const isNeededUrlFormatDate = (str: string): boolean =>
+  /\d{2}\.\d{2}\.\d{4}/g.test(str.trim()); // cc.cc.cccc format

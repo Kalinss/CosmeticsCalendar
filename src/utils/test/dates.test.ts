@@ -1,4 +1,10 @@
-import { createArrayObjectDays ,compareDateAfterNDays,isNeededUrlFormatDate, isNotSameMonth,isIdenticalDates } from "../dates";
+import {
+  compareDateAfterNDays,
+  createArrayObjectDays,
+  isIdenticalDates,
+  isNeededUrlFormatDate,
+  isNotSameMonth,
+} from "../dates";
 
 describe("createArrayObjectDays", () => {
   const input = new Date(2020, 6, 7);
@@ -54,51 +60,68 @@ describe("createArrayObjectDays", () => {
   });
 });
 
-describe('compareDateAfterNDays',()=>{
+describe("compareDateAfterNDays", () => {
   const input = {
-    startingPointDate:new Date(2020,7,20),
-    endPointDate: new Date(2020,7,22),
-    timingDayDelay:2 // day
-  }
-  test('should return true',()=>{
-    expect((compareDateAfterNDays(input.endPointDate,input.startingPointDate,2))).toBe(true);
-    expect((compareDateAfterNDays(input.endPointDate,new Date(2020,7,22),2,false))).toBe(true);
-  })
-  test('should return false',()=>{
-    expect((compareDateAfterNDays(input.endPointDate,input.startingPointDate,3))).toBe(false);
-    expect((compareDateAfterNDays(input.endPointDate,new Date(2020,7,21),1,false))).toBe(false);
-  })
-})
+    startingPointDate: new Date(2020, 7, 20),
+    endPointDate: new Date(2020, 7, 22),
+    timingDayDelay: 2, // day
+  };
+  test("should return true", () => {
+    expect(
+      compareDateAfterNDays(input.endPointDate, input.startingPointDate, 2)
+    ).toBe(true);
+    expect(
+      compareDateAfterNDays(input.endPointDate, new Date(2020, 7, 22), 2, false)
+    ).toBe(true);
+  });
+  test("should return false", () => {
+    expect(
+      compareDateAfterNDays(input.endPointDate, input.startingPointDate, 3)
+    ).toBe(false);
+    expect(
+      compareDateAfterNDays(input.endPointDate, new Date(2020, 7, 21), 1, false)
+    ).toBe(false);
+  });
+});
 
-describe('isNeededUrlFormatDate',()=>{
-  test('should return true',()=>{
+describe("isNeededUrlFormatDate", () => {
+  test("should return true", () => {
     expect(isNeededUrlFormatDate(`22.12.2020`)).toBe(true);
     expect(isNeededUrlFormatDate(`65.44.1922`)).toBe(true);
-  })
-  test('should return false',()=>{
+  });
+  test("should return false", () => {
     expect(isNeededUrlFormatDate(`22.12.200`)).toBe(false);
     expect(isNeededUrlFormatDate(`65.22`)).toBe(false);
     expect(isNeededUrlFormatDate(``)).toBe(false);
     expect(isNeededUrlFormatDate(`0`)).toBe(false);
-  })
-})
-
-describe('isNotSameMonth',()=>{
-  test('should return true',()=>{
-    expect(isNotSameMonth(new Date(22,12,1954),new Date(9,11,1944))).toBe(true);
-  })
-  test('should return false',()=>{
-    expect(isNotSameMonth(new Date(22,12,1954),new Date(22,12,1954))).toBe(false);
   });
-})
+});
 
-describe('isIdenticalDates',()=>{
-  test('should return true',()=>{
-    expect(isIdenticalDates(new Date(22,12,1954),new Date(22,12,1954))).toBe(true);
-  })
-  test('should return false',()=>{
-    expect(isIdenticalDates(new Date(22,12,1954),new Date(22,12,1911))).toBe(false);
-    expect(isIdenticalDates(new Date(22,12,1954),new Date(9,12,1944))).toBe(false);
+describe("isNotSameMonth", () => {
+  test("should return true", () => {
+    expect(isNotSameMonth(new Date(22, 12, 1954), new Date(9, 11, 1944))).toBe(
+      true
+    );
   });
-})
+  test("should return false", () => {
+    expect(isNotSameMonth(new Date(22, 12, 1954), new Date(22, 12, 1954))).toBe(
+      false
+    );
+  });
+});
 
+describe("isIdenticalDates", () => {
+  test("should return true", () => {
+    expect(
+      isIdenticalDates(new Date(22, 12, 1954), new Date(22, 12, 1954))
+    ).toBe(true);
+  });
+  test("should return false", () => {
+    expect(
+      isIdenticalDates(new Date(22, 12, 1954), new Date(22, 12, 1911))
+    ).toBe(false);
+    expect(
+      isIdenticalDates(new Date(22, 12, 1954), new Date(9, 12, 1944))
+    ).toBe(false);
+  });
+});

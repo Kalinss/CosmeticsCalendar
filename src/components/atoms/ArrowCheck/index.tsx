@@ -27,7 +27,7 @@ export const ArrowCheck: React.FunctionComponent<ArrowCheckProps> = ({
         strokeDasharray={140}
         strokeDashoffset={140}
         stroke="#272727"
-      ></polyline>
+      />
     </svg>
   );
 };

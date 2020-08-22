@@ -8,11 +8,8 @@ import { IMainStore } from "../../../stores";
 import { inject, observer } from "mobx-react";
 import { ItemsCosmeticTemplate } from "../../templates";
 
-import {
-  updateTaskAfterDeleteItem,
-  deleteItemCosmetic,
-} from "../../../controller";
 import { itemCosmeticPrimaryType } from "types";
+import { Controller } from "../../../controller";
 
 export const ItemsCosmeticList: FunctionComponent<IMainStore> = inject(
   "stores"
@@ -41,7 +38,7 @@ export const ItemsCosmeticList: FunctionComponent<IMainStore> = inject(
       if (result) {
         setConfirmOpen(false);
         if (itemDeleteData) {
-          deleteItemCosmetic(itemDeleteData).then(() => {
+          Controller.deleteItemCosmetic(itemDeleteData).then(() => {
             setTimeout(() => {
               setAlertOpen(true);
             }, 200);

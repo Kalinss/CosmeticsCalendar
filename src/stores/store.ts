@@ -1,4 +1,4 @@
-import {MainStore} from "../stores/MainStore";
+import { MainStore } from "./MainStore";
 
 const stores = new MainStore();
 

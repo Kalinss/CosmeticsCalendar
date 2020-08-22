@@ -1,29 +1,22 @@
-import React, { ReactNode, useState, useEffect } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import {
-  CreateCosmetic,
-  ItemsCosmeticList,
-  EditCosmetic,
-  Main,
-  TodoList,
-  Setting,
   CalendarPage,
+  CreateCosmetic,
+  EditCosmetic,
+  ItemsCosmeticList,
+  Main,
+  Setting,
+  TodoList,
 } from "./components/pages/index";
 import "./styles/reset.scss";
 import "semantic-ui-css/semantic.min.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "mobx-react";
 import stores from "./stores/store";
 import { Preloader } from "./components/organisms/Preloader";
-import {
-  openCollections,
-  createCollections,
-  cleaningOldTask,
-  uploadAdditional,
-} from "./controller";
+import { Controller } from "./controller";
 import { Header } from "./components/organisms/Header";
 import config from "./config";
-import { Alert } from "./components/organisms/Popup/Alert";
-import {uploadSetting} from "./controller/setting";
 
 export const App: React.FunctionComponent = () => {
   const [loader, setLoader] = useState(true);
@@ -36,11 +29,11 @@ export const App: React.FunctionComponent = () => {
     // Preloader ->children
   };
   useEffect(() => {
-    createCollections()
-      .then(() => openCollections())
-      .then(() => uploadSetting())
-      .then(() => uploadAdditional())
-      .then(() => cleaningOldTask())
+    Controller.createCollections()
+      .then(() => Controller.openCollections())
+      .then(() => Controller.uploadSetting())
+      .then(() => Controller.uploadAdditional())
+      .then(() => Controller.cleaningOldTask())
       .then(() => stores.ItemsCosmetic.loadAllItemsFromDB())
       .then(() => setTimeout(() => setLoader(false), config.preloadTime));
   }, []);

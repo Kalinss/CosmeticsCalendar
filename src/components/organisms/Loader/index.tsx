@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./style.scss";
-import { Dimmer, Loader, Segment } from "semantic-ui-react";
+import { Loader } from "semantic-ui-react";
 
 export const LoaderComponent = () => {
   return (

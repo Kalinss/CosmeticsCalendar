@@ -1,5 +1,4 @@
 import React, { ChangeEvent } from "react";
-import style from "./style.scss";
 import { TextArea } from "semantic-ui-react";
 import { FormLabel } from "../../atoms/FormLabel";
 
@@ -15,7 +14,7 @@ export const TextAreaRecord: React.FC<typeTextAreaRecord> = ({
   defaultValue,
   blurHandler = () => {},
   classComponent = "",
-  placeholder=''
+  placeholder = "",
 }) => {
   return (
     <div className={classComponent}>

@@ -3,7 +3,9 @@ export interface IiteratorField {
   value: number;
   text: string;
 }
+
 export type IDataFieldsEnum = string | IiteratorField[];
+
 export interface IdataFields {
   name: string;
   description: string;
@@ -52,8 +54,7 @@ export type dataItemType = {
 
 export const dataFields: IdataFields = {
   name: "NIVEA Creme 75 мл",
-  description:
-    "Как это работает?",
+  description: "Как это работает?",
   days: createDays(),
   dayTime: [
     {
@@ -94,14 +95,14 @@ export const dataFields: IdataFields = {
       text: "Эксфолиант",
     },
     {
-      key:5,
-      value:50,
-      text:'Маска'
+      key: 5,
+      value: 50,
+      text: "Маска",
     },
     {
-      key:6,
-      value:60,
-      text:'Сыворотка'
+      key: 6,
+      value: 60,
+      text: "Сыворотка",
     },
     {
       key: 7,
@@ -118,6 +119,5 @@ export const dataFields: IdataFields = {
       value: 99999,
       text: "Другое",
     },
-
   ],
 };

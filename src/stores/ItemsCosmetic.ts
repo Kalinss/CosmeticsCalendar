@@ -1,15 +1,15 @@
-import { observable, action, computed } from "mobx";
+import { action, observable } from "mobx";
 import {
   expandedItemCosmeticField,
   expandedItemCosmeticFieldProps,
-  itemCosmeticPrimaryType,
   expendedItemType,
-} from "../types";
+  itemCosmeticPrimaryType,
+} from "types";
 import {
   toExpandedCosmeticItemType,
   toPrimitiveCosmeticItemType,
 } from "../utils/other";
-import { CosmeticItemsModelDB } from "../database/cosmeticItemsModelDB";
+import { CosmeticItemsModelDB } from "../database";
 
 export const expendedItemCosmeticInitialState = {
   name: {
@@ -73,7 +73,7 @@ export class ItemsCosmetic {
 
   @action saveEditItem = (currentItem: itemCosmeticPrimaryType) => {
     const findIndexObject = this.items.findIndex(
-      (item, i) => item.name === this.currentItem!.name
+      (item) => item.name === this.currentItem!.name
     );
     const itemsSave = this.items;
     itemsSave.splice(findIndexObject, 1, currentItem);
@@ -87,10 +87,10 @@ export class ItemsCosmetic {
   @action loadAllItemsFromDB = async () => {
     // get all item
     return await CosmeticItemsModelDB.getAll()
-        .then((data) => {
-          this.items = [...data];
-        })
-        .catch(console.log); // todo handle errors
+      .then((data) => {
+        this.items = [...data];
+      })
+      .catch(console.log); // todo handle errors
   };
 
   @action deleteItem = (key: string) => {
@@ -103,6 +103,7 @@ export class ItemsCosmetic {
       [key: string]: expandedItemCosmeticField;
     };
   };
+
   @action setItems = (items: itemCosmeticPrimaryType[]) => {
     this.items = [...items];
   };
@@ -113,6 +114,7 @@ export class ItemsCosmetic {
       toPrimitiveCosmeticItemType(this.currentItem as expendedItemType)
     );
   };
+
   @action editItem = () => {
     const items = this.getAll();
     const needed = toPrimitiveCosmeticItemType(
@@ -121,6 +123,7 @@ export class ItemsCosmetic {
     const newItems = items.filter((item) => item.name !== needed.name);
     this.setItems([...newItems, needed]);
   };
+
   @action clearCurrentItem = () => {
     this.currentItem = { ...expendedItemCosmeticInitialState };
   };

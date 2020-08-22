@@ -1,12 +1,10 @@
 import stores from "../stores/store";
 import { SettingDB } from "../database";
-import { settingType } from "types";
-import { deepClone } from "../utils/other";
-import { matchAmountProperty } from "../utils/other";
+import { deepClone, matchAmountProperty } from "../utils/other";
 
 export const toggleSettingValueField = async (key: string) => {
   return stores.Setting.toggleValueFieldByKey(key)
-    .then((_) => SettingDB.get(key))
+    .then(() => SettingDB.get(key))
     .then((item) => {
       item && SettingDB.set(key, { ...item, value: !item.value });
     });

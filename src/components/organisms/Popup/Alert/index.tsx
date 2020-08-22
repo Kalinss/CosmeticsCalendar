@@ -1,13 +1,14 @@
-import React, { SyntheticEvent } from "react";
-import { Modal, Button } from "semantic-ui-react";
-import style from '../style.scss'
+import React from "react";
+import { Button, Modal } from "semantic-ui-react";
+import style from "../style.scss";
+
 type Alert = {
   title: string;
   description: string | React.ReactNode;
   buttonName: string;
   isOpen?: boolean;
   clickHandler?: VoidFunction;
-  children?:React.ReactNode
+  children?: React.ReactNode;
 };
 
 export const Alert: React.FC<Alert> = ({
@@ -16,7 +17,7 @@ export const Alert: React.FC<Alert> = ({
   buttonName,
   isOpen = false,
   clickHandler = () => {},
-  children
+  children,
 }) => {
   return (
     <Modal size={"mini"} open={isOpen}>
@@ -24,7 +25,7 @@ export const Alert: React.FC<Alert> = ({
       <Modal.Content>
         <Modal.Description>{description}</Modal.Description>
         <div className={style.addedContent}>
-            <Modal.Description>{children}</Modal.Description>
+          <Modal.Description>{children}</Modal.Description>
         </div>
       </Modal.Content>
       <Modal.Actions>

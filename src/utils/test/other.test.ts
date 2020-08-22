@@ -1,4 +1,9 @@
-import { chunk,toExpandedCosmeticItemType,matchAmountProperty,toPrimitiveCosmeticItemType } from "../../utils/other";
+import {
+  chunk,
+  matchAmountProperty,
+  toExpandedCosmeticItemType,
+  toPrimitiveCosmeticItemType,
+} from "../other";
 
 describe("matchAmountProperty", () => {
   const input1 = [
@@ -22,8 +27,6 @@ describe("matchAmountProperty", () => {
       asd: 444,
     },
   ];
-
-  const output = [];
 
   test("should return equal amount", () => {
     expect(matchAmountProperty(input1, input1, "name")).toBe(3);
@@ -53,7 +56,7 @@ describe("chunk", () => {
   });
 });
 
-describe('type cosmetic conversion',()=>{
+describe("type cosmetic conversion", () => {
   const expandedType = {
     name: "asd",
     description: "asd",
@@ -72,24 +75,27 @@ describe('type cosmetic conversion',()=>{
     date: new Date(1, 1, 1999),
   };
   const primitiveType = {
-    name: { value: 'asd', error: '', text: '' },
-    description: { value: 'asd', error: '', text: '' },
-    timingDelay: { value: 123, error: '', text: 'asd' },
-    dayOrEvening: { value: 123, error: '', text: '412' },
-    type: { value: 123, error: '', text: '123' },
-    date: { value: new Date(1, 1, 1999), error: '', text: '' }
-  }
+    name: { value: "asd", error: "", text: "" },
+    description: { value: "asd", error: "", text: "" },
+    timingDelay: { value: 123, error: "", text: "asd" },
+    dayOrEvening: { value: 123, error: "", text: "412" },
+    type: { value: 123, error: "", text: "123" },
+    date: { value: new Date(1, 1, 1999), error: "", text: "" },
+  };
   describe("toExpandedCosmeticItemType", () => {
     test("return needed object", () => {
-      expect(toExpandedCosmeticItemType(expandedType)).toStrictEqual(primitiveType);
+      expect(toExpandedCosmeticItemType(expandedType)).toStrictEqual(
+        primitiveType
+      );
     });
   });
 
   //toPrimitiveCosmeticItemType
   describe("toPrimitiveCosmeticItemType", () => {
     test("return needed object", () => {
-      expect(toPrimitiveCosmeticItemType(primitiveType)).toStrictEqual(expandedType);
+      expect(toPrimitiveCosmeticItemType(primitiveType)).toStrictEqual(
+        expandedType
+      );
     });
   });
-})
-
+});

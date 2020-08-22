@@ -1,6 +1,6 @@
-import { DBSchema, IDBPDatabase, openDB } from "idb";
-import { VERSION, COSMETIC_ITEMS, DBNAME } from "./config";
-import { itemCosmeticPrimaryType } from "../types";
+import { IDBPDatabase, openDB } from "idb";
+import { COSMETIC_ITEMS, DBNAME, VERSION } from "./config";
+import { itemCosmeticPrimaryType } from "types";
 
 export type ICosmeticDB = {
   key: string;
@@ -22,6 +22,7 @@ export type ICosmeticDB = {
     date: Date;
   };
 };
+
 export class CosmeticItemsModelDB {
   static _dbPromise: Promise<IDBPDatabase<ICosmeticDB>>;
 

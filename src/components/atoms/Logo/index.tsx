@@ -6,14 +6,14 @@ type typeLogo = {
   alt?: string;
   src?: string;
   path?: string;
-  text?:string
+  text?: string;
 };
 
 export const Logo: React.FC<typeLogo> = ({
   src = "",
   alt = "",
   path = "/",
-  text=''
+  text = "",
 }) => {
   const RenderContent = () => {
     return src ? (

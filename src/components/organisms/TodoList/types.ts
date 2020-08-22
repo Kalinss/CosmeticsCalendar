@@ -1,1 +1,1 @@
-export type clickHandlerType = (e:React.SyntheticEvent) =>void;
+export type clickHandlerType = (e: React.SyntheticEvent) => void;

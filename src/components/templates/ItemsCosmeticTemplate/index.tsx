@@ -9,8 +9,7 @@ import { toJS } from "mobx";
 import { Page } from "../Page";
 import { Content } from "../Content";
 import { itemCosmeticPrimaryType } from "types";
-import { Alert } from "../../organisms/index";
-import { Confirm } from "../../organisms/index";
+import { Alert, Confirm } from "../../organisms/index";
 import config from "../../../config";
 
 type ItemsCosmeticTemplate = {
@@ -35,7 +34,6 @@ export const ItemsCosmeticTemplate: React.FC<ItemsCosmeticTemplate> = ({
   isAlertOpen = false,
   isConfirmOpen = false,
 }) => {
-  const itemsCosmetic = stores!.ItemsCosmetic;
   const items = toJS(stores!.ItemsCosmetic.items);
 
   return (

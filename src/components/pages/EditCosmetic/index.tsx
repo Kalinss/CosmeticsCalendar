@@ -1,24 +1,18 @@
 import React, {
   FunctionComponent,
   useEffect,
-  useState,
   useReducer,
+  useState,
 } from "react";
 import { useHistory } from "react-router-dom";
 import { inject, observer } from "mobx-react";
 import { IMainStore } from "../../../stores";
 import { EditCosmeticTemplate } from "../../templates/EditCosmeticTemplate";
-import { expendedItemType } from "types";
-import {
-  expandedItemCosmeticField,
-  formDataType,
-  itemCosmeticPrimaryType,
-} from "types";
-import { updateTask } from "../../../controller";
-import { deepClone, toPrimitiveCosmeticItemType } from "../../../utils/other";
-import { updateTaskAfterUpdateItem } from "../../../controller";
+import { expendedItemType, formDataType, itemCosmeticPrimaryType } from "types";
+import { toPrimitiveCosmeticItemType } from "../../../utils/other";
 import config from "../../../config";
-import { toJS } from "mobx";
+import { Controller } from "../../../controller";
+
 export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
   observer(({ stores }) => {
     const itemCosmeticStore = stores!.ItemsCosmetic;
@@ -43,9 +37,9 @@ export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
       const current = toPrimitiveCosmeticItemType(
         currentItemCosmetic as expendedItemType
       );
-      updateTaskAfterUpdateItem(current)
-        .then((_) => updateTask(defaultValues!.name, current))
-        .then((_) => popupConfirmation);
+      Controller.updateTaskAfterUpdateItem(current)
+        .then(() => Controller.updateTask(defaultValues!.name, current))
+        .then(() => popupConfirmation);
     };
 
     const changeField = (e: any, data: formDataType) => {
@@ -72,7 +66,9 @@ export const EditCosmetic: FunctionComponent<IMainStore> = inject("stores")(
       if (
         JSON.stringify(defaultValues) !==
         JSON.stringify(
-          toPrimitiveCosmeticItemType(itemCosmeticStore.currentItem as expendedItemType)
+          toPrimitiveCosmeticItemType(
+            itemCosmeticStore.currentItem as expendedItemType
+          )
         )
       ) {
         setDisabledEditButton(false);

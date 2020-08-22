@@ -1,22 +1,22 @@
 import React, {
   FunctionComponent,
   useEffect,
-  useState,
   useReducer,
+  useState,
 } from "react";
 import { IMainStore } from "../../../stores";
 import { MainTemplate } from "../../templates";
 import { inject, observer } from "mobx-react";
 import moment from "moment";
-import { TaskDB } from "../../../database/taskDB";
+import { TaskDB } from "../../../database";
 import { deepClone } from "../../../utils/other";
-import { addTask, onloadTaskForDate } from "../../../controller";
 import { LoaderComponent } from "../../organisms/Loader";
-import { closeTaskType } from "../TodoList/types";
-import {closeUpdateAlert} from "../../../controller";
+import {
+  clickHandlerType as clickAddButton,
+  closeTaskType,
+} from "../TodoList/types";
+import { Controller } from "../../../controller";
 import { TASKKEY } from "../../../database";
-import { toJS } from "mobx";
-import { clickHandlerType as clickAddButton } from "../TodoList/types";
 
 export const Main: FunctionComponent<IMainStore> = inject("stores")(
   observer(({ stores }) => {
@@ -36,24 +36,24 @@ export const Main: FunctionComponent<IMainStore> = inject("stores")(
         e.target.dataset.name ||
         e.target.closest("div[data-name]").dataset.name;
       const key = moment(task.taskState!.date).format(TASKKEY);
-      task.toogleCloseTask(name, day);
+      task.toggleCloseTask(name, day);
       TaskDB.update(key, deepClone(task.taskState));
     };
 
-    const closeAlert = (isNotShowMore:boolean)=>{
-        if(isNotShowMore){
-            closeUpdateAlert().then(()=>{
-                setOpenAlert(false)
-            });
-        }
-        setOpenAlert(false);
-    }
+    const closeAlert = (isNotShowMore: boolean) => {
+      if (isNotShowMore) {
+        Controller.closeUpdateAlert().then(() => {
+          setOpenAlert(false);
+        });
+      }
+      setOpenAlert(false);
+    };
 
     const clickAddButton: clickAddButton = (date, key) => (
       inputValue,
       selectValue
     ) => {
-      addTask(key, {
+      Controller.addTask(key, {
         valueName: inputValue,
         valueDayOrEvening: selectValue,
         date: date,
@@ -62,7 +62,7 @@ export const Main: FunctionComponent<IMainStore> = inject("stores")(
 
     const load = async () => {
       const date = moment(new Date()).format("DD.MM.YYYY");
-      onloadTaskForDate(date).then(() => {
+      Controller.onloadTaskForDate(date).then(() => {
         setLoading(false);
       });
     };

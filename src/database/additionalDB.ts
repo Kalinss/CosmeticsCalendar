@@ -1,21 +1,18 @@
-import { settingType } from "../types";
-import { openDB, DBSchema } from "idb";
-import { SETTING, DBNAME, VERSION, ADDITIONAL } from "./config";
+import { IDBPDatabase, openDB } from "idb";
+import { ADDITIONAL, DBNAME, VERSION } from "./config";
 
-interface IAdditionalDB extends DBSchema {
-  "additional": {
-    key: string;
-    value: string;
-  };
-}
+export type IAdditionalDB = {
+  key: string;
+  value: string;
+};
 
 export class AdditionalDB {
-  static _dbPromise: any;
+  static _dbPromise: Promise<IDBPDatabase<IAdditionalDB>>;
 
   static open() {
     return (this._dbPromise = openDB<IAdditionalDB>(DBNAME, VERSION, {
       upgrade(db) {
-        db.createObjectStore(ADDITIONAL as 'additional');
+        db.createObjectStore(ADDITIONAL as "additional");
       },
     }));
   }

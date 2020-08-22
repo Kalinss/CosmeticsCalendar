@@ -6,6 +6,7 @@
   height: 45px;
   position: relative;
 }
+
 .svgWrapper {
   position: absolute;
   left: 50%;
@@ -14,9 +15,10 @@
   width: 20px;
   height: 20px;
 }
-.bottom{
+
+.bottom {
   width: 45px;
   height: 45px;
-  position:relative;
+  position: relative;
   transform: rotate(180deg);
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import style from "./style.scss";
 import { HeaderContent, Menu } from "../../molecules";
 
@@ -39,7 +39,7 @@ export const Header = () => {
         onClick={() => {
           toggleMenu();
         }}
-      ></div>
+      />
       <HeaderContent hamburgerClickHandler={toggleMenu} isOpen={isOpen} />
       <div
         className={style.menuWrapper}
@@ -50,7 +50,7 @@ export const Header = () => {
         }}
         ref={menu}
       >
-        <Menu clickHandler={clickMenu}/>
+        <Menu clickHandler={clickMenu} />
       </div>
     </header>
   );

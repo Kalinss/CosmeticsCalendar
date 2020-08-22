@@ -1,5 +1,5 @@
 import React, { SyntheticEvent } from "react";
-import { Modal, Button } from "semantic-ui-react";
+import { Button, Modal } from "semantic-ui-react";
 
 type Confirm = {
   title: string;

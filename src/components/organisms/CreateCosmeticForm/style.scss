@@ -1,8 +1,9 @@
-.form{
+.form {
   width: 100%;
   display: block;
 }
-.inputWrapper{
+
+.inputWrapper {
   width: 100%;
   display: flex;
   margin-bottom: 25px;
@@ -10,7 +11,8 @@
   flex-direction: column;
   transition: all 0.5s ease;
 }
-.label{
+
+.label {
   font-weight: 400;
   margin-bottom: 4px;
   font-size: 14px;

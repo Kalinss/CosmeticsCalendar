@@ -1,8 +1,9 @@
-.form{
+.form {
   width: 100%;
   display: block;
 }
-.inputWrapper{
+
+.inputWrapper {
   width: 100%;
   display: flex;
   margin-bottom: 25px;
@@ -10,25 +11,27 @@
   flex-direction: column;
   transition: all 0.5s ease;
 }
-.errorText{
+
+.errorText {
   color: #db4d4d;
   font-size: 12px;
-  position:absolute;
-  bottom:-20px;
-  transition:0.3s ease;
-
+  position: absolute;
+  bottom: -20px;
+  transition: 0.3s ease;
 }
-.error{
+
+.error {
   transition: all 0.3s ease !important;
 }
-.error > input{
+
+.error > input {
   border: 1px solid #db4d4d !important;
   background-color: #fff6f6;
   box-shadow: none;
   transition: all 0.3s ease !important;
 }
 
-.label{
+.label {
   font-weight: 400;
   margin-bottom: 4px;
   font-size: 14px;

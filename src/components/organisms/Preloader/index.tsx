@@ -1,14 +1,15 @@
 import React from "react";
 import style from "./style.scss";
 import classNames from "classnames";
+
 export const Preloader = () => {
   return (
     <div className={style.wrapper}>
       <div className={style.background}>
         <h1 className={style.text}>Loading... Please wait...</h1>
-        <div className={classNames(style.loader,style.loaderLeft)} />
-        <div className={classNames(style.loader,style.loaderRight)} />
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+        <div className={classNames(style.loader, style.loaderLeft)} />
+        <div className={classNames(style.loader, style.loaderRight)} />
+        <svg xmlns="http://www.w3.org/2000/svg">
           <defs>
             <filter id="goo">
               <feGaussianBlur

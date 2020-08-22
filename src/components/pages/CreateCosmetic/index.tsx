@@ -9,11 +9,8 @@ import {
   isNotEmpty,
 } from "../../../utils/validation";
 import { expendedItemType, formDataType } from "types";
-import {
-  saveInDBNewItemCosmetic,
-  updateTaskAfterNewItem,
-} from "../../../controller";
 import config from "../../../config";
+import { Controller } from "../../../controller";
 
 export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
   observer(({ stores }) => {
@@ -76,8 +73,10 @@ export const CreateCosmetic: FunctionComponent<IMainStore> = inject("stores")(
     };
 
     const buttonClick = () => {
-      saveInDBNewItemCosmetic(itemsCosmetic!.currentItem as expendedItemType)
-        .then(() => updateTaskAfterNewItem())
+      Controller.saveInDBNewItemCosmetic(
+        itemsCosmetic!.currentItem as expendedItemType
+      )
+        .then(() => Controller.updateTaskAfterNewItem())
         .then(() => itemsCosmetic.clearCurrentItem())
         .then(() => setOpenAlert(true));
     };

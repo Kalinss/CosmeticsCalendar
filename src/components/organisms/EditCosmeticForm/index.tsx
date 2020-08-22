@@ -1,13 +1,13 @@
 import React from "react";
 import style from "./style.scss";
-import { DropdownProps, Form, Button } from "semantic-ui-react";
-import { itemCosmeticPrimaryType, formDataType } from "types";
+import { Button, DropdownProps, Form } from "semantic-ui-react";
+import { formDataType, itemCosmeticPrimaryType } from "types";
 import { dataFields } from "../../../utils/mocks/dataFields";
 import moment from "moment";
 import {
-  TextAreaRecord,
-  SelectRecord,
   DataRecord,
+  SelectRecord,
+  TextAreaRecord,
 } from "../../molecules/index";
 
 type typeFieldChangeHandler = (e: any, data: formDataType) => any;

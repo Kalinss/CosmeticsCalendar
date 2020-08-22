@@ -1,8 +1,8 @@
 import React from "react";
 import { GenerateTableCalendarType, objectDateCalendar } from "types";
 import {
-  isIdenticalDates,
   compareDateAfterNDays,
+  isIdenticalDates,
   isNotSameMonth,
 } from "../../../utils/dates";
 import { CalendarTableCell } from "../../atoms/CalendarTableCell";

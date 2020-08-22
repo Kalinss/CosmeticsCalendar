@@ -18,9 +18,9 @@ export const Hamburger: React.FC<typeHamburger> = ({
       }}
       className={classNames(style.button, active ? style.open : false)}
     >
-      <span></span>
-      <span></span>
-      <span></span>
+      <span />
+      <span />
+      <span />
     </div>
   );
 };

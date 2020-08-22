@@ -1,13 +1,7 @@
 import React from "react";
-import { EditCosmeticForm } from "../../organisms/index";
-import { Page, Content } from "../index";
-import { Alert } from "../../organisms/index";
-import { toJS } from "mobx";
-import {
-  expandedItemCosmeticField,
-  formDataType,
-  itemCosmeticPrimaryType,
-} from "types";
+import { Alert, EditCosmeticForm } from "../../organisms/index";
+import { Content, Page } from "../index";
+import { formDataType, itemCosmeticPrimaryType } from "types";
 
 type typeEditCosmeticTemplate = {
   changeHandler: (e: any, data: formDataType) => any;

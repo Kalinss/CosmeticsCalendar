@@ -1,26 +1,29 @@
-.button{
+.button {
   width: 45px;
-  height: 45px ;
+  height: 45px;
   border: 1px solid #cccccc;
   border-radius: 5px;
   background-color: white;
-  cursor:pointer;
+  cursor: pointer;
   position: relative;
-  color:#696978;
-  transition:all 0.3s ease;
-  &:hover{
-    transition:all 0.3s ease;
+  color: #696978;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transition: all 0.3s ease;
     color: #272727;
   }
-  & svg{
+
+  & svg {
     width: 23px;
     height: 23px;
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
-  & path{
+
+  & path {
     fill: currentColor;
   }
 }

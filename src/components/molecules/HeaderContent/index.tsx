@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import style from "./style.scss";
-import { Logo, Hamburger } from "../../atoms/index";
-import LogoImage from '../../../media/svg/main-logo.svg'
+import { Hamburger, Logo } from "../../atoms/index";
+import LogoImage from "../../../media/svg/main-logo.svg";
 import config from "../../../config";
+
 type typeHeaderContent = {
   isOpen: boolean;
   hamburgerClickHandler?: () => void;
@@ -15,7 +16,7 @@ export const HeaderContent: React.FC<typeHeaderContent> = ({
   return (
     <div className={style.headerContent}>
       <div className={style.left}>
-        <Logo path={config.baseHref+'/'}  src={LogoImage} alt={'logo'} />
+        <Logo path={config.baseHref + "/"} src={LogoImage} alt={"logo"} />
       </div>
       <div className={style.right}>
         <button className={style.setting}>

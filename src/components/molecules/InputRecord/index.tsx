@@ -1,7 +1,8 @@
-import React, { ChangeEvent } from "react";
+import React from "react";
 import style from "./style.scss";
 import { Input } from "semantic-ui-react";
 import classNames from "classnames";
+
 type InputRecord = {
   label: string;
   blurHandler?: (e: any) => void;

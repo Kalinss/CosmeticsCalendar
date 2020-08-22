@@ -1,7 +1,5 @@
-import { taskObjectDB, taskDB } from "../types";
+import { taskDB, taskObjectDB } from "types";
 import { action, observable } from "mobx";
-import { ItemsCosmetic } from "./ItemsCosmetic";
-import { toJS } from "mobx";
 
 export class Task {
   @observable taskState: taskDB | undefined = undefined;
@@ -17,19 +15,21 @@ export class Task {
       ...props,
     };
   }
-  @action toogleCloseTask(key: string,day:boolean): void {
-    const date = this.taskState!.date!;
-    const newStateTask = [...toJS(this.taskState!.task!)];
+
+  @action toggleCloseTask(key: string, day: boolean): void {
+    const newStateTask = [...this.taskState!.task!];
     const object = newStateTask.find((item) => {
       return item.name === key.trim();
     });
-    if(day){
+
+    if (day) {
       object!.closed.day = !object!.closed.day;
-    }else{
+    } else {
       object!.closed.evening = !object!.closed.evening;
     }
     this.updateTask(key, object!);
   }
+
   @action updateTask(key: string, object: taskObjectDB): void {
     const newState = { ...this.taskState! }.task;
     const index = newState.findIndex((item) => item.name === key.trim());
@@ -39,6 +39,7 @@ export class Task {
       date: this.taskState!.date,
     });
   }
+
   @action addTask(props: taskObjectDB): void {
     const newState = { ...this.taskState! };
     newState.task.push({ ...props });

@@ -3,7 +3,6 @@ import {
   getTwoDimensionalArrayType,
   itemCosmeticPrimaryType,
 } from "types";
-import { curry } from "lodash/fp";
 
 export function deepClone(item: any) {
   if (!item) {
@@ -23,7 +22,7 @@ export function deepClone(item: any) {
     if (Object.prototype.toString.call(item) === "[object Array]") {
       result = [];
       //@ts-ignore
-      item.forEach(function (child, index, array) {
+      item.forEach(function (child, index) {
         //@ts-ignore
         result[index] = deepClone(child);
       });
@@ -66,7 +65,7 @@ export const toPrimitiveCosmeticItemType = (
   item: expendedItemType
 ): itemCosmeticPrimaryType => {
   return {
-    name:  `${item.name.value}`,
+    name: `${item.name.value}`,
     description: `${item.description!.value}`,
     timingDelay: {
       value: Number(item.timingDelay.value!),

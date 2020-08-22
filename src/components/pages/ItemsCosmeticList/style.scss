@@ -1,57 +1,68 @@
 @import "../../../styles/variables";
-.list{
+
+.list {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
-.item{
+
+.item {
   width: calc(50% - 10px);
   padding: 15px 60px 15px 15px;
   min-height: 100px;
   position: relative;
   border: 1px solid #cccccc;
   margin-top: 10px;
-  &:nth-child(n+3){
+
+  &:nth-child(n + 3) {
     margin-top: 10px;
   }
-  & p{
+
+  & p {
     margin-bottom: 7px;
     font-size: 14px;
     color: $first-color;
-    & span{
+
+    & span {
       font-size: inherit;
-      color:$second-color;
+      color: $second-color;
     }
   }
 }
-.buttonWrapper{
+
+.buttonWrapper {
   position: absolute;
   right: 15px;
   top: 15px;
 }
-.buttonWrapperRemove{
+
+.buttonWrapperRemove {
   position: absolute;
   right: 15px;
   top: 70px;
 }
-.link{
+
+.link {
   color: white;
   font-size: 14px;
 
-  &:visited{
+  &:visited {
     color: white;
   }
 }
-.buttonWrap{
+
+.buttonWrap {
   width: 100%;
 }
-.buttonLink{
+
+.buttonLink {
   max-width: 105px;
   text-align: left;
 }
-@media screen and (max-width:650px) {
-  .item{
+
+@media screen and (max-width: 650px) {
+  .item {
     width: 100%;
     margin-top: 10px;
   }

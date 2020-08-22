@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./style.scss";
 import classNames from "classnames";
-import { Link, Router } from "react-router-dom";
+import { Link } from "react-router-dom";
 import moment from "moment";
 import config from "../../../config";
 
@@ -39,7 +39,7 @@ export const CalendarTableCell: React.FC<typeCalendarTableCell> = ({
   return (
     <td className={classNames(classNameTD)}>
       <div className={classActive}>
-        {dot && <b className={style.dot}></b>}
+        {dot && <b className={style.dot} />}
         {getValueCell(disabled)}
       </div>
     </td>

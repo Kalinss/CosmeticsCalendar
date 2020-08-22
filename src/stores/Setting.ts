@@ -61,7 +61,8 @@ export class Setting {
     return this.config;
   }
 
-  @action async setConfig(data: settingType[]) {
+  @action
+  async setConfig(data: settingType[]) {
     this.config = [...data];
   }
 
@@ -69,7 +70,8 @@ export class Setting {
     this.setConfig(filterExcludingName(this.config, name));
   }
 
-  @action async toggleValueFieldByKey(key: string) {
+  @action
+  async toggleValueFieldByKey(key: string) {
     return await this.setConfig(toggleValueFieldByKey(this.config, key));
   }
 }

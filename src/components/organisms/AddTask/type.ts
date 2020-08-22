@@ -1,1 +1,4 @@
-export type clickHandlerType = (inputValue: string, selectValue: number) => void
+export type clickHandlerType = (
+  inputValue: string,
+  selectValue: number
+) => void;

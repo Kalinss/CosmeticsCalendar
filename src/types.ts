@@ -1,7 +1,6 @@
-import {MainStore,IMainStore} from "./stores";
+import { MainStore } from "./stores";
 import React from "react";
-import exp = require("constants");
-import {string} from "mobx-state-tree/dist/types/primitives";
+import { string } from "mobx-state-tree/dist/types/primitives";
 
 export type objectDateCalendar = {
   date: Date;
@@ -55,13 +54,13 @@ export type GenerateTableCalendarType = {
   actuallyDate: Date;
   allDisabled: boolean;
   itemsCosmetic: itemCosmeticPrimaryType[];
-  settings:settingType[]
+  settings: settingType[];
 };
 
 export interface taskObjectDB extends itemCosmeticPrimaryType {
-  closed:  {
-    day:boolean,
-    evening:boolean
+  closed: {
+    day: boolean;
+    evening: boolean;
   };
 }
 
@@ -72,43 +71,45 @@ export type taskDB = {
 export type taskDBType = {
   task: taskObjectDB[];
   date: Date;
-}
+};
 export type stateTask = {
   task: taskObjectDB;
 };
 export type uploadDailyTaskProps = {
-   stores?:MainStore
-  children:React.ReactNode
-}
+  stores?: MainStore;
+  children: React.ReactNode;
+};
 export const additionalType = {
-  key:string,
-  value:string
-}
+  key: string,
+  value: string,
+};
 export type settingType = {
-  name:string,
-  key:string,
-  value:boolean,
-  sort:number
-}
+  name: string;
+  key: string;
+  value: boolean;
+  sort: number;
+};
 export type controlDataProps = {
-  stores?:MainStore;
-  props:any
-}
+  stores?: MainStore;
+  props: any;
+};
 export type controlDataFunctions = {
-  saveInDBNewItemCosmetic?:(object:expendedItemType)=>void
-}
+  saveInDBNewItemCosmetic?: (object: expendedItemType) => void;
+};
 export type controlDataObject = {
-  controlFunction:controlDataFunctions
-}
+  controlFunction: controlDataFunctions;
+};
+
 export interface createCosmeticComponentProps extends controlDataObject {
-  stores?:MainStore,
+  stores?: MainStore;
 }
+
 export type settingComponentType = {
-  stores?:MainStore,
-}
+  stores?: MainStore;
+};
 export type formDataType = {
-  field:string;
+  field: string;
   value?: string | number | Date;
   error?: string;
   text?: string;
-}
+};

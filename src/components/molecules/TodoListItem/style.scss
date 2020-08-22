@@ -1,28 +1,32 @@
-.item{
+.item {
   width: 100%;
   min-height: 50px;
-  border-bottom:1px solid #ccc;
-  padding:15px 20px 15px 50px;
-  display:flex;
-  align-items:center;
-  line-height:22px;
+  border-bottom: 1px solid #ccc;
+  padding: 15px 20px 15px 50px;
+  display: flex;
+  align-items: center;
+  line-height: 22px;
   position: relative;
-  &:last-child{
+
+  &:last-child {
     border-bottom: none;
   }
-  & p{
+
+  & p {
     margin-bottom: 0;
   }
 }
-.closeWrapper{
+
+.closeWrapper {
   width: 45px;
   height: 100%;
-  position:absolute;
-  left:0;
-  top:0px;
+  position: absolute;
+  left: 0;
+  top: 0px;
   cursor: pointer;
 }
-.close{
+
+.close {
   width: 25px;
   height: 25px;
   border: 1px solid #ccc;
@@ -30,29 +34,33 @@
   border-radius: 50%;
   top: 50%;
   left: 50%;
-  transform:translate(-50%,-50%);
+  transform: translate(-50%, -50%);
 }
 
-.h2{
+.h2 {
   margin-left: 10px;
   margin-bottom: 0;
 }
+
 @import "../../../styles/variables";
-.bottom{
+.bottom {
   margin-top: 30px;
 }
-.top{
+
+.top {
   margin-top: 25px;
 }
-.arrow{
+
+.arrow {
   width: 15px !important;
   height: 15px !important;
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%)
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
-.closeLine{
+
+.closeLine {
   position: absolute;
   left: -3px;
   top: 50%;
@@ -61,31 +69,38 @@
   height: 2px;
   background-color: $second-color;
 }
-.active{
+
+.active {
   animation-name: activeCloseLine;
   animation-duration: 0.5s;
-  animation-fill-mode:forwards;
+  animation-fill-mode: forwards;
 }
-.actived{
-  width:calc(100% + 6px);
+
+.actived {
+  width: calc(100% + 6px);
 }
-.activedArrow{
+
+.activedArrow {
   animation: none;
-  & polyline{
+
+  & polyline {
     stroke-dashoffset: 0;
   }
 }
-.text{
+
+.text {
   position: relative;
 }
-@keyframes activeCloseLine{
-  from{
+
+@keyframes activeCloseLine {
+  from {
     width: 0px;
   }
-  to{
+  to {
     width: calc(100% + 6px);
   }
 }
-.todoList{
+
+.todoList {
   width: 100%;
 }

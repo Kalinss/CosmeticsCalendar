@@ -5,7 +5,7 @@ import style from "./style.scss";
 import { inject, observer } from "mobx-react";
 import { settingType } from "types";
 import { MainStore } from "../../../stores";
-import { toggleSettingValueField } from "../../../controller/setting";
+import { Controller } from "../../../controller";
 
 export type SettingType = {
   stores?: MainStore;
@@ -21,8 +21,8 @@ export const Setting: React.FunctionComponent<SettingType> = inject("stores")(
             name={name}
             value={key}
             checked={value}
-            onClick={(_) => {
-              toggleSettingValueField(key);
+            onClick={() => {
+              Controller.toggleSettingValueField(key);
             }}
           />
         </li>

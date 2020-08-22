@@ -1,23 +1,25 @@
 import React, { useState } from "react";
 import style from "./style.scss";
-import {Button, DropdownProps, Select} from "semantic-ui-react";
+import { Button, DropdownProps, Select } from "semantic-ui-react";
 import { dataFields } from "../../../utils/mocks/dataFields";
-import {clickHandlerType} from './type'
+import { clickHandlerType } from "./type";
 
 export type AddTaskType = {
   clickHandler: clickHandlerType;
 };
 export const AddTask: React.FC<AddTaskType> = ({ clickHandler }) => {
-
   const [valueInput, setValueInput] = useState("");
   const [valueSelect, setValueSelect] = useState(1);
 
-  const changeInputHandler = (e:React.ChangeEvent<HTMLInputElement>)=>{
-      setValueInput(e.target.value);
+  const changeInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValueInput(e.target.value);
   };
-  const changeSelectHandler = (e:React.SyntheticEvent,data:DropdownProps)=>{
-      setValueSelect(data.value as number);
-  }
+  const changeSelectHandler = (
+    e: React.SyntheticEvent,
+    data: DropdownProps
+  ) => {
+    setValueSelect(data.value as number);
+  };
 
   return (
     <div>
@@ -27,7 +29,7 @@ export const AddTask: React.FC<AddTaskType> = ({ clickHandler }) => {
           type="text"
           placeholder="Новая задача"
           className={style.inputAdd}
-          onChange ={changeInputHandler}
+          onChange={changeInputHandler}
           value={valueInput}
         />
         <div className={style.selectWrapper}>
@@ -37,13 +39,15 @@ export const AddTask: React.FC<AddTaskType> = ({ clickHandler }) => {
             placeholder="Утро и вечер"
             options={dataFields.dayTime}
             defaultValue={1}
-            onChange={(e,data)=>{changeSelectHandler(e,data)}}
+            onChange={(e, data) => {
+              changeSelectHandler(e, data);
+            }}
           />
           <Button
             color="black"
-            onClick={(e) => {
-              clickHandler(valueInput,valueSelect);
-              setValueInput('')
+            onClick={() => {
+              clickHandler(valueInput, valueSelect);
+              setValueInput("");
             }}
           >
             Добавить

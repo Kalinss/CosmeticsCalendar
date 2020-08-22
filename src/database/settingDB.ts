@@ -1,13 +1,11 @@
-import { settingType } from "../types";
-import { DBSchema, IDBPDatabase, openDB } from "idb";
-import { SETTING, DBNAME, VERSION } from "./config";
+import { settingType } from "types";
+import { IDBPDatabase, openDB } from "idb";
+import { DBNAME, SETTING, VERSION } from "./config";
 
-interface ISettingDB extends DBSchema {
-  setting: {
-    key: string;
-    value: settingType;
-  };
-}
+export type ISettingDB = {
+  key: string;
+  value: settingType;
+};
 
 export class SettingDB {
   static _dbPromise: Promise<IDBPDatabase<ISettingDB>>;
