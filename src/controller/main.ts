@@ -11,9 +11,15 @@ import {
 } from "../database";
 import { openDB } from "idb";
 import { ADDITIONAL } from "../database/config";
+import stores from "../stores/store";
 
-export const closeUpdateAlert = async () =>
-  AdditionalDB.set("alertUpdate", "false");
+export const closeUpdateAlert = async () => {
+  if (AdditionalDB) {
+    AdditionalDB.set("alertUpdate", "false");
+    stores.Additional.setAlert("false");
+  }
+}
+
 export const createCollections = async () => {
   // Create database for the first boot
   const createDB = (db: any, name: string) => {

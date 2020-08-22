@@ -5,10 +5,11 @@ export const uploadAdditional = async () => {
   const additionalState = stores.Additional;
   const publicVersion = await AdditionalDB.get("version");
   const alertUpdate = await AdditionalDB.get("alertUpdate");
+
   if (!publicVersion || publicVersion !== additionalState.version) {
     const promise = Promise.all([
       AdditionalDB.set("version", additionalState.version),
-      AdditionalDB.set("alertUpdate", additionalState.alertUpdate),
+      AdditionalDB.set("alertUpdate", "true"),
     ]);
     promise.then((x) => x).catch(console.log);
   } else {

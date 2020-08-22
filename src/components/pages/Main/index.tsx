@@ -20,16 +20,18 @@ import { TASKKEY } from "../../../database";
 
 export const Main: FunctionComponent<IMainStore> = inject("stores")(
   observer(({ stores }) => {
+    const alertUpdateShow = stores!.Additional.alertUpdate;
     const [loading, setLoading] = useState(true);
     const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
     const [isOpenAlert, setOpenAlert] = useState(
-      stores!.Additional.alertUpdate === "true"
+      alertUpdateShow === "true" || false
     );
+
     const date = new Date();
     const key = moment(date).format(TASKKEY);
     const todoTask = stores!.Task.taskState;
     stores!.Setting.config;
-
+    
     const closeTask: closeTaskType = (day: boolean) => (e: any) => {
       const task = stores!.Task;
       const name =
@@ -66,7 +68,6 @@ export const Main: FunctionComponent<IMainStore> = inject("stores")(
         setLoading(false);
       });
     };
-
     useEffect(() => {
       load();
     }, []);
