@@ -1,5 +1,5 @@
 import { closeUpdateAlert, createCollections, openCollections } from "./main";
-import { uploadAdditional } from "./additional";
+import {controlFirstEntry, uploadAdditional} from "./additional";
 import { deleteItemCosmetic, saveInDBNewItemCosmetic } from "./itemsCosmetic";
 import { toggleSettingValueField, uploadSetting } from "./setting";
 import {
@@ -20,6 +20,7 @@ export class Controller {
 
   //additional
   static uploadAdditional = uploadAdditional;
+  static controlFirstEntry = controlFirstEntry
 
   //cosmeticItems
   static saveInDBNewItemCosmetic = saveInDBNewItemCosmetic;

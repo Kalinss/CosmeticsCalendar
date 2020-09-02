@@ -35,6 +35,7 @@ export const App: React.FunctionComponent = () => {
       .then(() => Controller.uploadAdditional())
       .then(() => Controller.cleaningOldTask())
       .then(() => stores.ItemsCosmetic.loadAllItemsFromDB())
+      .then(() => Controller.controlFirstEntry())
       .then(() => setTimeout(() => setLoader(false), config.preloadTime));
   }, []);
 

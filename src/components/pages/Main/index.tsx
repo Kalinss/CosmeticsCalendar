@@ -31,7 +31,7 @@ export const Main: FunctionComponent<IMainStore> = inject("stores")(
     const key = moment(date).format(TASKKEY);
     const todoTask = stores!.Task.taskState;
     stores!.Setting.config;
-    
+
     const closeTask: closeTaskType = (day: boolean) => (e: any) => {
       const task = stores!.Task;
       const name =

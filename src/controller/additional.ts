@@ -16,3 +16,12 @@ export const uploadAdditional = async () => {
     additionalState.setAlert(alertUpdate);
   }
 };
+
+export const controlFirstEntry = async ()=>{
+  const firstEntry = await AdditionalDB.get('firstEntry');
+  if(!firstEntry){
+    AdditionalDB.set('firstEntry','true').then(()=>{
+      window.location.pathname = window.location.pathname
+    })
+  }
+}
