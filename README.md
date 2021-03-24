@@ -1,5 +1,7 @@
 # Cosmetic calendar version 1
 
+https://kalinss.github.io/cosmetics-calendar/
+
 A project helping to organize the use of skin care products
 
 ## Summary
