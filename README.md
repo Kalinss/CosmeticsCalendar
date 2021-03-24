@@ -1,4 +1,4 @@
-# Cosmetic calendar
+# Cosmetic calendar version 1
 
 A project helping to organize the use of skin care products
 
